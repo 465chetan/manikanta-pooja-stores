@@ -104,14 +104,17 @@ function regenerate_products_js() {
     $jsContent .= "  module.exports = { PRODUCTS, CATEGORIES, FESTIVALS };\n";
     $jsContent .= "}\n";
 
-    // 4. Save to files (both in workspace and laragon if it exists)
+    // 4. Save to files (always save to the active directory, fall back to local dev folders if they exist)
+    $relativePath = __DIR__ . '/../../../js/products.js';
+    file_put_contents($relativePath, $jsContent);
+    
     $workspacePath = 'C:/Users/Laggoni chethan sai/trail web/js/products.js';
-    if (file_exists(dirname($workspacePath))) {
+    if (file_exists(dirname($workspacePath)) && realpath(dirname($workspacePath)) !== realpath(dirname($relativePath))) {
         file_put_contents($workspacePath, $jsContent);
     }
     
     $laragonPath = 'C:/laragon/www/smps/js/products.js';
-    if (file_exists(dirname($laragonPath))) {
+    if (file_exists(dirname($laragonPath)) && realpath(dirname($laragonPath)) !== realpath(dirname($relativePath))) {
         file_put_contents($laragonPath, $jsContent);
     }
 }
