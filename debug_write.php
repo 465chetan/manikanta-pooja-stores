@@ -2,19 +2,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$path = __DIR__ . '/js/products.js';
-if (file_exists($path)) {
-    $content = file_get_contents($path);
-    echo "File size: " . strlen($content) . " bytes<br>";
-    echo "Contains 'Sindoor': " . (str_contains($content, 'Sindoor') ? "YES" : "NO") . "<br>";
-    echo "Contains 'coconut': " . (str_contains($content, 'coconut') ? "YES" : "NO") . "<br>";
-    
-    // Let's print out all the product IDs present in the file
-    if (preg_match_all('/"id":\s*(\d+)/', $content, $matches)) {
-        echo "Product IDs in file: " . implode(", ", $matches[1]) . "<br>";
-    } else {
-        echo "No IDs found!<br>";
-    }
-} else {
-    echo "File does not exist!<br>";
-}
+require_once __DIR__ . '/api/config/config.php';
+require_once __DIR__ . '/api/config/database.php';
+
+$pdo = db();
+$stmt = $pdo->prepare("SELECT id, name, is_active, is_deleted FROM products WHERE id IN (12, 14)");
+$stmt->execute();
+$prods = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+echo "<pre>";
+print_r($prods);
+echo "</pre>";
