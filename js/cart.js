@@ -1,0 +1,559 @@
+// ============================================================
+// SRI MANIKANTA POOJA STORES — CART PAGE JS
+// 4-Step: Cart → Your Details → Payment → Confirm (all on same page)
+// ============================================================
+
+const STORE_UPI_ID   = '9110582086@ptyes';
+const STORE_UPI_NAME = 'Sri Manikanta Pooja Stores';
+const FREE_ABOVE     = 5000;
+const DELIVERY_FEE   = 80;
+
+let currentStep      = 1;
+let selectedPay      = 'cod';
+let ssFile           = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  initSite('shop.html');
+  Cart.load();
+  renderCart();
+  setTimeout(() => loadYMAL('related', document.querySelector('.ymal-tab')), 300);
+});
+
+// ── Step Navigation ─────────────────────────────────────────────
+function goToStep(step) {
+  // Hide all panels
+  [1,2,3,4].forEach(s => {
+    const el = document.getElementById('cart-step-' + s);
+    if (el) el.classList.toggle('active', s === step);
+  });
+  // Update progress indicators
+  [1,2,3,4].forEach(s => {
+    const si = document.getElementById('si-' + s);
+    const sl = document.getElementById('sl-' + (s));
+    if (!si) return;
+    si.classList.remove('active','done');
+    if (s < step)        si.classList.add('done');
+    else if (s === step) si.classList.add('active');
+    // update dot content
+    const dot = si.querySelector('.step-num');
+    if (s < step) dot.innerHTML = '<i class="fas fa-check"></i>';
+    else          dot.textContent = s;
+    if (sl) sl.classList.toggle('done', s < step);
+  });
+  // Show/hide YMAL section
+  const ymal = document.getElementById('ymal-wrap');
+  if (ymal) ymal.style.display = step === 1 ? 'block' : 'none';
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToStep3() {
+  const name    = document.getElementById('cust-name').value.trim();
+  const phone   = document.getElementById('cust-phone').value.trim();
+  const address = document.getElementById('cust-address').value.trim();
+  const city    = document.getElementById('cust-city').value.trim();
+  const pin     = document.getElementById('cust-pin').value.trim();
+  if (!name)    { showToast('Please enter your full name', 'error'); return; }
+  if (!phone || phone.replace(/\D/g,'').length < 10) { showToast('Please enter a valid 10-digit mobile number', 'error'); return; }
+  if (!address) { showToast('Please enter your flat/house number and street', 'error'); return; }
+  if (!city)    { showToast('Please enter your city', 'error'); return; }
+  if (!pin || !/^\d{6}$/.test(pin)) { showToast('Please enter a valid 6-digit PIN code', 'error'); return; }
+  
+  if (Cart.total() < FREE_ABOVE && (typeof window.customerDistanceKm === 'undefined' || window.customerDistanceKm === null)) {
+    showToast('Please click "Add location on map" to calculate delivery charges', 'error');
+    return;
+  }
+  
+  renderSidebar('step3-sidebar');
+  setupUPIQR();
+  goToStep(3);
+}
+
+// ── Google Maps location picker ──────────────────────────────────
+let mapLocationLink = '';
+function openGoogleMaps() {
+  // Opens Google Maps in new tab so user can copy their location link
+  const note = document.getElementById('map-location-note');
+  // Try to get geolocation
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        mapLocationLink = `https://www.google.com/maps?q=${lat},${lng}`;
+        window.open(mapLocationLink, '_blank');
+        if (note) note.style.display = 'block';
+      },
+      () => {
+        // If permission denied, just open Google Maps
+        window.open('https://maps.google.com', '_blank');
+        if (note) { note.style.display = 'block'; note.textContent = '📍 Copy and paste your Google Maps link in Special Instructions'; }
+      }
+    );
+  } else {
+    window.open('https://maps.google.com', '_blank');
+  }
+}
+
+function goToStep4() {
+  if (selectedPay === 'upi') {
+    const utr = document.getElementById('upi-utr')?.value.trim() || '';
+    if (!ssFile) {
+      showToast('Please upload your UPI payment screenshot', 'error');
+      return;
+    }
+    if (!utr || !/^\d{12}$/.test(utr)) {
+      showToast('Please enter a valid 12-digit UTR/Reference number', 'error');
+      return;
+    }
+  }
+  // Build full address from separate fields
+  const name    = document.getElementById('cust-name').value.trim();
+  const phone   = document.getElementById('cust-phone').value.trim();
+  const street  = document.getElementById('cust-address').value.trim();
+  const area    = document.getElementById('cust-area').value.trim();
+  const city    = document.getElementById('cust-city').value.trim();
+  const pin     = document.getElementById('cust-pin').value.trim();
+  const fullAddr = [street, area, city + ' – ' + pin].filter(Boolean).join(', ');
+  
+  document.getElementById('confirm-addr').innerHTML =
+    `<strong>${name}</strong> &middot; ${phone}<br>${fullAddr}`;
+  document.getElementById('confirm-pay').textContent =
+    selectedPay === 'upi' ? '📱 UPI / QR Code Payment' : '💵 Cash on Delivery (COD)';
+
+  const subtotal = Cart.total();
+  const delivery = getDelivery(subtotal);
+  const total    = subtotal + (delivery === -1 ? 0 : delivery);
+  document.getElementById('confirm-total').textContent = formatPrice(total);
+  document.getElementById('btn-txt').textContent =
+    selectedPay === 'upi' ? 'Place UPI Order' : 'Place Order (COD)';
+
+  let html = '';
+  Cart.items.forEach(i => {
+    const variant = i.variant ? ' · ' + i.variant : '';
+    html += `<div class="confirm-item-row">
+      <span class="cn">${i.name}${variant} × ${i.qty}</span>
+      <span class="cp">${formatPrice(i.price * i.qty)}</span>
+    </div>`;
+  });
+  document.getElementById('confirm-items').innerHTML = html;
+  renderSidebar('step4-sidebar');
+  goToStep(4);
+}
+
+// ── Proceed to Checkout (old hook kept for compatibility) ────────
+function proceedToCheckout() {
+  if (typeof AuthManager !== 'undefined' && !AuthManager.requireLogin()) return;
+
+  // Pre-fill from logged in user
+  const user = (typeof AuthManager !== 'undefined') ? AuthManager.getUser() : null;
+  if (user) {
+    const nameEl  = document.getElementById('cust-name');
+    const phoneEl = document.getElementById('cust-phone');
+    if (nameEl  && !nameEl.value  && user.full_name) nameEl.value  = user.full_name;
+    if (phoneEl && !phoneEl.value && user.mobile)    phoneEl.value = user.mobile;
+  }
+  renderSidebar('step2-sidebar');
+  goToStep(2);
+}
+
+// ── Payment Selection ────────────────────────────────────────────
+function selectPay(method) {
+  selectedPay = method;
+  document.querySelectorAll('.pay-opt').forEach(el => el.classList.remove('sel'));
+  document.getElementById('opt-' + method)?.classList.add('sel');
+  document.querySelectorAll('input[name=pay]').forEach(r => r.checked = r.value === method);
+  const isUPI = method === 'upi';
+  document.getElementById('upi-box').classList.toggle('show', isUPI);
+  document.getElementById('ss-area').classList.toggle('show', isUPI);
+  const utrArea = document.getElementById('utr-area');
+  if (utrArea) utrArea.style.display = isUPI ? 'block' : 'none';
+}
+
+// ── UPI QR ───────────────────────────────────────────────────────
+function setupUPIQR() {
+  const subtotal = Cart.total();
+  const delivery = getDelivery(subtotal);
+  const total    = subtotal + (delivery === -1 ? 0 : delivery);
+  // Use the static QR image — do NOT override src
+  const amtStr = formatPrice(total);
+  const ad = document.getElementById('upi-amt-display');
+  const as = document.getElementById('upi-steps-amt');
+  if (ad) ad.textContent = amtStr;
+  if (as) as.textContent = amtStr;
+}
+
+function copyUPIId() {
+  navigator.clipboard?.writeText(STORE_UPI_ID).then(() => {
+    const el = document.getElementById('upi-id-txt');
+    el.innerHTML = '<span>\u2705 Copied!</span>';
+    setTimeout(() => el.innerHTML = `<span>${STORE_UPI_ID}</span><i class="far fa-copy" style="font-size:.85rem"></i>`, 2000);
+  });
+}
+
+// ── Screenshot ───────────────────────────────────────────────────
+function handleSS(input) {
+  const file = input.files[0];
+  if (!file) return;
+  ssFile = file;
+  const area    = document.getElementById('ss-area');
+  const preview = document.getElementById('ss-preview-img');
+  const label   = document.getElementById('ss-label');
+  const icon    = document.getElementById('ss-icon');
+  const reader  = new FileReader();
+  reader.onload = e => {
+    preview.src = e.target.result;
+    preview.style.display = 'block';
+    area.classList.add('has-file');
+    label.innerHTML = `<strong>✅ Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
+    icon.className  = 'fas fa-check-circle';
+    icon.style.color = '#16a34a';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Place Order ──────────────────────────────────────────────────
+async function placeOrder() {
+  const errEl = document.getElementById('order-error');
+  errEl.style.display = 'none';
+
+  const name   = document.getElementById('cust-name').value.trim();
+  const phone  = document.getElementById('cust-phone').value.trim();
+  const street = document.getElementById('cust-address').value.trim();
+  const area   = document.getElementById('cust-area').value.trim();
+  const city   = document.getElementById('cust-city').value.trim();
+  const pin    = document.getElementById('cust-pin').value.trim();
+  const notes  = document.getElementById('order-notes').value.trim();
+  const utrVal = document.getElementById('upi-utr')?.value.trim() || '';
+  const fullAddr = [street, area, city, 'Telangana – ' + pin].filter(Boolean).join(', ');
+
+  if (!name || !phone || !street || !city || !pin) {
+    errEl.textContent = '⚠️ Delivery details are incomplete. Please go back.';
+    errEl.style.display = 'block'; return;
+  }
+
+  const subtotal = Cart.total();
+  const delivery = getDelivery(subtotal);
+  const actualDelivery = delivery === -1 ? 0 : delivery;
+  const total    = subtotal + actualDelivery;
+
+  const submitBtn = document.querySelector('.btn-next[onclick="placeOrder()"]') || document.querySelector('.ck-main .btn-next');
+  if (submitBtn) {
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+    submitBtn.disabled = true;
+  }
+
+  let finalNotes = notes;
+  if (mapLocationLink) finalNotes = '📍 Location: ' + mapLocationLink + (finalNotes ? '\n' + finalNotes : '');
+  if (selectedPay === 'upi' && utrVal) finalNotes = 'UTR: ' + utrVal + (finalNotes ? '\n' + finalNotes : '');
+
+  let screenshotPath = '';
+
+  try {
+    // 1. Upload screenshot if UPI
+    if (selectedPay === 'upi') {
+      if (!ssFile) throw new Error('Payment screenshot is required.');
+      if (!utrVal || !/^\d{12}$/.test(utrVal)) throw new Error('A valid 12-digit UTR number is required.');
+
+      const fd = new FormData();
+      fd.append('screenshot', ssFile);
+      const token = localStorage.getItem('smps_token');
+      const headers = {};
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      
+      const res = await fetch('api/payments/upload-screenshot.php', { method: 'POST', body: fd, headers });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Screenshot upload failed');
+      screenshotPath = data.path;
+    }
+
+    // Clone items before clearing cart
+    const orderItems = Cart.items.map(i => ({ product_id: i.id, qty: i.qty, variant: i.variant, name: i.name, image: i.image, price: i.price }));
+
+    // 2. Submit order to backend
+    const payload = {
+      items: orderItems,
+      payment_method: selectedPay,
+      full_name: name,
+      mobile: phone,
+      address_line: street,
+      landmark: area,
+      city: city,
+      pincode: pin,
+      notes: finalNotes,
+      screenshot_path: screenshotPath,
+      utr_number: utrVal,
+      delivery_charge: actualDelivery
+    };
+
+    const token = localStorage.getItem('smps_token');
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    const orderRes = await fetch('api/orders/create.php', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload)
+    });
+    
+    const orderData = await orderRes.json();
+    if (!orderRes.ok) throw new Error(orderData.message || 'Failed to place order');
+
+    // 3. Clear cart and redirect
+    Cart.clear();
+    sessionStorage.setItem('smps_last_order', JSON.stringify({
+      order_number:    orderData.order_number,
+      payment_method:  selectedPay,
+      total, subtotal,
+      delivery_charge: actualDelivery,
+      items:           orderItems,
+      address:         { full_name: name, mobile: phone, address_line: fullAddr, pincode: pin, city: city },
+      screenshot_path: screenshotPath
+    }));
+    window.location.href = 'order-success.html';
+
+  } catch (err) {
+    errEl.textContent = '⚠️ ' + err.message;
+    errEl.style.display = 'block';
+    if (submitBtn) {
+      submitBtn.innerHTML = 'Place Order <i class="fas fa-check"></i>';
+      submitBtn.disabled = false;
+    }
+  }
+}
+
+// ── Render sidebar summary ────────────────────────────────────────
+function renderSidebar(targetId) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const subtotal = Cart.total();
+  const delivery = getDelivery(subtotal);
+  const total    = subtotal + (delivery === -1 ? 0 : delivery);
+  let html = Cart.items.map(i => {
+    const img = i.image || 'images/1000090824.jpg';
+    const variant = i.variant || '';
+    return `<div class="summ-item">
+      <img class="summ-img" src="${img}" onerror="this.src='images/1000090824.jpg'" alt="${i.name}">
+      <div class="summ-info">
+        <div class="n">${i.name}</div>
+        <div class="q">${variant ? variant + ' × ' + i.qty : 'Qty × ' + i.qty}</div>
+      </div>
+      <div class="summ-price">${formatPrice(i.price * i.qty)}</div>
+    </div>`;
+  }).join('');
+  html += `<div style="border-top:1.5px solid #f5e6cc;margin-top:10px;padding-top:12px">
+    <div class="summary-row"><span>Subtotal</span><span>${formatPrice(subtotal)}</span></div>
+    <div class="summary-row"><span>Delivery</span><span>${delivery === -1 ? '<span style="color:#f97316;font-size:.75rem">Calculated after location</span>' : (delivery === 0 ? '🎉 FREE' : formatPrice(delivery))}</span></div>
+    <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
+  </div>`;
+  el.innerHTML = html;
+}
+
+// ── Render Cart ──────────────────────────────────────────────────
+function renderCart() {
+  const container = document.getElementById('cart-items');
+  const summary   = document.getElementById('cart-summary-detail');
+  if (!container) return;
+  Cart.load();
+
+  if (Cart.items.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added any pooja items yet.</p>
+        <a href="shop.html" class="btn btn-primary btn-lg"><i class="fas fa-store"></i> Browse Products</a>
+      </div>`;
+    if (summary) summary.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="cart-table-header">
+      <div>Product</div><div>Price</div><div>Quantity</div><div>Subtotal</div><div></div>
+    </div>
+    ${Cart.items.map(item => renderCartItem(item)).join('')}
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;flex-wrap:wrap;gap:12px">
+      <a href="shop.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+      <button class="btn btn-ghost" onclick="clearCartConfirm()"><i class="fas fa-trash"></i> Clear Cart</button>
+    </div>`;
+
+  if (summary) {
+    const subtotal = Cart.total();
+    const delivery = getDelivery(subtotal);
+    const total    = subtotal + (delivery === -1 ? 0 : delivery);
+    const savings  = Cart.items.reduce((s, i) => {
+      const p = getProductById(i.id);
+      return s + (p ? (p.originalPrice - p.price) * i.qty : 0);
+    }, 0);
+
+    summary.innerHTML = `
+      <div class="summary-row"><span>Subtotal (${Cart.count()} items)</span><span>${formatPrice(subtotal)}</span></div>
+      ${savings > 0 ? `<div class="summary-row" style="color:var(--color-success)"><span>🎉 You save</span><span>-${formatPrice(savings)}</span></div>` : ''}
+      <div class="summary-row"><span>Delivery</span><span>${delivery === -1 ? '<span style="color:#f97316;font-size:.8rem">Calculated after location</span>' : (delivery === 0 ? '<span style="color:var(--color-success);font-weight:600">FREE 🎉</span>' : formatPrice(delivery))}</span></div>
+      ${delivery === -1 
+        ? `<div class="delivery-note"><i class="fas fa-map-marker-alt"></i> Add delivery location on next step to see charges</div>`
+        : (delivery > 0
+            ? `<div class="delivery-note"><i class="fas fa-truck"></i> Add ${formatPrice(FREE_ABOVE - subtotal)} more for free delivery</div>`
+            : `<div class="delivery-note free-delivery"><i class="fas fa-check-circle"></i> Free delivery unlocked! 🎉</div>`)}
+      <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
+      <div style="margin:20px 0">
+        <button onclick="proceedToCheckout()" class="btn btn-primary w-100 btn-lg" style="width:100%;justify-content:center">
+          <i class="fas fa-arrow-right"></i> Proceed to Checkout
+        </button>
+      </div>
+      <div class="note-box"><i class="fas fa-shield-alt"></i> Secure order process. Pay via UPI or Cash on Delivery.</div>`;
+  }
+}
+
+function getDelivery(subtotal) {
+  if (subtotal >= FREE_ABOVE) return 0;
+  
+  if (typeof window.customerDistanceKm !== 'undefined' && window.customerDistanceKm !== null) {
+    if (window.customerDistanceKm <= 5) {
+      return 0;
+    } else {
+      return Math.round(window.customerDistanceKm * 10);
+    }
+  }
+  
+  return -1;
+}
+
+function renderCartItem(item) {
+  return `
+  <div class="cart-item" id="cart-item-${item.key.replace(/[^a-z0-9]/gi,'_')}">
+    <div class="cart-item-info">
+      <img class="cart-item-img" src="${item.image}" alt="${item.name}" onerror="this.src='https://picsum.photos/seed/${item.id}/100/100'">
+      <div>
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-variant">${item.variant || ''}</div>
+      </div>
+    </div>
+    <div class="cart-item-price">${formatPrice(item.price)}</div>
+    <div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="updateItemQty('${item.key}', -1)">−</button>
+        <input type="number" class="qty-input" value="${item.qty}" min="1" onchange="updateItemQtyInput('${item.key}', this.value)">
+        <button class="qty-btn" onclick="updateItemQty('${item.key}', 1)">+</button>
+      </div>
+    </div>
+    <div class="cart-item-subtotal">${formatPrice(item.price * item.qty)}</div>
+    <button class="cart-remove-btn" onclick="removeItem('${item.key}')" title="Remove">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>`;
+}
+
+function updateItemQty(key, delta) {
+  const item = Cart.items.find(i => i.key === key);
+  if (!item) return;
+  const newQty = item.qty + delta;
+  if (newQty < 1) { removeItem(key); return; }
+  Cart.updateQty(key, newQty);
+  renderCart();
+}
+
+function updateItemQtyInput(key, val) {
+  const qty = Math.max(1, parseInt(val) || 1);
+  Cart.updateQty(key, qty);
+  renderCart();
+}
+
+function removeItem(key) {
+  Cart.remove(key);
+  showToast('Item removed from cart');
+  renderCart();
+}
+
+function clearCartConfirm() {
+  if (confirm('Clear entire cart? This cannot be undone.')) {
+    Cart.clear();
+    showToast('Cart cleared');
+    renderCart();
+  }
+}
+
+// ── You May Also Like ────────────────────────────────────────────
+let ymalLoaded = false;
+let ymalCurrentTab = 'related';
+
+function loadYMAL(tab, btn) {
+  ymalCurrentTab = tab;
+  document.querySelectorAll('.ymal-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const grid = document.getElementById('ymal-grid');
+  if (!grid) return;
+  const allProducts = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+  if (!allProducts.length) { grid.innerHTML = '<div class="ymal-loading">No suggestions available.</div>'; return; }
+
+  Cart.load();
+  const cartIds = Cart.items.map(i => i.id);
+  let filtered  = [];
+
+  if (tab === 'related') {
+    const cartCats = new Set();
+    Cart.items.forEach(ci => {
+      const p = allProducts.find(p => p.id === ci.id);
+      if (p && p.category) cartCats.add(p.category);
+    });
+    filtered = allProducts.filter(p => !cartIds.includes(p.id) && cartCats.has(p.category));
+    if (!filtered.length) filtered = allProducts.filter(p => p.badge === 'popular' || p.badge === 'sale');
+  } else if (tab === 'bestsellers') {
+    filtered = allProducts.filter(p => p.badge === 'popular' || p.reviews > 50);
+    if (!filtered.length) filtered = [...allProducts].sort((a, b) => b.reviews - a.reviews);
+  } else if (tab === 'new') {
+    filtered = allProducts.filter(p => p.badge === 'new');
+    if (!filtered.length) filtered = [...allProducts].slice(-12);
+  }
+
+  filtered = filtered.sort(() => Math.random() - 0.5).slice(0, 8);
+  if (!filtered.length) { grid.innerHTML = '<div class="ymal-loading">No suggestions found for this category.</div>'; return; }
+
+  grid.innerHTML = filtered.map(p => {
+    const discount = p.originalPrice > p.price ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+    return `
+    <div class="ymal-card" onclick="location.href='product.html?id=${p.id}'">
+      <img class="ymal-card-img" src="${p.image}" alt="${p.name}" onerror="this.src='images/1000090824.jpg'" loading="lazy">
+      <div class="ymal-card-body">
+        <div class="ymal-card-cat">${p.categoryName || ''}</div>
+        <div class="ymal-card-name">${p.name}</div>
+        <div class="ymal-card-price">₹${p.price.toLocaleString('en-IN')}
+          ${discount > 0 ? `<span class="ymal-card-orig">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+        </div>
+        <button class="ymal-add-btn" id="ymal-btn-${p.id}" onclick="event.stopPropagation(); addToYMALCart(${p.id}, this)">
+          <i class="fas fa-shopping-bag"></i> Add to Cart
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+  ymalLoaded = true;
+}
+
+function addToYMALCart(productId, btn) {
+  const allProducts = (typeof PRODUCTS !== 'undefined') ? PRODUCTS : [];
+  const product = allProducts.find(p => p.id === productId);
+  if (!product) return;
+  
+  let variantName = '';
+  let itemToAdd = { ...product };
+  
+  if (product.sizes && product.sizes.length > 0) {
+    const s = product.sizes[0];
+    if (typeof s === 'object') {
+      variantName = s.name;
+      itemToAdd.price = s.price;
+      if (s.image) itemToAdd.image = s.image;
+    } else {
+      variantName = s;
+    }
+  }
+  
+  Cart.add(itemToAdd, 1, variantName);
+  
+  btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+  btn.classList.add('added');
+  setTimeout(() => { btn.innerHTML = '<i class="fas fa-shopping-bag"></i> Add to Cart'; btn.classList.remove('added'); }, 2000);
+  renderCart();
+}

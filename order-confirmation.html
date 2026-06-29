@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Order Confirmed | Sri Manikanta Pooja Stores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--maroon:#7B1A1A;--saffron:#E8871A;--gold:#F5C842;--green:#16a34a;--bg:#f5f0eb}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh}
+
+    /* Header */
+    .top-bar{background:var(--maroon);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-icon{font-size:28px}
+    .logo-text h1{font-family:'Poppins',sans-serif;font-size:1rem;color:#f5c842;margin:0}
+    .logo-text p{font-size:.65rem;color:rgba(255,255,255,.6);margin:0}
+
+    /* Main */
+    .main{max-width:820px;margin:0 auto;padding:24px 16px}
+
+    /* Success Banner */
+    .success-banner{background:linear-gradient(135deg,#065f46,#059669);border-radius:20px;padding:36px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden}
+    .success-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+    .success-banner::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05)}
+    .checkmark{width:72px;height:72px;background:white;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.175,.885,.32,1.275)}
+    @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+    .checkmark i{font-size:32px;color:var(--green)}
+    .success-banner h1{font-family:'Poppins',sans-serif;font-size:1.6rem;color:white;margin-bottom:8px}
+    .success-banner p{color:rgba(255,255,255,.85);font-size:.9rem}
+    .order-id-badge{display:inline-block;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:12px;padding:8px 24px;font-size:1.1rem;font-weight:800;color:white;margin-top:14px;letter-spacing:1px}
+
+    /* Cards */
+    .card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:16px;overflow:hidden}
+    .card-header{padding:14px 20px;background:var(--maroon);color:white;display:flex;align-items:center;gap:10px}
+    .card-header h3{font-size:.9rem;font-weight:700;margin:0}
+    .card-body{padding:18px 20px}
+    .info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f9fafb;font-size:.86rem}
+    .info-row:last-child{border-bottom:none}
+    .info-row .lbl{color:#6b7280}
+    .info-row .val{font-weight:600;color:#111827;text-align:right;max-width:65%}
+
+    /* Order Items */
+    .order-item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #f9fafb}
+    .order-item:last-child{border-bottom:none}
+    .item-img{width:52px;height:52px;border-radius:10px;object-fit:cover;border:1px solid #e5e7eb;flex-shrink:0}
+    .item-info{flex:1}
+    .item-info .n{font-weight:700;font-size:.86rem;color:#111827}
+    .item-info .s{font-size:.76rem;color:#9ca3af;margin-top:2px}
+    .item-price{font-weight:800;font-size:.9rem;color:var(--maroon)}
+
+    /* Total row */
+    .total-section{border-top:2px solid #f0f0f0;margin-top:10px;padding-top:12px}
+    .total-row{display:flex;justify-content:space-between;font-size:.86rem;padding:3px 0}
+    .total-row.grand{font-size:1.05rem;font-weight:800;color:var(--maroon);margin-top:6px;padding-top:6px;border-top:1px solid #e5e7eb}
+
+    /* Payment status */
+    .pay-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:.78rem;font-weight:700}
+    .pay-badge.cod{background:#d1fae5;color:#065f46}
+    .pay-badge.upi-pending{background:#fef3c7;color:#92400e}
+    .pay-badge.paid{background:#d1fae5;color:#065f46}
+
+    /* UPI verification notice */
+    .upi-notice{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:2px solid #fbbf24;border-radius:14px;padding:16px 20px;margin-bottom:16px}
+    .upi-notice h4{color:#92400e;font-size:.9rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .upi-notice p{color:#78350f;font-size:.8rem;line-height:1.7}
+
+    /* WhatsApp section */
+    .wa-section{background:linear-gradient(135deg,#075e54,#128c7e);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center}
+    .wa-section h3{color:white;font-size:.95rem;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .wa-section p{color:rgba(255,255,255,.8);font-size:.78rem;margin-bottom:14px}
+    .btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;text-decoration:none;padding:12px 28px;border-radius:10px;font-weight:800;font-size:.9rem;transition:all .2s}
+    .btn-wa:hover{background:#1da851;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
+
+    /* Action buttons */
+    .action-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;font-weight:700;font-size:.875rem;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
+    .btn-primary{background:var(--maroon);color:white}
+    .btn-primary:hover{background:#5a1010;transform:translateY(-2px)}
+    .btn-outline{background:white;color:var(--maroon);border:2px solid var(--maroon)}
+    .btn-outline:hover{background:#fef7ef}
+    .btn-orange{background:linear-gradient(135deg,var(--saffron),#d97706);color:white}
+    .btn-orange:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,135,26,.4)}
+
+    /* Timeline */
+    .timeline{padding:8px 0}
+    .t-step{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;position:relative}
+    .t-step:not(:last-child)::before{content:'';position:absolute;left:15px;top:30px;bottom:-10px;width:2px;background:#e5e7eb}
+    .t-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;z-index:1}
+    .t-dot.done{background:#d1fae5;color:#059669;border:2px solid #6ee7b7}
+    .t-dot.active{background:#fef3c7;color:#d97706;border:2px solid #fcd34d}
+    .t-dot.pending{background:#f3f4f6;color:#9ca3af;border:2px solid #e5e7eb}
+    .t-info .title{font-weight:700;font-size:.85rem;color:#111827}
+    .t-info .sub{font-size:.75rem;color:#9ca3af;margin-top:2px}
+
+    @media(max-width:600px){.action-btns{flex-direction:column}.btn{justify-content:center}}
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="top-bar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🕉️</div>
+    <div class="logo-text">
+      <h1>Sri Manikanta Pooja Stores</h1>
+      <p>Premium Pooja Samagri • Dilsukhnagar, Hyderabad</p>
+    </div>
+  </a>
+  <a href="dashboard/orders.html" style="color:rgba(255,255,255,.7);text-decoration:none;font-size:.8rem"><i class="fas fa-shopping-bag"></i> My Orders</a>
+</div>
+
+<div class="main">
+
+  <!-- Success Banner -->
+  <div class="success-banner">
+    <div class="checkmark"><i class="fas fa-check"></i></div>
+    <h1>Order Placed Successfully! 🙏</h1>
+    <p>Thank you for shopping with Sri Manikanta Pooja Stores</p>
+    <div class="order-id-badge" id="order-id-display">Loading...</div>
+  </div>
+
+  <!-- UPI Verification Notice (shown only for UPI) -->
+  <div class="upi-notice" id="upi-notice" style="display:none">
+    <h4><i class="fas fa-clock"></i> UPI Payment Under Verification</h4>
+    <p>
+      We have received your payment screenshot. Our team will verify your payment within <strong>15–30 minutes</strong>.<br>
+      Once verified, your order will be confirmed and you'll receive a WhatsApp update.<br>
+      <strong>UTR/Reference:</strong> <span id="utr-display">—</span>
+    </p>
+  </div>
+
+  <!-- WhatsApp Section -->
+  <div class="wa-section">
+    <h3><i class="fab fa-whatsapp"></i> Get Order Update on WhatsApp</h3>
+    <p>Click below to receive your order confirmation on WhatsApp</p>
+    <a href="#" class="btn-wa" id="wa-btn" target="_blank">
+      <i class="fab fa-whatsapp"></i> Send WhatsApp Confirmation
+    </a>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="card">
+    <div class="card-header"><i class="fas fa-receipt"></i><h3>Order Summary</h3></div>
+    <div class="card-body">
+      <div class="info-row"><span class="lbl">Order ID</span><span class="val" id="s-order-id">—</span></div>
+      <div class="info-row"><span class="lbl">Order Date</span><span class="val" id="s-date">—</span></div>
+      <div class="info-row"><span class="lbl">Payment Method</span><span class="val" id="s-payment">—</span></div>
+      <div class="info-row"><span class="lbl">Payment Status</span><span class="val" id="s-pay-status">—</span></div>
+      <div class="info-row"><span class="lbl">Order Status</span><span class="val"><span class="pay-badge cod">⏳ Pending Confirmation</span></span></div>
+    </div>
+  </div>
+
+  <!-- Items -->
+  <div class="card">
+    <div class="card-header"><i class="fas fa-box"></i><h3>Items Ordered</h3></div>
+    <div class="card-body" id="items-list"><p style="color:#9ca3af;text-align:center">Loading...</p></div>
+  </div>
+
+  <!-- Delivery Address -->
+  <div class="card">
+    <div class="card-header"><i class="fas fa-map-marker-alt"></i><h3>Delivery Address</h3></div>
+    <div class="card-body">
+      <div id="address-display" style="font-size:.86rem;line-height:1.8;color:#374151">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Order Timeline -->
+  <div class="card">
+    <div class="card-header"><i class="fas fa-route"></i><h3>Order Journey</h3></div>
+    <div class="card-body">
+      <div class="timeline">
+        <div class="t-step">
+          <div class="t-dot done"><i class="fas fa-check"></i></div>
+          <div class="t-info"><div class="title">Order Placed</div><div class="sub" id="placed-time">Just now</div></div>
+        </div>
+        <div class="t-step">
+          <div class="t-dot active" id="step-verify-dot"><i class="fas fa-search"></i></div>
+          <div class="t-info"><div class="title" id="step-verify-title">Payment Verification</div><div class="sub">Admin reviewing your order</div></div>
+        </div>
+        <div class="t-step">
+          <div class="t-dot pending"><i class="fas fa-box"></i></div>
+          <div class="t-info"><div class="title">Order Confirmed & Packed</div><div class="sub">Items being prepared</div></div>
+        </div>
+        <div class="t-step">
+          <div class="t-dot pending"><i class="fas fa-truck"></i></div>
+          <div class="t-info"><div class="title">Shipped</div><div class="sub">Out for delivery</div></div>
+        </div>
+        <div class="t-step">
+          <div class="t-dot pending"><i class="fas fa-home"></i></div>
+          <div class="t-info"><div class="title">Delivered</div><div class="sub">Delivered to your doorstep</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-btns">
+    <a href="dashboard/orders.html" class="btn btn-primary"><i class="fas fa-shopping-bag"></i> Track My Orders</a>
+    <a href="shop.html" class="btn btn-orange"><i class="fas fa-store"></i> Continue Shopping</a>
+    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Back to Home</a>
+  </div>
+
+</div>
+
+<script>
+const STORE_PHONE = '919110582086';
+const STORE_NAME  = 'Sri Manikanta Pooja Stores';
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Get order data from localStorage (set by checkout page)
+  const raw = localStorage.getItem('last_order');
+  if (!raw) { window.location.href = 'index.html'; return; }
+
+  const data = JSON.parse(raw);
+  const { order_number, total, payment_method, utr_number, address, items, created_at } = data;
+
+  // Update displays
+  document.getElementById('order-id-display').textContent  = order_number || 'SMPS-XXXX';
+  document.getElementById('s-order-id').textContent         = order_number || '—';
+  document.getElementById('s-payment').textContent          = payment_method === 'upi' ? '📱 UPI Payment' : '💵 Cash on Delivery';
+  document.getElementById('placed-time').textContent        = new Date().toLocaleString('en-IN');
+  document.getElementById('s-date').textContent             = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
+
+  // Payment status badge
+  const payStatusEl = document.getElementById('s-pay-status');
+  if (payment_method === 'upi') {
+    payStatusEl.innerHTML = '<span class="pay-badge upi-pending">🔍 Under Verification</span>';
+    document.getElementById('upi-notice').style.display = 'block';
+    if (utr_number) document.getElementById('utr-display').textContent = utr_number;
+    // Adjust timeline step 2
+    document.getElementById('step-verify-title').textContent = 'UPI Payment Verification';
+  } else {
+    payStatusEl.innerHTML = '<span class="pay-badge cod">💵 Pay on Delivery</span>';
+    document.getElementById('step-verify-title').textContent = 'Order Confirmation';
+    document.getElementById('step-verify-dot').innerHTML = '<i class="fas fa-check"></i>';
+  }
+
+  // Items
+  const itemsHTML = (items || []).map(item => `
+    <div class="order-item">
+      <img class="item-img" src="${item.image || 'images/1000090824.jpg'}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
+      <div class="item-info">
+        <div class="n">${item.name}</div>
+        <div class="s">Qty: ${item.qty}${item.variant ? ' · ' + item.variant : ''}</div>
+      </div>
+      <div class="item-price">₹${(Number(item.price) * item.qty).toLocaleString('en-IN')}</div>
+    </div>`).join('');
+  const subtotal = (items||[]).reduce((s,i)=>s+(Number(i.price)*i.qty),0);
+  const delivery = Number(total) - subtotal;
+  document.getElementById('items-list').innerHTML = itemsHTML + `
+    <div class="total-section">
+      <div class="total-row"><span>Subtotal</span><span>₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span>Delivery</span><span>${delivery===0?'🎉 FREE':'₹'+delivery.toLocaleString('en-IN')}</span></div>
+      <div class="total-row grand"><span>Grand Total</span><span>₹${Number(total).toLocaleString('en-IN')}</span></div>
+    </div>`;
+
+  // Address
+  const addr = address || {};
+  document.getElementById('address-display').innerHTML = `
+    <strong>${addr.full_name || '—'}</strong> · ${addr.mobile || '—'}<br>
+    ${addr.address_line || '—'}${addr.landmark ? ', ' + addr.landmark : ''}<br>
+    ${addr.city || ''}, ${addr.state || 'Telangana'} — ${addr.pincode || ''}`;
+
+  // WhatsApp button
+  const waMsg = `🙏 *Sri Manikanta Pooja Stores*\n\nDear Customer,\n\nThank you for placing your order with us!\n\n*Order ID:* ${order_number}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n*Payment:* ${payment_method === 'upi' ? 'UPI Payment (Under Verification)' : 'Cash on Delivery'}\n\nOur team has received your order and will contact you within *1 hour* regarding delivery.\n\nFor any queries:\n📞 +91 9110582086\n\nThank you! 🛒`;
+  const mobile = data.customer_mobile ? '91' + data.customer_mobile.replace(/\D/g,'').replace(/^91/,'') : STORE_PHONE;
+  document.getElementById('wa-btn').href = `https://wa.me/${mobile}?text=${encodeURIComponent(waMsg)}`;
+
+  // Clear order from localStorage after 10s (security)
+  setTimeout(() => localStorage.removeItem('last_order'), 10000);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout | Sri Manikanta Pooja Stores</title>
+  <meta name="description" content="Checkout securely at Sri Manikanta Pooja Stores. Pay via UPI or Cash on Delivery.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background: #fdf3e7; }
+
+    /* ── Step Progress Bar ── */
+    .checkout-progress {
+      background: white;
+      padding: 18px 0 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      position: sticky;
+      top: var(--header-h);
+      z-index: 100;
+      margin-top: calc(var(--header-h) + 30px);
+    }
+    .progress-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
+    .ps-dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 800;
+      color: #9ca3af;
+      background: white;
+      transition: all .35s;
+    }
+    .ps-label {
+      font-size: .72rem;
+      font-weight: 600;
+      color: #9ca3af;
+      white-space: nowrap;
+      transition: color .35s;
+    }
+    .ps.active .ps-dot  { border-color: #f97316; background: #f97316; color: white; }
+    .ps.active .ps-label { color: #f97316; }
+    .ps.done .ps-dot   { border-color: #16a34a; background: #16a34a; color: white; }
+    .ps.done .ps-label  { color: #16a34a; }
+    .ps-line {
+      flex: 1;
+      height: 2px;
+      background: #e5e7eb;
+      max-width: 100px;
+      margin: 0 4px;
+      margin-bottom: 22px;
+      transition: background .35s;
+    }
+    .ps-line.done { background: #16a34a; }
+
+    /* ── Layout ── */
+    .ck-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 16px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ── Step panels ── */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* ── Section card ── */
+    .sec-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .sec-head {
+      padding: 14px 22px;
+      background: linear-gradient(135deg, #7b1a1a, #5a1010);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sec-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #f97316;
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .85rem; flex-shrink: 0;
+    }
+    .sec-head h3 {
+      margin: 0;
+      font-size: .95rem;
+      color: #ffd166;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+    }
+    .sec-body { padding: 20px 22px; }
+
+    /* ── Form fields ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: .82rem; font-weight: 700; color: #374151; }
+    .form-group label span { color: #b91c1c; }
+    .form-control {
+      padding: 12px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+      background: #fafafa;
+      color: #1f2937;
+    }
+    .form-control:focus { border-color: #f97316; background: white; }
+    .form-control::placeholder { color: #9ca3af; }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+
+    /* ── "Next Step" button ── */
+    .btn-next {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      letter-spacing: .3px;
+    }
+    .btn-next:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(249,115,22,.38); }
+    .btn-back {
+      background: none;
+      border: 1.5px solid #e5e7eb;
+      color: #6b7280;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .2s;
+      margin-bottom: 16px;
+    }
+    .btn-back:hover { border-color: #f97316; color: #f97316; }
+
+    /* ── Payment options ── */
+    .pay-opt {
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .pay-opt:hover { border-color: #f97316; }
+    .pay-opt.sel { border-color: #f97316; background: #fffaf4; }
+    .pay-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+    .pay-info strong { display: block; font-size: .9rem; color: #1f2937; margin-bottom: 3px; }
+    .pay-info span { font-size: .78rem; color: #6b7280; }
+    .pay-radio { margin-left: auto; accent-color: #f97316; width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; }
+
+    /* ── Professional UPI Box ── */
+    .upi-box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-top: 18px;
+      display: none;
+      animation: fadeUp .4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 30px rgba(0,0,0,.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .upi-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, #f97316, #fb923c); }
+    .upi-box.show { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(-12px) } to { opacity:1; transform:translateY(0) } }
+    
+    .qr-wrap {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px;
+      display: inline-block;
+      margin-bottom: 16px;
+      border: 2px solid #f3f4f6;
+      box-shadow: 0 10px 25px rgba(0,0,0,.08);
+      position: relative;
+    }
+    .qr-wrap img { width: 220px; height: auto; display: block; border-radius: 10px; }
+    
+    .upi-id-badge {
+      background: #fdf5ef;
+      border: 1.5px dashed #f97316;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ea580c;
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .upi-id-badge:hover { background: #ffedd5; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(249,115,22,.15); }
+    
+    .upi-apps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+    .upi-app { background: #f3f4f6; border-radius: 10px; padding: 6px 14px; font-size: .78rem; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 6px; transition: background .2s; }
+    .upi-app:hover { background: #e5e7eb; }
+    
+    .upi-steps { font-size: .8rem; color: #4b5563; line-height: 1.8; text-align: left; margin-top: 20px; background: #f9fafb; padding: 18px; border-radius: 14px; border: 1px solid #f3f4f6; }
+    .upi-steps span { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+    .upi-steps i { color: #f97316; margin-top: 4px; font-size: .9rem; }
+
+    /* ── Screenshot upload ── */
+    .ss-upload-area {
+      border: 2px dashed #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 14px;
+      background: #fafafa;
+      display: none;
+    }
+    .ss-upload-area.show { display: block; }
+    .ss-upload-area:hover { border-color: #f97316; background: #fffaf4; }
+    .ss-upload-area.has-file { border-color: #16a34a; background: #f0fdf4; }
+    .ss-upload-area i { font-size: 36px; color: #9ca3af; margin-bottom: 8px; display: block; transition: color .2s; }
+    .ss-upload-area:hover i { color: #f97316; }
+    .ss-upload-area.has-file i { color: #16a34a; }
+    .ss-upload-area p { font-size: .82rem; color: #6b7280; margin: 0; }
+    .ss-preview { max-width: 200px; max-height: 200px; border-radius: 8px; margin: 10px auto; display: none; border: 2px solid #16a34a; }
+
+    /* ── Order Summary sidebar ── */
+    .summ-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+      position: sticky;
+      top: 120px;
+      overflow: hidden;
+    }
+    .summ-head { padding: 18px 22px 0; display: flex; align-items: center; gap: 8px; }
+    .summ-head-txt { font-size: 1rem; font-weight: 800; color: #7b1a1a; font-family: 'Georgia', serif; letter-spacing: .3px; text-transform: uppercase; }
+    .summ-divider { border: none; border-top: 1.5px solid #f5e6cc; margin: 10px 0; }
+    .summ-body { padding: 0 22px 20px; }
+    .o-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
+    .o-item:last-child { border-bottom: none; }
+    .o-img { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; border: 1px solid #e5e7eb; flex-shrink: 0; }
+    .o-info { flex: 1; min-width: 0; }
+    .o-info .n { font-weight: 600; font-size: .84rem; color: #1f2937; line-height: 1.35; word-break: break-word; }
+    .o-info .q { font-size: .75rem; color: #9ca3af; margin-top: 3px; }
+    .o-price { font-weight: 700; font-size: .88rem; color: #7b1a1a; white-space: nowrap; padding-left: 8px; padding-top: 2px; }
+    .totals-block { border-top: 1.5px solid #f5e6cc; margin-top: 4px; padding-top: 12px; }
+    .row-sm { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: .85rem; }
+    .row-sm .l { color: #6b7280; }
+    .row-sm .v { color: #374151; font-weight: 500; }
+    .row-total { border-top: 1.5px solid #f5e6cc; margin-top: 8px; padding-top: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .row-total .l { font-size: 1rem; font-weight: 800; color: #7b1a1a; }
+    .row-total .v { font-size: 1.05rem; font-weight: 800; color: #7b1a1a; }
+    .free-tag { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px; font-size: .76rem; color: #166534; text-align: center; margin-bottom: 8px; }
+
+    /* ── Confirm step ── */
+    .confirm-items { }
+    .confirm-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: .88rem; border-bottom: 1px solid #f5f5f5; }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-row .cl { color: #6b7280; }
+    .confirm-row .cv { font-weight: 600; color: #1f2937; text-align: right; max-width: 60%; }
+    .confirm-total-row { display: flex; justify-content: space-between; padding: 12px 0; font-size: 1rem; border-top: 2px solid #f5e6cc; margin-top: 4px; }
+    .confirm-total-row .cl { font-weight: 800; color: #7b1a1a; }
+    .confirm-total-row .cv { font-weight: 800; color: #7b1a1a; font-size: 1.1rem; }
+
+    /* ── Place Order button ── */
+    .btn-order {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      letter-spacing: .3px;
+    }
+    .btn-order:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(249,115,22,.4); }
+    .btn-order:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .secure-txt { display: flex; align-items: center; justify-content: center; gap: 6px; color: #9ca3af; font-size: .7rem; margin-top: 8px; }
+
+    /* ── Error box ── */
+    .err-box { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fecaca; border-radius: 10px; padding: 10px 14px; font-size: .82rem; margin-bottom: 12px; display: none; }
+
+    /* ── Login gate ── */
+    .login-gate { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.07); padding: 36px; text-align: center; margin-bottom: 16px; display: none; }
+
+    /* ── Address cards ── */
+    .addr-card { border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all .2s; margin-bottom: 10px; position: relative; }
+    .addr-card:hover { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
+    .addr-card.sel { border-color: #f97316; background: #fffaf4; }
+    .addr-card input[type=radio] { position: absolute; top: 14px; right: 14px; accent-color: #f97316; width: 18px; height: 18px; }
+    .addr-lbl { display: inline-block; background: #f3f4f6; padding: 2px 8px; border-radius: 8px; font-size: .68rem; font-weight: 700; color: #6b7280; margin-bottom: 4px; }
+    .addr-name { font-weight: 700; font-size: .88rem; color: #1f2937; }
+    .addr-text { font-size: .78rem; color: #6b7280; line-height: 1.6; margin-top: 3px; }
+    .add-addr { display: flex; align-items: center; gap: 8px; color: #f97316; font-size: .875rem; font-weight: 600; cursor: pointer; padding: 12px 4px; border-top: 1px dashed #e5e7eb; margin-top: 6px; transition: color .2s; }
+    .add-addr:hover { color: #ea580c; }
+
+    /* ── Responsive ── */
+    @media(max-width: 768px) {
+      .ck-wrap { grid-template-columns: 1fr; }
+      .summ-card { position: static; order: -1; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <!-- ── Step Progress ── -->
+  <div class="checkout-progress">
+    <div class="progress-inner">
+      <div class="ps done" id="prog-1">
+        <div class="ps-dot"><i class="fas fa-check"></i></div>
+        <div class="ps-label">Cart</div>
+      </div>
+      <div class="ps-line done" id="pline-1"></div>
+      <div class="ps active" id="prog-2">
+        <div class="ps-dot">2</div>
+        <div class="ps-label">Your Details</div>
+      </div>
+      <div class="ps-line" id="pline-2"></div>
+      <div class="ps" id="prog-3">
+        <div class="ps-dot">3</div>
+        <div class="ps-label">Payment</div>
+      </div>
+      <div class="ps-line" id="pline-3"></div>
+      <div class="ps" id="prog-4">
+        <div class="ps-dot">4</div>
+        <div class="ps-label">Confirm</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ck-wrap">
+    <!-- LEFT: Steps -->
+    <div>
+
+      <!-- Login Gate -->
+      <div class="login-gate" id="login-gate">
+        <div style="font-size:52px;margin-bottom:12px">🔐</div>
+        <h3 style="color:#7b1a1a;margin:0 0 8px;font-family:'Segoe UI',sans-serif;font-size:1.3rem">Login Required</h3>
+        <p style="color:#6b7280;margin:0 0 22px;font-size:.9rem">Please login or create an account to complete your purchase.<br>It's free and takes less than a minute!</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="login.html?redirect=checkout.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="register.html?redirect=checkout.html" class="btn btn-ghost"><i class="fas fa-user-plus"></i> Create Account</a>
+        </div>
+      </div>
+
+      <!-- STEP 2: Your Details -->
+      <div class="step-panel active" id="step-2">
+        <div class="sec-card">
+          <div class="sec-head">
+            <div class="sec-num">1</div>
+            <h3>Your Details</h3>
+          </div>
+          <div class="sec-body">
+            <div class="form-row" style="margin-bottom:16px">
+              <div class="form-group">
+                <label>Full Name <span>*</span></label>
+                <input type="text" id="cust-name" class="form-control" placeholder="Your full name">
+              </div>
+              <div class="form-group">
+                <label>Mobile Number <span>*</span></label>
+                <input type="tel" id="cust-phone" class="form-control" placeholder="+91 XXXXX XXXXX">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:16px">
+              <label>Email <span style="color:#9ca3af;font-weight:400">(optional)</span></label>
+              <input type="email" id="cust-email" class="form-control" placeholder="your@email.com">
+            </div>
+            <div class="form-group" style="margin-bottom:16px">
+              <label>Delivery Address <span>*</span></label>
+              <textarea id="cust-address" class="form-control" rows="3" placeholder="House/Flat No., Street, Area, Hyderabad, PIN Code"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Special Instructions <span style="color:#9ca3af;font-weight:400">(optional)</span></label>
+              <textarea id="order-notes" class="form-control" rows="2" placeholder="Any special requests, preferred brands, urgency..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Addresses (if logged in) -->
+        <div class="sec-card" id="saved-addr-card" style="display:none">
+          <div class="sec-head">
+            <div class="sec-num"><i class="fas fa-map-marker-alt" style="font-size:.75rem"></i></div>
+            <h3>Or Choose Saved Address</h3>
+          </div>
+          <div class="sec-body" id="addr-container">
+            <p style="color:#9ca3af;text-align:center;padding:20px"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+          </div>
+        </div>
+
+        <button class="btn-next" onclick="goToStep3()">
+          Continue to Payment <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- STEP 3: Payment -->
+      <div class="step-panel" id="step-3">
+        <button class="btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back to Details</button>
+
+        <div class="sec-card">
+          <div class="sec-head">
+            <div class="sec-num">3</div>
+            <h3>Payment Method</h3>
+          </div>
+          <div class="sec-body">
+
+            <!-- COD -->
+            <div class="pay-opt sel" id="opt-cod" onclick="selectPayment('cod')">
+              <div class="pay-icon">💵</div>
+              <div class="pay-info">
+                <strong>Cash on Delivery (COD)</strong>
+                <span>Pay with cash when your order arrives. No advance needed.</span>
+              </div>
+              <input type="radio" class="pay-radio" name="pay" value="cod" checked>
+            </div>
+
+            <!-- UPI -->
+            <div class="pay-opt" id="opt-upi" onclick="selectPayment('upi')">
+              <div class="pay-icon">📱</div>
+              <div class="pay-info">
+                <strong>UPI / QR Code Payment</strong>
+                <span>Pay via GPay, PhonePe, Paytm, BHIM or any UPI app.</span>
+
+                <!-- UPI QR Box -->
+                <div class="upi-box" id="upi-box">
+                  <div style="font-weight: 800; font-size: 1.15rem; color: #1f2937; margin-bottom: 16px;">Scan & Pay via UPI</div>
+                  <div class="qr-wrap">
+                    <img id="upi-qr-img" src="images/Qr.jpeg" alt="Scan to Pay UPI QR">
+                  </div>
+                  <div class="upi-id-badge" id="upi-id-txt" onclick="copyUPIId()" title="Click to copy">
+                    <span>9110582086@ptyes</span>
+                    <i class="far fa-copy" style="font-size: .9rem;"></i>
+                  </div>
+                  <div style="color:#6b7280;font-size:.75rem;margin-bottom:12px">Click UPI ID to copy</div>
+                  
+                  <div style="background: #fff7ed; padding: 12px; border-radius: 12px; display: inline-block; margin-bottom: 10px; border: 1px solid #ffedd5;">
+                    <div style="color:#ea580c;font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Total Amount</div>
+                    <div style="color:#1f2937;font-size:1.4rem;font-weight:800;margin-top:2px;" id="upi-amount-display">₹0</div>
+                  </div>
+
+                  <div class="upi-apps">
+                    <span class="upi-app"><img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" style="width:16px;height:16px"> Paytm</span>
+                    <span class="upi-app"><img src="https://cdn.iconscout.com/icon/free/png-256/phonepe-2709167-2249157.png" style="width:16px;height:16px"> PhonePe</span>
+                    <span class="upi-app"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-pay-icon.png" style="width:16px;height:16px"> GPay</span>
+                    <span class="upi-app"><i class="fas fa-university" style="color:#ea580c"></i> BHIM</span>
+                  </div>
+                  
+                  <div class="upi-steps">
+                    <span><i class="fas fa-mobile-alt"></i> Open any UPI app on your phone</span>
+                    <span><i class="fas fa-qrcode"></i> Scan the QR code or copy the UPI ID</span>
+                    <span><i class="fas fa-rupee-sign"></i> Pay exactly: <strong style="color:#ea580c" id="upi-steps-amt">₹0</strong></span>
+                    <span><i class="fas fa-cloud-upload-alt"></i> Upload the payment screenshot below</span>
+                  </div>
+                </div>
+
+                <!-- Screenshot Upload -->
+                <div class="ss-upload-area" id="ss-upload-area" onclick="document.getElementById('ss-file-input').click()">
+                  <input type="file" id="ss-file-input" accept="image/*" style="display:none" onchange="handleScreenshot(this)">
+                  <i class="fas fa-cloud-upload-alt" id="ss-icon"></i>
+                  <p id="ss-label"><strong>Upload Payment Screenshot</strong><br>Tap here to select your screenshot</p>
+                  <img id="ss-preview" class="ss-preview">
+                </div>
+                <div id="ss-status" style="font-size:.75rem;margin-top:6px;display:none"></div>
+
+                <!-- UTR Input -->
+                <div id="utr-input-area" style="margin-top:16px;display:none">
+                  <div style="font-size:.75rem;color:rgba(255,255,255,.6);text-align:center;margin-bottom:8px">-- OR --</div>
+                  <label style="display:block;font-size:.85rem;color:#93c5fd;margin-bottom:6px;font-weight:600">Enter UTR / Transaction No.</label>
+                  <input type="text" id="upi-utr" placeholder="12-digit UTR number" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.2);color:white;font-family:monospace;font-size:1rem;outline:none;transition:all 0.2s" onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'">
+                </div>
+              </div>
+              <input type="radio" class="pay-radio" name="pay" value="upi">
+            </div>
+
+          </div>
+        </div>
+
+        <button class="btn-next" onclick="goToStep4()">
+          Review Order <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- STEP 4: Confirm -->
+      <div class="step-panel" id="step-4">
+        <button class="btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Back to Payment</button>
+
+        <div class="sec-card">
+          <div class="sec-head">
+            <div class="sec-num">4</div>
+            <h3>Confirm Your Order</h3>
+          </div>
+          <div class="sec-body">
+            <div class="err-box" id="order-error"></div>
+
+            <!-- Delivery to -->
+            <div style="background:#fafafa;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+              <div style="font-size:.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Delivering To</div>
+              <div id="confirm-address" style="font-size:.88rem;color:#1f2937;line-height:1.6"></div>
+            </div>
+
+            <!-- Payment method -->
+            <div style="background:#fafafa;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+              <div style="font-size:.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Payment</div>
+              <div id="confirm-payment" style="font-size:.88rem;color:#1f2937;font-weight:600"></div>
+            </div>
+
+            <!-- Order items summary -->
+            <div style="background:#fafafa;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+              <div style="font-size:.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Items</div>
+              <div id="confirm-items-list"></div>
+              <div class="confirm-total-row">
+                <span class="cl">Total</span>
+                <span class="cv" id="confirm-total">₹0</span>
+              </div>
+            </div>
+
+            <button class="btn-order" id="place-btn" onclick="placeOrder()">
+              <i class="fas fa-lock"></i> <span id="btn-txt">Place Order (COD)</span>
+            </button>
+            <div class="secure-txt">
+              <i class="fas fa-shield-alt"></i> Secure &amp; Encrypted &nbsp;|&nbsp; <i class="fas fa-lock"></i> 100% Safe
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /LEFT -->
+
+    <!-- RIGHT: Order Summary -->
+    <div>
+      <div class="summ-card">
+        <div class="summ-head">
+          <span style="color:#f97316;font-size:1rem">🧾</span>
+          <span class="summ-head-txt">Your Order</span>
+        </div>
+        <hr class="summ-divider" style="margin:0 22px">
+        <div class="summ-body">
+          <div id="order-items-list"><p style="text-align:center;color:#9ca3af;padding:16px"><i class="fas fa-spinner fa-spin"></i></p></div>
+          <div id="totals-section" style="display:none">
+            <div id="free-tag" class="free-tag" style="display:none"></div>
+            <div class="totals-block">
+              <div class="row-sm"><span class="l">Subtotal</span><span class="v" id="s-sub">₹0</span></div>
+              <div class="row-sm"><span class="l">Delivery</span><span class="v" id="s-del">₹60</span></div>
+            </div>
+            <div class="row-total"><span class="l">Total</span><span class="v" id="s-total">₹0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help card -->
+      <div style="background:#7b1a1a;border-radius:16px;padding:20px;margin-top:16px;color:white">
+        <div style="font-weight:700;font-size:.9rem;color:#ffd166;margin-bottom:10px"><i class="fas fa-headset" style="color:#f97316"></i> Need Help?</div>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.7);margin:0 0 12px">Call or WhatsApp us:</p>
+        <a href="tel:+919110582086" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:white;text-decoration:none;font-size:.82rem;font-weight:600;margin-bottom:8px;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+          <i class="fas fa-phone-alt" style="color:#f97316"></i> +91 91105 82086
+        </a>
+        <a href="tel:+919849985423" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:white;text-decoration:none;font-size:.82rem;font-weight:600;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+          <i class="fas fa-phone-alt" style="color:#f97316"></i> +91 98499 85423
+        </a>
+      </div>
+    </div><!-- /RIGHT -->
+  </div>
+
+  <footer id="site-footer"></footer>
+  <div id="floating-actions"></div>
+
+  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+  <script src="js/main.js?v=2"></script>
+  <script src="js/cart.js?v=6"></script>
+  <script src="js/auth.js?v=6"></script>
+  <script>
+  // ── Config ──────────────────────────────────────────────────────
+  const STORE_UPI_ID   = '9110582086@ptyes';
+  const STORE_UPI_NAME = 'Sri Manikanta Pooja Stores';
+  const FREE_ABOVE     = 599;
+  const DELIVERY_FEE   = 60;
+
+  // ── State ────────────────────────────────────────────────────────
+  let cartItems       = [];
+  let subtotal        = 0;
+  let deliveryCharge  = DELIVERY_FEE;
+  let totalAmount     = 0;
+  let selectedPayment = 'cod';
+  let screenshotFile  = null;
+  let currentStep     = 2;
+
+  // ── Init ─────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async () => {
+
+    if (window.Cart) window.Cart.load();
+
+    // Must be logged in
+    if (!AuthManager.isLoggedIn()) {
+      const cm    = window.Cart;
+      const items = cm ? cm.items : [];
+      sessionStorage.setItem('pending_cart', JSON.stringify(items));
+      const returnTo = encodeURIComponent(window.location.href);
+      window.location.replace('login.html?redirect=' + returnTo);
+      return;
+    }
+
+    // Load cart items
+    const cm = window.Cart;
+    cartItems = cm ? cm.items : [];
+    if ((!cartItems || !cartItems.length) && sessionStorage.getItem('pending_cart')) {
+      cartItems = JSON.parse(sessionStorage.getItem('pending_cart'));
+      sessionStorage.removeItem('pending_cart');
+    }
+    if (!cartItems || !cartItems.length) {
+      window.location.href = 'cart.html';
+      return;
+    }
+
+    renderSummary();
+
+    // Pre-fill name and phone from logged-in user
+    const user = AuthManager.getUser();
+    if (user) {
+      if (user.full_name && document.getElementById('cust-name'))
+        document.getElementById('cust-name').value = user.full_name;
+      if (user.mobile && document.getElementById('cust-phone'))
+        document.getElementById('cust-phone').value = user.mobile;
+    }
+
+    // Try to load saved addresses
+    loadSavedAddresses();
+    setupUPIQR();
+  });
+
+  // ── Step Navigation ──────────────────────────────────────────────
+  function goToStep(step) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('step-' + step)?.classList.add('active');
+    currentStep = step;
+    updateProgress(step);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(step) {
+    for (let i = 1; i <= 4; i++) {
+      const ps    = document.getElementById('prog-' + i);
+      const pline = document.getElementById('pline-' + i);
+      if (!ps) continue;
+      ps.classList.remove('active', 'done');
+      if (i < step)        ps.classList.add('done');
+      else if (i === step) ps.classList.add('active');
+      if (pline) pline.classList.toggle('done', i < step);
+      // update dot content
+      const dot = ps.querySelector('.ps-dot');
+      if (i < step) dot.innerHTML = '<i class="fas fa-check"></i>';
+      else          dot.textContent = i;
+    }
+  }
+
+  function goToStep3() {
+    const name    = document.getElementById('cust-name').value.trim();
+    const phone   = document.getElementById('cust-phone').value.trim();
+    const address = document.getElementById('cust-address').value.trim();
+    if (!name)    { alert('Please enter your full name.'); return; }
+    if (!phone || phone.replace(/\D/g,'').length < 10) { alert('Please enter a valid 10-digit mobile number.'); return; }
+    if (!address) { alert('Please enter your delivery address.'); return; }
+    goToStep(3);
+  }
+
+  function goToStep4() {
+    if (selectedPayment === 'upi') {
+      const utrVal = document.getElementById('upi-utr')?.value.trim() || '';
+      if (!screenshotFile && !utrVal) {
+        alert('Please upload your UPI payment screenshot OR enter your UTR number to continue.');
+        return;
+      }
+    }
+    // Populate confirm screen
+    const name    = document.getElementById('cust-name').value.trim();
+    const phone   = document.getElementById('cust-phone').value.trim();
+    const address = document.getElementById('cust-address').value.trim();
+    document.getElementById('confirm-address').innerHTML =
+      `<strong>${name}</strong> &middot; ${phone}<br>${address}`;
+    document.getElementById('confirm-payment').innerHTML =
+      selectedPayment === 'upi'
+        ? '📱 UPI / QR Code Payment'
+        : '💵 Cash on Delivery (COD)';
+    document.getElementById('confirm-total').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+
+    // Items
+    let html = '';
+    cartItems.forEach(item => {
+      const tot = (item.price || 0) * (item.qty || 1);
+      const variant = item.variant || item.selectedSize || '';
+      html += `<div class="confirm-row">
+        <span class="cl">${item.name}${variant ? ' · ' + variant : ''} × ${item.qty}</span>
+        <span class="cv">₹${tot.toLocaleString('en-IN')}</span>
+      </div>`;
+    });
+    document.getElementById('confirm-items-list').innerHTML = html;
+
+    // Update place button text
+    document.getElementById('btn-txt').textContent =
+      selectedPayment === 'upi' ? 'Place UPI Order' : 'Place Order (COD)';
+
+    goToStep(4);
+  }
+
+  // ── Summary ──────────────────────────────────────────────────────
+  function renderSummary() {
+    subtotal = 0;
+    let html = '';
+    cartItems.forEach(item => {
+      const tot     = (item.price || 0) * (item.qty || 1);
+      subtotal     += tot;
+      const img     = item.image || (item.images && item.images[0]) || 'images/1000090824.jpg';
+      const variant = item.variant || item.selectedSize || '';
+      html += `<div class="o-item">
+        <img class="o-img" src="${img}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
+        <div class="o-info">
+          <div class="n">${item.name}</div>
+          <div class="q">${variant ? variant + ' × ' + item.qty : 'Qty × ' + item.qty}</div>
+        </div>
+        <div class="o-price">₹${tot.toLocaleString('en-IN')}</div>
+      </div>`;
+    });
+    document.getElementById('order-items-list').innerHTML = html;
+
+    deliveryCharge = subtotal >= FREE_ABOVE ? 0 : DELIVERY_FEE;
+    totalAmount    = subtotal + deliveryCharge;
+
+    document.getElementById('s-sub').textContent   = '₹' + subtotal.toLocaleString('en-IN');
+    document.getElementById('s-del').textContent   = deliveryCharge === 0 ? '🎉 FREE' : '₹' + deliveryCharge;
+    document.getElementById('s-total').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+    document.getElementById('totals-section').style.display = 'block';
+
+    const ft = document.getElementById('free-tag');
+    if (deliveryCharge === 0) {
+      ft.innerHTML = '🎉 You get <strong>FREE Delivery!</strong>';
+      ft.style.display = 'block';
+    } else {
+      ft.innerHTML = `Add ₹${(FREE_ABOVE - subtotal).toLocaleString('en-IN')} more for <strong>FREE Delivery</strong>`;
+      ft.style.display = 'block';
+    }
+    updateUPIQR();
+  }
+
+  // ── Saved Addresses ──────────────────────────────────────────────
+  async function loadSavedAddresses() {
+    try {
+      const data = await DashboardAPI.getAddresses();
+      if (!data.success || !data.addresses || !data.addresses.length) return;
+      document.getElementById('saved-addr-card').style.display = 'block';
+      const addrs = data.addresses;
+      const def   = addrs.find(a => a.is_default) || addrs[0];
+      // Pre-fill form with default address
+      if (def) {
+        document.getElementById('cust-name').value    = def.full_name || document.getElementById('cust-name').value;
+        document.getElementById('cust-phone').value   = def.mobile    || document.getElementById('cust-phone').value;
+        document.getElementById('cust-address').value =
+          `${def.address_line}${def.landmark ? ', ' + def.landmark : ''}, ${def.city}, ${def.state} – ${def.pincode}`;
+      }
+      window._allAddresses = addrs;
+      document.getElementById('addr-container').innerHTML = addrs.map(a => `
+        <div class="addr-card ${a.id === def.id ? 'sel' : ''}" id="ac-${a.id}" onclick="pickSavedAddr(${a.id})">
+          <input type="radio" name="addr" ${a.id === def.id ? 'checked' : ''}>
+          <span class="addr-lbl">${a.label || 'Home'}${a.is_default ? ' ⭐' : ''}</span>
+          <div class="addr-name">${a.full_name} <span style="font-weight:400;font-size:.75rem;color:#9ca3af">${a.mobile}</span></div>
+          <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} – ${a.pincode}</div>
+        </div>`).join('') +
+        `<div class="add-addr" onclick="window.location.href='dashboard/addresses.html?back=checkout'">
+          <i class="fas fa-plus-circle"></i> Add a new delivery address
+        </div>`;
+    } catch(e) { /* silent */ }
+  }
+
+  function pickSavedAddr(id) {
+    document.querySelectorAll('.addr-card').forEach(el => el.classList.remove('sel'));
+    document.getElementById('ac-' + id)?.classList.add('sel');
+    const addr = (window._allAddresses || []).find(a => a.id === id);
+    if (addr) {
+      document.getElementById('cust-name').value    = addr.full_name;
+      document.getElementById('cust-phone').value   = addr.mobile;
+      document.getElementById('cust-address').value =
+        `${addr.address_line}${addr.landmark ? ', ' + addr.landmark : ''}, ${addr.city}, ${addr.state} – ${addr.pincode}`;
+    }
+  }
+
+  // ── Payment ──────────────────────────────────────────────────────
+  function selectPayment(method) {
+    selectedPayment = method;
+    document.querySelectorAll('.pay-opt').forEach(el => el.classList.remove('sel'));
+    document.getElementById('opt-' + method)?.classList.add('sel');
+    document.querySelectorAll('input[name=pay]').forEach(r => r.checked = r.value === method);
+    const isUPI = method === 'upi';
+    document.getElementById('upi-box').classList.toggle('show', isUPI);
+    document.getElementById('ss-upload-area').classList.toggle('show', isUPI);
+    const utrArea = document.getElementById('utr-input-area');
+    if (utrArea) utrArea.style.display = isUPI ? 'block' : 'none';
+  }
+
+  // ── UPI QR ───────────────────────────────────────────────────────
+  function setupUPIQR() {
+    document.getElementById('upi-id-txt').textContent = STORE_UPI_ID;
+    updateUPIQR();
+  }
+  function updateUPIQR() {
+    const amtStr = '₹' + totalAmount.toLocaleString('en-IN');
+    const ad = document.getElementById('upi-amount-display');
+    const as = document.getElementById('upi-steps-amt');
+    if (ad) ad.textContent = amtStr;
+    if (as) as.textContent = amtStr;
+  }
+  function copyUPIId() {
+    navigator.clipboard?.writeText(STORE_UPI_ID).then(() => {
+      const el = document.getElementById('upi-id-txt');
+      el.innerHTML = '<span>✅ Copied!</span>';
+      setTimeout(() => el.innerHTML = `<span>${STORE_UPI_ID}</span><i class="far fa-copy" style="font-size: .9rem;"></i>`, 2000);
+    });
+  }
+
+  // ── Screenshot ───────────────────────────────────────────────────
+  function handleScreenshot(input) {
+    const file = input.files[0];
+    if (!file) return;
+    screenshotFile = file;
+    const area    = document.getElementById('ss-upload-area');
+    const preview = document.getElementById('ss-preview');
+    const label   = document.getElementById('ss-label');
+    const icon    = document.getElementById('ss-icon');
+    const reader  = new FileReader();
+    reader.onload = e => {
+      preview.src   = e.target.result;
+      preview.style.display = 'block';
+      area.classList.add('has-file');
+      label.innerHTML = `<strong>✅ Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
+      icon.className = 'fas fa-check-circle';
+      icon.style.color = '#16a34a';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function uploadScreenshot() {
+    if (!screenshotFile) return null;
+    const formData = new FormData();
+    formData.append('screenshot', screenshotFile);
+    const status = document.getElementById('ss-status');
+    status.style.display = 'block';
+    status.style.color   = '#6b7280';
+    status.textContent   = '⏳ Uploading screenshot...';
+    try {
+      const res  = await fetch(API_BASE + '/payments/upload-screenshot.php', {
+        method:  'POST',
+        headers: { 'Authorization': 'Bearer ' + AuthManager.getToken() },
+        body:    formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        status.textContent = '✅ Screenshot uploaded!';
+        status.style.color = '#16a34a';
+        return data.path;
+      } else {
+        status.textContent = '❌ Upload failed: ' + (data.message || 'Try again');
+        status.style.color = '#b91c1c';
+        return null;
+      }
+    } catch (e) {
+      status.textContent = '❌ Network error during upload.';
+      status.style.color = '#b91c1c';
+      return null;
+    }
+  }
+
+  // ── Place Order ──────────────────────────────────────────────────
+  async function placeOrder() {
+    document.getElementById('order-error').style.display = 'none';
+
+    if (!AuthManager.isLoggedIn()) {
+      showError('You must be logged in to place an order.');
+      setTimeout(() => window.location.href = 'login.html?redirect=checkout.html', 1200);
+      return;
+    }
+    if (!cartItems.length) { window.location.href = 'cart.html'; return; }
+
+    const name    = document.getElementById('cust-name').value.trim();
+    const phone   = document.getElementById('cust-phone').value.trim();
+    const address = document.getElementById('cust-address').value.trim();
+    const notes   = document.getElementById('order-notes').value.trim();
+    const utrVal  = document.getElementById('upi-utr')?.value.trim() || '';
+
+    if (!name || !phone || !address) { showError('Delivery details are incomplete. Please go back.'); return; }
+    if (selectedPayment === 'upi' && !screenshotFile && !utrVal) {
+      showError('Please upload your UPI payment screenshot OR enter your UTR number.');
+      return;
+    }
+
+    const btn = document.getElementById('place-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Placing Order...';
+
+    let ssPath = '';
+    if (selectedPayment === 'upi') {
+      ssPath = await uploadScreenshot();
+      if (!ssPath && screenshotFile) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-lock"></i> <span id="btn-txt">Place UPI Order</span>';
+        return;
+      }
+    }
+
+    let finalNotes = notes;
+    if (selectedPayment === 'upi' && utrVal) {
+      finalNotes = 'UTR Number: ' + utrVal + (notes ? '\n\n' + notes : '');
+    }
+    // Append customer details to notes for backend
+    finalNotes = `Name: ${name} | Phone: ${phone} | Address: ${address}` + (finalNotes ? '\n' + finalNotes : '');
+
+    const items = cartItems.map(item => ({
+      product_id: item.id,
+      qty:        item.qty || 1,
+      variant:    item.variant || item.selectedSize || '',
+    }));
+
+    const payload = {
+      items,
+      payment_method:  selectedPayment,
+      notes:           finalNotes,
+      screenshot_path: ssPath,
+      amount:          totalAmount,
+      // Address fields
+      full_name:       name,
+      mobile:          phone,
+      address_line:    address,
+      delivery_charge: deliveryCharge
+    };
+
+    const result = await CheckoutAPI.createOrder(payload);
+
+    if (!result.success) {
+      showError(result.message || 'Failed to place order. Please try again.');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-lock"></i> <span id="btn-txt">Place Order</span>';
+      return;
+    }
+
+    // Clear cart
+    if (window.Cart) Cart.clear();
+
+    // Save to session for success page
+    const orderData = {
+      order_number:    result.order_number || result.data?.order_number || 'SMPS-XXXX',
+      payment_method:  selectedPayment,
+      total:           totalAmount,
+      subtotal:        subtotal,
+      delivery_charge: deliveryCharge,
+      screenshot_path: ssPath ? (API_BASE.replace('/api', '') + '/' + ssPath) : '',
+      items: cartItems.map(item => ({
+        name:    item.name,
+        price:   item.price,
+        qty:     item.qty || 1,
+        variant: item.variant || item.selectedSize || '',
+        image:   item.image || (item.images && item.images[0]) || '',
+      })),
+      address: { full_name: name, mobile: phone, address_line: address },
+    };
+    sessionStorage.setItem('smps_last_order', JSON.stringify(orderData));
+    window.location.href = 'order-success.html';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('order-error');
+    el.textContent = '⚠️ ' + msg;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  </script>
+</body>
+</html>

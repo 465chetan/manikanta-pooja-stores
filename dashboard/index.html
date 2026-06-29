@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard | Sri Manikanta Pooja Stores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root { --sidebar-w: 240px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: var(--font-body); background: #f8f4f0; }
+    .dash-layout { display: flex; min-height: 100vh; }
+    /* Sidebar */
+    .dash-sidebar { width: var(--sidebar-w); background: linear-gradient(180deg, var(--maroon) 0%, #3a0a0a 100%); color: white; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; overflow-y: auto; transition: transform 0.3s; }
+    .dash-sidebar-logo { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .dash-sidebar-logo .emoji { font-size: 32px; }
+    .dash-sidebar-logo h2 { color: var(--gold); font-size: 0.85rem; margin: 6px 0 2px; font-family: var(--font-heading); }
+    .dash-sidebar-logo p { color: rgba(255,255,255,0.5); font-size: 0.7rem; margin: 0; }
+    .dash-nav { padding: 16px 0; }
+    .dash-nav-section { padding: 8px 20px 4px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); }
+    .dash-nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.875rem; transition: all 0.2s; border-left: 3px solid transparent; }
+    .dash-nav-item:hover, .dash-nav-item.active { background: rgba(255,255,255,0.1); color: white; border-left-color: var(--saffron); }
+    .dash-nav-item .icon { width: 18px; text-align: center; }
+    .dash-nav-item.logout { color: rgba(255,100,100,0.8); margin-top: auto; cursor: pointer; }
+    .dash-nav-item.logout:hover { color: #ff6b6b; background: rgba(255,0,0,0.1); }
+    /* Main */
+    .dash-main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+    .dash-topbar { background: white; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 50; }
+    .dash-topbar-title { font-size: 1.25rem; font-weight: 700; color: var(--maroon); font-family: var(--font-heading); }
+    .dash-topbar-user { display: flex; align-items: center; gap: 10px; }
+    .user-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron), var(--maroon)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.875rem; }
+    .dash-content { padding: 28px; flex: 1; }
+    /* Stats cards */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 4px solid var(--saffron); transition: transform 0.2s; }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-card .icon { font-size: 28px; margin-bottom: 8px; }
+    .stat-card .value { font-size: 1.8rem; font-weight: 800; color: var(--maroon); line-height: 1; }
+    .stat-card .label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+    /* Orders table */
+    .dash-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .dash-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .dash-card-title { font-weight: 700; font-size: 1rem; color: var(--maroon); }
+    .orders-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .orders-table th { background: #faf7f4; padding: 10px 12px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+    .orders-table td { padding: 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+    .orders-table tr:last-child td { border-bottom: none; }
+    .order-status { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status-pending    { background: #fef3c7; color: #92400e; }
+    .status-confirmed  { background: #dbeafe; color: #1e40af; }
+    .status-processing { background: #e0e7ff; color: #3730a3; }
+    .status-shipped    { background: #d1fae5; color: #065f46; }
+    .status-delivered  { background: #d1fae5; color: #065f46; }
+    .status-cancelled  { background: #fee2e2; color: #991b1b; }
+    .btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; }
+    .btn-outline-sm { background: transparent; border: 1.5px solid var(--maroon); color: var(--maroon); }
+    .btn-outline-sm:hover { background: var(--maroon); color: white; }
+    .notif-list { list-style: none; padding: 0; margin: 0; }
+    .notif-item { padding: 12px; border-radius: 10px; margin-bottom: 8px; font-size: 0.85rem; }
+    .notif-item.unread { background: #fef7ef; border-left: 3px solid var(--saffron); }
+    .notif-item.read { background: #f9f9f9; }
+    .notif-title { font-weight: 700; color: var(--maroon); margin-bottom: 2px; }
+    .notif-msg { color: var(--text-muted); }
+    .empty-state { text-align: center; padding: 40px; color: var(--text-muted); }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .mobile-menu-btn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--maroon); }
+    @media (max-width: 768px) {
+      .dash-sidebar { transform: translateX(-100%); }
+      .dash-sidebar.open { transform: translateX(0); }
+      .dash-main { margin-left: 0; }
+      .mobile-menu-btn { display: block; }
+      .dash-content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="dash-layout">
+  <!-- Sidebar -->
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="dash-sidebar-logo">
+      <div class="emoji">🕉️</div>
+      <h2>Sri Manikanta</h2>
+      <p>My Account</p>
+    </div>
+    <nav class="dash-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="index.html" class="dash-nav-item active"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+      <a href="orders.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-bag"></i></span> My Orders</a>
+      <div class="dash-nav-section">Account</div>
+      <a href="profile.html" class="dash-nav-item"><span class="icon"><i class="fas fa-user"></i></span> My Profile</a>
+      <a href="addresses.html" class="dash-nav-item"><span class="icon"><i class="fas fa-map-marker-alt"></i></span> Saved Addresses</a>
+      <div class="dash-nav-section">Store</div>
+      <a href="../shop.html" class="dash-nav-item"><span class="icon"><i class="fas fa-store"></i></span> Browse Products</a>
+      <a href="../cart.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-cart"></i></span> My Cart</a>
+      <div style="margin-top:auto;padding-top:20px">
+        <div class="dash-nav-item logout" onclick="AuthManager.logout()">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span> Logout
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="dash-main">
+    <div class="dash-topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="document.getElementById('dash-sidebar').classList.toggle('open')">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dash-topbar-title" id="page-title">Dashboard</div>
+      </div>
+      <div class="dash-topbar-user">
+        <div class="user-avatar" id="user-initial">U</div>
+        <span id="user-name" style="font-weight:600;font-size:0.875rem;color:var(--maroon)"></span>
+      </div>
+    </div>
+
+    <div class="dash-content">
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><div class="icon">📦</div><div class="value" id="stat-total">-</div><div class="label">Total Orders</div></div>
+        <div class="stat-card" style="border-left-color:#22c55e"><div class="icon">✅</div><div class="value" id="stat-delivered">-</div><div class="label">Delivered</div></div>
+        <div class="stat-card" style="border-left-color:#3b82f6"><div class="icon">🚚</div><div class="value" id="stat-active">-</div><div class="label">Active Orders</div></div>
+        <div class="stat-card" style="border-left-color:#7b1a1a"><div class="icon">💰</div><div class="value" id="stat-spent">-</div><div class="label">Total Spent</div></div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Recent Orders</div>
+          <a href="orders.html" style="color:var(--saffron);font-size:0.875rem;font-weight:600">View All →</a>
+        </div>
+        <div id="recent-orders-container">
+          <div class="empty-state"><div class="icon">⏳</div><p>Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Notifications</div>
+        </div>
+        <ul class="notif-list" id="notif-list">
+          <li class="empty-state"><div class="icon">🔔</div><p>No notifications yet.</p></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>document.write('<script src="../js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="../js/main.js?v=2"></script>
+<script src="../js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!AuthManager.requireLogin()) return;
+
+  const user = AuthManager.getUser();
+  document.getElementById('user-name').textContent    = user.full_name.split(' ')[0];
+  document.getElementById('user-initial').textContent = user.full_name.charAt(0).toUpperCase();
+
+  // Load dashboard data
+  const data = await DashboardAPI.getSummary();
+  if (!data.success) { console.error(data.message); return; }
+
+  const { stats, recent_orders, notifications } = data;
+
+  // Stats
+  document.getElementById('stat-total').textContent     = stats.total_orders || 0;
+  document.getElementById('stat-delivered').textContent = stats.delivered || 0;
+  document.getElementById('stat-active').textContent    = stats.active || 0;
+  document.getElementById('stat-spent').textContent     = '₹' + Number(stats.total_spent || 0).toLocaleString('en-IN');
+
+  // Recent orders
+  const ordersContainer = document.getElementById('recent-orders-container');
+  if (!recent_orders.length) {
+    ordersContainer.innerHTML = `<div class="empty-state"><div class="icon">🛒</div><p>No orders yet. <a href="../shop.html" style="color:var(--saffron)">Start shopping!</a></p></div>`;
+  } else {
+    ordersContainer.innerHTML = `
+      <table class="orders-table">
+        <thead><tr>
+          <th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th>
+        </tr></thead>
+        <tbody>
+          ${recent_orders.map(o => `
+            <tr>
+              <td><strong>${o.order_number}</strong></td>
+              <td style="color:var(--text-muted)">${new Date(o.created_at).toLocaleDateString('en-IN')}</td>
+              <td>${o.item_count} item${o.item_count > 1 ? 's' : ''}</td>
+              <td><strong>₹${Number(o.total).toLocaleString('en-IN')}</strong></td>
+              <td><span class="order-status status-${o.order_status}">${o.order_status}</span></td>
+              <td><a href="order-detail.html?id=${o.id}" class="btn-sm btn-outline-sm">View</a></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  // Notifications
+  const notifList = document.getElementById('notif-list');
+  if (notifications.length) {
+    notifList.innerHTML = notifications.map(n => `
+      <li class="notif-item ${n.is_read ? 'read' : 'unread'}">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-msg">${n.message}</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">${new Date(n.created_at).toLocaleString('en-IN')}</div>
+      </li>
+    `).join('');
+  }
+});
+</script>
+</body>
+</html>

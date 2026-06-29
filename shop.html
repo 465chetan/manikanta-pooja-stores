@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Pooja Items | Sri Manikanta Pooja Stores – Hyderabad</title>
+  <meta name="description" content="Browse 500+ pooja products — agarbatti, camphor, kumkum, haldi, diyas, idols, thali sets, malas, festival kits and wedding samagri at Sri Manikanta Pooja Stores.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/shop.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <header id="site-header"></header>
+
+  <!-- Page Banner -->
+  <div class="page-banner">
+    <div class="container">
+      <h1>Our Product Collection</h1>
+      <p>Pure • Authentic • Sacred</p>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Shop</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shop Content -->
+  <main style="padding-bottom:var(--sp-16)">
+    <div class="container">
+      <div class="shop-layout">
+
+        <!-- Sidebar -->
+        <aside class="shop-sidebar">
+          <div class="sidebar-card">
+            <div class="sidebar-title"><i class="fas fa-filter"></i> Categories</div>
+            <div class="filter-list" id="category-filter-list">
+              <!-- Injected by shop.js -->
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title"><i class="fas fa-rupee-sign"></i> Price Range</div>
+            <input type="range" id="price-slider" min="0" max="2000" value="2000" step="50"
+              oninput="maxPrice=+this.value;document.getElementById('price-max').value=maxPrice;applyFilters()">
+            <div class="price-range-inputs">
+              <input type="number" class="price-input" id="price-min" placeholder="Min ₹" value="0" min="0"
+                onchange="minPrice=+this.value;applyFilters()">
+              <input type="number" class="price-input" id="price-max" placeholder="Max ₹" value="2000" max="5000"
+                onchange="maxPrice=+this.value;applyFilters()">
+            </div>
+          </div>
+          <div class="sidebar-card">
+            <div class="sidebar-title"><i class="fas fa-tag"></i> Badges</div>
+            <div class="filter-list">
+              <div class="filter-item badge-filter-item active" data-badge="" onclick="filterByBadge(null)"><div class="filter-item-left">🕉️ All Items</div></div>
+              <div class="filter-item badge-filter-item" data-badge="popular" onclick="filterByBadge('popular')"><div class="filter-item-left">⭐ Popular</div></div>
+              <div class="filter-item badge-filter-item" data-badge="new" onclick="filterByBadge('new')"><div class="filter-item-left">🆕 New Arrivals</div></div>
+              <div class="filter-item badge-filter-item" data-badge="sale" onclick="filterByBadge('sale')"><div class="filter-item-left">🏷️ On Sale</div></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="shop-content">
+          <!-- Search bar -->
+          <div class="shop-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="shop-search-input" placeholder="Search agarbatti, diyas, kumkum…" aria-label="Search products">
+          </div>
+
+          <!-- Toolbar -->
+          <div class="shop-toolbar">
+            <div id="result-count" class="shop-result-count">Loading products…</div>
+            <div class="shop-toolbar-right">
+              <button class="btn btn-outline btn-sm" id="filter-toggle" style="display:none">
+                <i class="fas fa-filter"></i> Filter
+              </button>
+              <select id="sort-select" class="sort-select" aria-label="Sort products">
+                <option value="popular">Most Popular</option>
+                <option value="rating">Highest Rated</option>
+                <option value="new">New Arrivals</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+              <div class="view-toggle">
+                <button class="view-btn active" id="view-grid" title="Grid view"><i class="fas fa-th"></i></button>
+                <button class="view-btn" id="view-list" title="List view"><i class="fas fa-list"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="shop-grid" id="shop-grid">
+            <!-- Injected by shop.js -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <div id="floating-actions"></div>
+
+  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+  <script src="js/main.js?v=2"></script>
+  <script src="js/shop.js"></script>
+  <script>
+    let badgeFilter = null;
+    function filterByBadge(badge) {
+      badgeFilter = badge;
+      currentPage = 1;
+      // Update active state on badge filter items
+      document.querySelectorAll('.badge-filter-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.badge === (badge || ''));
+      });
+      applyFilters();
+    }
+    // Show filter toggle on mobile
+    if (window.innerWidth < 768) {
+      document.getElementById('filter-toggle').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

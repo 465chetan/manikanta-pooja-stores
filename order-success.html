@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed | Sri Manikanta Pooja Stores</title>
+  <meta name="description" content="Your order has been placed successfully at Sri Manikanta Pooja Stores.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background: linear-gradient(135deg, #fdf6ec 0%, #fff8f0 100%); min-height: 100vh; display: flex; flex-direction: column; }
+    .success-page { max-width: 680px; margin: 0 auto; padding: 24px 16px 120px; flex: 1; }
+    /* Hero */
+    .success-hero {
+      background: linear-gradient(135deg, #7b1a1a, #5a1010);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-hero::before {
+      content: 'ॐ';
+      position: absolute;
+      font-size: 160px;
+      color: rgba(255,255,255,.04);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      font-family: serif;
+      pointer-events: none;
+    }
+    .success-ico { font-size: 64px; margin-bottom: 10px; animation: bob 1.4s ease-in-out infinite alternate; display: block; }
+    @keyframes bob { to { transform: translateY(-12px); } }
+    .success-hero h1 { font-family: 'Cinzel', Georgia, serif; font-size: 1.7rem; margin: 0 0 6px; color: #ffd166; }
+    .success-hero p  { color: rgba(255,255,255,.75); font-size: .9rem; margin: 0 0 18px; }
+    .order-id-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 1.5px solid rgba(255,255,255,.3);
+      border-radius: 12px;
+      padding: 10px 24px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffd166;
+    }
+    /* Cards */
+    .s-card { background: white; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,.07); margin-bottom: 16px; overflow: hidden; }
+    .s-card-head { background: #fdf6ec; padding: 14px 20px; border-bottom: 1px solid #f5e6cc; font-weight: 700; font-size: .88rem; color: #7b1a1a; display: flex; align-items: center; gap: 8px; }
+    .s-card-head i { color: #f97316; }
+    .s-card-body { padding: 16px 20px; }
+    /* UPI verification notice */
+    .upi-notice {
+      background: linear-gradient(135deg, #1e40af, #1d4ed8);
+      border-radius: 14px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .upi-notice .n-ico { font-size: 36px; margin-bottom: 8px; display: block; }
+    .upi-notice h3 { font-size: 1rem; color: #93c5fd; margin: 0 0 8px; }
+    .upi-notice p  { font-size: .8rem; color: rgba(255,255,255,.8); margin: 0; line-height: 1.7; }
+    /* COD notice */
+    .cod-notice {
+      background: linear-gradient(135deg, #166534, #15803d);
+      border-radius: 14px;
+      padding: 20px;
+      color: white;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .cod-notice .n-ico { font-size: 36px; margin-bottom: 8px; display: block; }
+    .cod-notice h3 { font-size: 1rem; color: #86efac; margin: 0 0 8px; }
+    .cod-notice p  { font-size: .8rem; color: rgba(255,255,255,.8); margin: 0; line-height: 1.7; }
+    /* Order items */
+    .o-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+    .o-item:last-child { border-bottom: none; }
+    .o-img  { width: 52px; height: 52px; object-fit: contain; border-radius: 8px; border: 1px solid #e5e7eb; background: #fafafa; padding: 4px; flex-shrink: 0; }
+    .o-info { flex: 1; }
+    .o-info .n { font-weight: 700; font-size: .84rem; color: #1f2937; }
+    .o-info .q { font-size: .75rem; color: #9ca3af; margin-top: 2px; }
+    .o-price   { font-weight: 800; font-size: .88rem; color: #7b1a1a; white-space: nowrap; }
+    /* Totals */
+    .t-row { display: flex; justify-content: space-between; font-size: .85rem; padding: 5px 0; }
+    .t-row .l { color: #6b7280; }
+    .t-row .v { font-weight: 600; color: #374151; }
+    .t-row.total { border-top: 2px solid #f5e6cc; margin-top: 8px; padding-top: 10px; font-size: 1rem; font-weight: 800; }
+    .t-row.total .l, .t-row.total .v { color: #7b1a1a; }
+    /* Address */
+    .addr-box { background: #f9fafb; border-radius: 10px; padding: 12px 16px; font-size: .82rem; line-height: 1.8; color: #374151; }
+    /* Screenshot preview */
+    .ss-preview-box { text-align: center; }
+    .ss-preview-box img { max-width: 100%; max-height: 300px; border-radius: 10px; border: 2px solid #e5e7eb; margin-top: 8px; }
+    /* Actions */
+    .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .action-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px; font-weight: 700; font-size: .875rem; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all .2s; }
+    .action-btn.primary { background: linear-gradient(135deg,#f97316,#ea580c); color: white; }
+    .action-btn.primary:hover { box-shadow: 0 6px 20px rgba(249,115,22,.4); transform: translateY(-2px); }
+    .action-btn.secondary { background: linear-gradient(135deg,#7b1a1a,#5a1010); color: white; }
+    .action-btn.secondary:hover { box-shadow: 0 6px 20px rgba(123,26,26,.3); transform: translateY(-2px); }
+    .action-btn.outline { background: white; border: 2px solid #e5e7eb; color: #374151; }
+    .action-btn.outline:hover { border-color: #f97316; color: #f97316; }
+    @media(max-width:480px) { .action-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <div class="success-page" id="success-page" style="margin-top:80px">
+    <!-- Loading state -->
+    <div id="loading-state" style="text-align:center;padding:60px">
+      <i class="fas fa-spinner fa-spin fa-2x" style="color:#f97316"></i>
+      <p style="color:#9ca3af;margin-top:12px">Loading your order details...</p>
+    </div>
+  </div>
+
+  <footer id="site-footer"></footer>
+  <div id="floating-actions"></div>
+
+  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+  <script src="js/main.js?v=2"></script>
+  <script src="js/auth.js?v=6"></script>
+  <script src="js/cart.js?v=6"></script>
+  <script>
+  // ── Load order from sessionStorage ─────────────────────────
+  document.addEventListener('DOMContentLoaded', async () => {
+    initSite('');
+
+    // Read order data stored by checkout.html after success
+    const raw = sessionStorage.getItem('smps_last_order');
+    if (!raw) {
+      document.getElementById('success-page').innerHTML = `
+        <div style="text-align:center;padding:60px">
+          <div style="font-size:48px;margin-bottom:12px">❓</div>
+          <h2 style="color:#7b1a1a">No Order Found</h2>
+          <p style="color:#6b7280">Your session may have expired or you arrived here directly.</p>
+          <a href="shop.html" class="btn btn-primary" style="margin-top:16px;display:inline-flex"><i class="fas fa-store"></i> Continue Shopping</a>
+        </div>`;
+      return;
+    }
+
+    const order = JSON.parse(raw);
+    renderSuccessPage(order);
+  });
+
+  function renderSuccessPage(order) {
+    const isUPI = order.payment_method === 'upi';
+    const total = Number(order.total || 0);
+    const delivery = Number(order.delivery_charge || 0);
+    const subtotal = Number(order.subtotal || total - delivery);
+
+    const page = document.getElementById('success-page');
+    page.innerHTML = `
+      <!-- Hero -->
+      <div class="success-hero">
+        <span class="success-ico">🙏</span>
+        <h1>Order Placed!</h1>
+        <p>Thank you for shopping with Sri Manikanta Pooja Stores</p>
+        <div class="order-id-badge">${order.order_number || 'SMPS-XXXX'}</div>
+      </div>
+
+      <!-- Payment Notice -->
+      ${isUPI ? `
+      <div class="upi-notice">
+        <span class="n-ico">⚡</span>
+        <h3>UPI Payment Under Verification</h3>
+        <p>
+          We have received your payment screenshot and will verify it within <strong>15–30 minutes</strong>.<br>
+          <strong>The store will contact you within 10 minutes for further updates.</strong><br><br>
+          Please keep your UPI app open for reference if needed.
+        </p>
+      </div>` : `
+      <div class="cod-notice">
+        <span class="n-ico">💵</span>
+        <h3>Cash on Delivery Confirmed!</h3>
+        <p>
+          Your order is confirmed! Pay <strong>₹${total.toLocaleString('en-IN')}</strong> in cash when our delivery partner arrives.<br>
+          <strong>The store will contact you within 10 minutes for further updates.</strong> Keep your phone reachable!
+        </p>
+      </div>`}
+
+      <!-- Order Items -->
+      ${order.items && order.items.length ? `
+      <div class="s-card">
+        <div class="s-card-head"><i class="fas fa-box"></i> Items in Your Order</div>
+        <div class="s-card-body">
+          ${order.items.map(item => `
+            <div class="o-item">
+              <img class="o-img" src="${item.image || 'images/1000090824.jpg'}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
+              <div class="o-info">
+                <div class="n">${item.name}</div>
+                <div class="q">${item.variant ? item.variant + ' · ' : ''}Qty × ${item.qty}</div>
+              </div>
+              <div class="o-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+            </div>`).join('')}
+          <div class="t-row" style="margin-top:12px"><span class="l">Subtotal</span><span class="v">₹${subtotal.toLocaleString('en-IN')}</span></div>
+          <div class="t-row"><span class="l">Delivery</span><span class="v">${delivery === 0 ? '🎉 FREE' : '₹' + delivery.toLocaleString('en-IN')}</span></div>
+          <div class="t-row total"><span class="l">Total</span><span class="v">₹${total.toLocaleString('en-IN')}</span></div>
+        </div>
+      </div>` : ''}
+
+      <!-- Delivery Address -->
+      ${order.address ? `
+      <div class="s-card">
+        <div class="s-card-head"><i class="fas fa-map-marker-alt"></i> Delivery Address</div>
+        <div class="s-card-body">
+          <div class="addr-box">
+            <strong>${order.address.full_name || ''}</strong>
+            ${order.address.mobile ? ` · ${order.address.mobile}` : ''}<br>
+            ${order.address.address_line || ''}${order.address.landmark ? ', ' + order.address.landmark : ''}<br>
+            ${order.address.city}, ${order.address.state} – ${order.address.pincode}
+          </div>
+        </div>
+      </div>` : ''}
+
+      <!-- Screenshot (if UPI) -->
+      ${isUPI && order.screenshot_path ? `
+      <div class="s-card">
+        <div class="s-card-head"><i class="fas fa-image"></i> Your Payment Screenshot (Uploaded)</div>
+        <div class="s-card-body ss-preview-box">
+          <p style="font-size:.8rem;color:#6b7280;margin:0 0 8px">Screenshot submitted successfully ✅</p>
+          <img src="${order.screenshot_path}" onerror="this.style.display='none'" alt="Payment Screenshot">
+        </div>
+      </div>` : ''}
+
+      <!-- Order Info -->
+      <div class="s-card">
+        <div class="s-card-head"><i class="fas fa-info-circle"></i> Order Information</div>
+        <div class="s-card-body">
+          <div class="t-row"><span class="l">Order ID</span><span class="v" style="font-family:monospace">${order.order_number}</span></div>
+          <div class="t-row"><span class="l">Payment</span><span class="v">${isUPI ? '📱 UPI (Under Verification)' : '💵 Cash on Delivery'}</span></div>
+          <div class="t-row"><span class="l">Estimated Delivery</span><span class="v">Under 24 hrs</span></div>
+          <div class="t-row"><span class="l">Store Contact</span><span class="v"><a href="tel:+919110582086" style="color:#f97316">+91 91105 82086</a></span></div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-grid">
+        <a href="dashboard/orders.html" class="action-btn secondary">
+          <i class="fas fa-box"></i> Track Orders
+        </a>
+        <a href="shop.html" class="action-btn primary">
+          <i class="fas fa-store"></i> Shop More
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <a href="https://wa.me/919110582086"
+           target="_blank" class="action-btn outline" style="display:inline-flex;width:auto;padding:12px 24px">
+          <i class="fab fa-whatsapp" style="color:#25d366"></i> Need Help? WhatsApp Us
+        </a>
+      </div>`;
+  }
+  </script>
+</body>
+</html>

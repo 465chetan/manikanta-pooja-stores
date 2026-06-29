@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Addresses | Sri Manikanta Pooja Stores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--sidebar-w:240px}*{box-sizing:border-box}
+    body{margin:0;font-family:var(--font-body);background:#f8f4f0}
+    .dash-layout{display:flex;min-height:100vh}
+    .dash-sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,var(--maroon) 0%,#3a0a0a 100%);color:white;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto}
+    .dash-sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);text-align:center}
+    .dash-sidebar-logo .emoji{font-size:32px}
+    .dash-sidebar-logo h2{color:var(--gold);font-size:.85rem;margin:6px 0 2px;font-family:var(--font-heading)}
+    .dash-sidebar-logo p{color:rgba(255,255,255,.5);font-size:.7rem;margin:0}
+    .dash-nav{padding:16px 0}
+    .dash-nav-section{padding:8px 20px 4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35)}
+    .dash-nav-item{display:flex;align-items:center;gap:12px;padding:12px 20px;color:rgba(255,255,255,.75);text-decoration:none;font-size:.875rem;transition:all .2s;border-left:3px solid transparent}
+    .dash-nav-item:hover,.dash-nav-item.active{background:rgba(255,255,255,.1);color:white;border-left-color:var(--saffron)}
+    .dash-nav-item .icon{width:18px;text-align:center}
+    .dash-main{margin-left:var(--sidebar-w);flex:1}
+    .dash-topbar{background:white;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+    .dash-topbar-title{font-size:1.2rem;font-weight:700;color:var(--maroon);font-family:var(--font-heading)}
+    .user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--maroon));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.875rem}
+    .dash-content{padding:28px;max-width:800px}
+    /* Address grid */
+    .addr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:24px}
+    .addr-card{background:white;border-radius:14px;border:2px solid var(--border);padding:20px;position:relative;transition:all .2s}
+    .addr-card.default{border-color:var(--saffron);background:#fffaf4}
+    .addr-card:hover{border-color:var(--saffron)}
+    .addr-label{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.7rem;font-weight:700;background:var(--border-light);color:var(--text-muted);margin-bottom:10px}
+    .addr-card.default .addr-label{background:#FFF3DC;color:var(--saffron)}
+    .default-badge{position:absolute;top:16px;right:16px;background:var(--saffron);color:white;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px}
+    .addr-name{font-weight:700;font-size:.95rem;color:var(--text-dark)}
+    .addr-mobile{font-size:.8rem;color:var(--text-muted);margin:3px 0}
+    .addr-text{font-size:.82rem;color:var(--text-dark);line-height:1.6;margin:8px 0}
+    .addr-actions{display:flex;gap:8px;margin-top:12px}
+    .btn-addr{padding:6px 14px;border-radius:8px;font-size:.78rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+    .btn-edit{background:#f0f2ff;color:#3730a3}
+    .btn-edit:hover{background:#3730a3;color:white}
+    .btn-delete{background:#fef2f2;color:#991b1b}
+    .btn-delete:hover{background:#991b1b;color:white}
+    .btn-set-default{background:#fff8ec;color:var(--saffron)}
+    .btn-set-default:hover{background:var(--saffron);color:white}
+    /* Add new */
+    .add-addr-card{background:white;border-radius:14px;border:2px dashed var(--border);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;min-height:180px;text-align:center}
+    .add-addr-card:hover{border-color:var(--saffron);background:#fffaf4}
+    .add-addr-card .plus{font-size:32px;color:var(--saffron);margin-bottom:8px}
+    .add-addr-card p{color:var(--text-muted);font-size:.875rem;margin:0}
+    /* Modal */
+    .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal{background:white;border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+    .modal-header{padding:20px 24px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:1}
+    .modal-header h3{font-family:var(--font-heading);color:var(--maroon);margin:0;font-size:1.1rem}
+    .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);padding:4px 8px;border-radius:6px}
+    .modal-close:hover{background:var(--border-light)}
+    .modal-body{padding:24px}
+    .form-group{margin-bottom:16px}
+    .form-label{display:block;font-weight:600;font-size:.82rem;color:var(--maroon);margin-bottom:5px}
+    .form-control{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;transition:border-color .2s;box-sizing:border-box}
+    .form-control:focus{outline:none;border-color:var(--saffron);box-shadow:0 0 0 3px rgba(255,119,34,.15)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .btn-save{width:100%;padding:13px;background:linear-gradient(135deg,var(--saffron),#e86b00);color:white;border:none;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .3s;margin-top:8px}
+    .btn-save:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,119,34,.4)}
+    .btn-save:disabled{opacity:.7;transform:none;cursor:not-allowed}
+    .alert{padding:10px 14px;border-radius:8px;font-size:.875rem;margin-bottom:12px;display:none}
+    .alert-success{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+    .alert-error{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+    .mobile-menu-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--maroon)}
+    @media(max-width:768px){.dash-sidebar{transform:translateX(-100%)}.dash-sidebar.open{transform:translateX(0)}.dash-main{margin-left:0}.mobile-menu-btn{display:block}.dash-content{padding:16px}.form-row{grid-template-columns:1fr}.addr-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="dash-layout">
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="dash-sidebar-logo"><div class="emoji">🕉️</div><h2>Sri Manikanta</h2><p>My Account</p></div>
+    <nav class="dash-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="index.html" class="dash-nav-item"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+      <a href="orders.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-bag"></i></span> My Orders</a>
+      <div class="dash-nav-section">Account</div>
+      <a href="profile.html" class="dash-nav-item"><span class="icon"><i class="fas fa-user"></i></span> My Profile</a>
+      <a href="addresses.html" class="dash-nav-item active"><span class="icon"><i class="fas fa-map-marker-alt"></i></span> Saved Addresses</a>
+      <div class="dash-nav-section">Store</div>
+      <a href="../shop.html" class="dash-nav-item"><span class="icon"><i class="fas fa-store"></i></span> Browse Products</a>
+      <a href="../cart.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-cart"></i></span> My Cart</a>
+      <div style="padding-top:20px"><div class="dash-nav-item" style="cursor:pointer;color:rgba(255,100,100,.8)" onclick="AuthManager.logout()"><span class="icon"><i class="fas fa-sign-out-alt"></i></span> Logout</div></div>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="document.getElementById('dash-sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+        <div class="dash-topbar-title">Saved Addresses</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar" id="user-initial">U</div>
+        <span id="user-name" style="font-weight:600;font-size:.875rem;color:var(--maroon)"></span>
+      </div>
+    </div>
+
+    <div class="dash-content">
+      <div class="alert alert-success" id="addr-success"></div>
+      <div class="alert alert-error" id="addr-error"></div>
+      <div class="addr-grid" id="addr-grid">
+        <div style="text-align:center;padding:40px;color:var(--text-muted)"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+      </div>
+      <p style="color:var(--text-muted);font-size:.8rem"><i class="fas fa-info-circle"></i> You can save up to 5 delivery addresses.</p>
+    </div>
+  </main>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="addr-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Add New Address</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="modal-error"></div>
+      <form id="addr-form" novalidate>
+        <input type="hidden" id="addr-id">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Label</label>
+            <select id="addr-label" class="form-control">
+              <option>Home</option><option>Work</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Name *</label>
+            <input type="text" id="addr-full-name" class="form-control" placeholder="Full name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number *</label>
+          <input type="tel" id="addr-mobile" class="form-control" placeholder="10-digit mobile" maxlength="10" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Address Line *</label>
+          <textarea id="addr-line" class="form-control" rows="2" placeholder="Flat/House No., Street, Area" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Landmark (Optional)</label>
+          <input type="text" id="addr-landmark" class="form-control" placeholder="Near landmark">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            <input type="text" id="addr-city" class="form-control" placeholder="City" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <input type="text" id="addr-state" class="form-control" value="Telangana">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pincode *</label>
+          <input type="text" id="addr-pincode" class="form-control" placeholder="6-digit pincode" maxlength="6" required>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;cursor:pointer;font-size:.875rem">
+          <input type="checkbox" id="addr-default" style="accent-color:var(--saffron)">
+          Set as default delivery address
+        </label>
+        <button type="submit" class="btn-save" id="save-addr-btn">
+          <i class="fas fa-save"></i> Save Address
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>document.write('<script src="../js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="../js/main.js?v=2"></script>
+<script src="../js/auth.js"></script>
+<script>
+let addresses = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!AuthManager.requireLogin()) return;
+  const user = AuthManager.getUser();
+  document.getElementById('user-name').textContent    = user.full_name.split(' ')[0];
+  document.getElementById('user-initial').textContent = user.full_name.charAt(0).toUpperCase();
+  await loadAddresses();
+});
+
+async function loadAddresses() {
+  const data = await DashboardAPI.getAddresses();
+  if (!data.success) return;
+  addresses = data.addresses;
+  renderAddresses();
+}
+
+function renderAddresses() {
+  const grid = document.getElementById('addr-grid');
+  let html = addresses.map(a => `
+    <div class="addr-card ${a.is_default ? 'default' : ''}">
+      ${a.is_default ? '<span class="default-badge">⭐ Default</span>' : ''}
+      <span class="addr-label">${a.label}</span>
+      <div class="addr-name">${a.full_name}</div>
+      <div class="addr-mobile"><i class="fas fa-phone"></i> ${a.mobile}</div>
+      <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} - ${a.pincode}</div>
+      <div class="addr-actions">
+        <button class="btn-addr btn-edit" onclick="editAddress(${a.id})"><i class="fas fa-edit"></i> Edit</button>
+        ${!a.is_default ? `<button class="btn-addr btn-set-default" onclick="setDefault(${a.id})"><i class="fas fa-star"></i> Set Default</button>` : ''}
+        <button class="btn-addr btn-delete" onclick="deleteAddress(${a.id})"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+
+  if (addresses.length < 5) {
+    html += `<div class="add-addr-card" onclick="openModal()"><div class="plus">+</div><p>Add New Address</p></div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function openModal(id = null) {
+  document.getElementById('modal-error').style.display = 'none';
+  document.getElementById('addr-form').reset();
+  document.getElementById('addr-id').value = '';
+
+  if (id) {
+    const a = addresses.find(a => a.id == id);
+    if (!a) return;
+    document.getElementById('modal-title').textContent = 'Edit Address';
+    document.getElementById('addr-id').value       = a.id;
+    document.getElementById('addr-label').value    = a.label;
+    document.getElementById('addr-full-name').value = a.full_name;
+    document.getElementById('addr-mobile').value   = a.mobile;
+    document.getElementById('addr-line').value     = a.address_line;
+    document.getElementById('addr-landmark').value = a.landmark || '';
+    document.getElementById('addr-city').value     = a.city;
+    document.getElementById('addr-state').value    = a.state;
+    document.getElementById('addr-pincode').value  = a.pincode;
+    document.getElementById('addr-default').checked = !!a.is_default;
+  } else {
+    document.getElementById('modal-title').textContent = 'Add New Address';
+  }
+  document.getElementById('addr-modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('addr-modal').classList.remove('open'); }
+function editAddress(id) { openModal(id); }
+
+async function setDefault(id) {
+  const a = addresses.find(a => a.id == id);
+  if (!a) return;
+  const result = await DashboardAPI.updateAddress({ id, ...a, is_default: true });
+  if (result.success) { showAlert('addr-success', 'Default address updated! ✅'); await loadAddresses(); }
+}
+
+async function deleteAddress(id) {
+  if (!confirm('Delete this address?')) return;
+  const result = await DashboardAPI.deleteAddress(id);
+  if (result.success) { showAlert('addr-success', 'Address deleted.'); await loadAddresses(); }
+  else showAlert('addr-error', result.message);
+}
+
+document.getElementById('addr-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('save-addr-btn');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+  document.getElementById('modal-error').style.display = 'none';
+
+  const id = document.getElementById('addr-id').value;
+  const payload = {
+    label:        document.getElementById('addr-label').value,
+    full_name:    document.getElementById('addr-full-name').value.trim(),
+    mobile:       document.getElementById('addr-mobile').value.trim(),
+    address_line: document.getElementById('addr-line').value.trim(),
+    landmark:     document.getElementById('addr-landmark').value.trim(),
+    city:         document.getElementById('addr-city').value.trim(),
+    state:        document.getElementById('addr-state').value.trim(),
+    pincode:      document.getElementById('addr-pincode').value.trim(),
+    is_default:   document.getElementById('addr-default').checked,
+  };
+
+  if (id) payload.id = parseInt(id);
+
+  const result = id ? await DashboardAPI.updateAddress(payload) : await DashboardAPI.addAddress(payload);
+
+  if (result.success) {
+    closeModal();
+    showAlert('addr-success', id ? 'Address updated! ✅' : 'Address added! ✅');
+    await loadAddresses();
+  } else {
+    const errEl = document.getElementById('modal-error');
+    errEl.textContent = result.message;
+    errEl.style.display = 'block';
+  }
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Address';
+});
+
+function showAlert(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 4000); }
+// Close modal on overlay click
+document.getElementById('addr-modal').addEventListener('click', e => { if (e.target.id === 'addr-modal') closeModal(); });
+</script>
+</body>
+</html>

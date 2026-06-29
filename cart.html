@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart | Sri Manikanta Pooja Stores</title>
+  <meta name="description"
+    content="Review your cart and place your order for pooja items at Sri Manikanta Pooja Stores, Hyderabad.">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/shop.css">
+  <link rel="stylesheet" href="css/cart-new.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Leaflet & LocationIQ -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    body {
+      background: #fdf3e7;
+    }
+
+    /* ── Progress Steps ── */
+    .cart-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0 28px;
+      gap: 0;
+    }
+
+    .cart-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .step-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+      font-weight: 800;
+      color: #9ca3af;
+      background: white;
+      transition: all .35s;
+    }
+
+    .cart-step span {
+      font-size: .75rem;
+      font-weight: 600;
+      color: #9ca3af;
+      white-space: nowrap;
+      transition: color .35s;
+    }
+
+    .cart-step.active .step-num {
+      border-color: #f97316;
+      background: #f97316;
+      color: white;
+    }
+
+    .cart-step.active span {
+      color: #f97316;
+    }
+
+    .cart-step.done .step-num {
+      border-color: #16a34a;
+      background: #16a34a;
+      color: white;
+    }
+
+    .cart-step.done span {
+      color: #16a34a;
+    }
+
+    .cart-step-line {
+      flex: 1;
+      height: 2px;
+      background: #e5e7eb;
+      width: 80px;
+      margin: 0 4px 22px;
+      transition: background .35s;
+    }
+
+    .cart-step-line.done {
+      background: #16a34a;
+    }
+
+    /* ── Step Panels ── */
+    .ck-panel {
+      display: none;
+    }
+
+    .ck-panel.active {
+      display: block;
+    }
+
+    /* ── 2-col layout for steps 2,3,4 ── */
+    .ck-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media(max-width:900px) {
+      .ck-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .ck-sidebar {
+        order: -1;
+        margin-bottom: 20px;
+      }
+
+      main {
+        padding-bottom: 40px !important;
+      }
+    }
+
+    /* ── Section card ── */
+    .sec-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, .07);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .sec-head {
+      padding: 11px 18px;
+      background: white;
+      border-bottom: 2px solid #f5e6cc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #f97316;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .78rem;
+      flex-shrink: 0;
+    }
+
+    .sec-head h3 {
+      margin: 0;
+      font-size: .88rem;
+      color: #7b1a1a;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .sec-body {
+      padding: 16px 18px;
+    }
+
+    /* ── Form ── */
+    .form-row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-row3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 120px;
+      gap: 12px;
+    }
+
+    @media(max-width:600px) {
+
+      .form-row2,
+      .form-row3 {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .sec-body {
+        padding: 14px 14px;
+      }
+
+      .sec-head {
+        padding: 10px 14px;
+      }
+
+      .map-btn {
+        padding: 10px 12px;
+      }
+
+      .cart-steps {
+        padding: 20px 0 30px;
+      }
+    }
+
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .fg label {
+      font-size: .78rem;
+      font-weight: 600;
+      color: #6b7280;
+      letter-spacing: .02em;
+    }
+
+    .fg label em {
+      color: #b91c1c;
+      font-style: normal;
+    }
+
+    .fc {
+      padding: 9px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      background: white;
+      color: #1f2937;
+    }
+
+    .fc:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, .1);
+    }
+
+    .fc::placeholder {
+      color: #c4c9d4;
+      font-size: .82rem;
+    }
+
+    textarea.fc {
+      resize: none;
+      min-height: 64px;
+      line-height: 1.5;
+    }
+
+    /* Google Maps button */
+    .map-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: .88rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all .2s;
+      background: white;
+      color: #1f2937;
+      margin-bottom: 14px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .map-btn:hover {
+      border-color: #f97316;
+      background: #fffaf4;
+    }
+
+    .map-btn .map-pin-icon {
+      color: #f97316;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .map-btn .map-btn-text {
+      flex: 1;
+    }
+
+    .map-btn .map-btn-label {
+      font-weight: 600;
+      color: #f97316;
+      font-size: .85rem;
+    }
+
+    .map-btn .map-btn-sub {
+      font-size: .76rem;
+      color: #9ca3af;
+      margin-top: 1px;
+    }
+
+    .map-confirmed {
+      border-color: #16a34a !important;
+      background: #f0fdf4 !important;
+    }
+
+    .map-confirmed .map-pin-icon {
+      color: #16a34a !important;
+    }
+
+    .map-confirmed .map-btn-label {
+      color: #15803d !important;
+    }
+
+    /* ── Map Modal ── */
+    .map-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .map-modal-overlay.open {
+      display: flex;
+    }
+
+    .map-modal {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      width: min(96vw, 680px);
+      height: min(88vh, 700px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .3);
+    }
+
+    .map-modal-header {
+      background: white;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      flex-shrink: 0;
+    }
+
+    .map-modal-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: .95rem;
+      color: #374151;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+    }
+
+    .map-modal-back:hover {
+      color: #f97316;
+    }
+
+    .map-search-wrap {
+      position: absolute;
+      top: 64px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+    }
+
+    .map-search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      border-radius: 12px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .18);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .map-search-box i {
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+
+    .map-search-input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: .88rem;
+      color: #1f2937;
+      background: transparent;
+    }
+
+    .map-search-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .map-search-results {
+      background: white;
+      border-radius: 10px;
+      margin-top: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .14);
+      display: none;
+      overflow: hidden;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .map-search-results.show {
+      display: block;
+    }
+
+    .map-result-item {
+      padding: 11px 16px;
+      font-size: .84rem;
+      color: #374151;
+      cursor: pointer;
+      border-bottom: 1px solid #f5f5f5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .map-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .map-result-item:hover {
+      background: #fff7ed;
+      color: #f97316;
+    }
+
+    .map-result-item i {
+      color: #9ca3af;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    #map-container {
+      flex: 1;
+      position: relative;
+    }
+
+    .map-center-pin {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 800;
+      transform: translate(-50%, -100%);
+      pointer-events: none;
+      font-size: 2.4rem;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+    }
+
+    .map-locate-btn {
+      position: absolute;
+      bottom: 190px;
+      right: 14px;
+      z-index: 900;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #374151;
+    }
+
+    .map-locate-btn:hover {
+      background: #fff7ed;
+      color: #f97316;
+    }
+
+    .map-bottom-card {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      background: white;
+      border-radius: 16px 16px 0 0;
+      padding: 16px 18px 18px;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, .1);
+    }
+
+    .map-addr-label {
+      font-size: .72rem;
+      color: #9ca3af;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 4px;
+    }
+
+    .map-addr-text {
+      font-size: .9rem;
+      color: #1f2937;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      min-height: 36px;
+    }
+
+    .map-confirm-btn {
+      width: 100%;
+      padding: 14px;
+      background: #f97316;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .map-confirm-btn:hover {
+      background: #ea580c;
+    }
+
+    .map-manual-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: .8rem;
+      color: #6b7280;
+      cursor: pointer;
+    }
+
+    .map-manual-link:hover {
+      color: #f97316;
+    }
+
+    .map-loading {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, .8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1100;
+      font-size: .88rem;
+      color: #6b7280;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .map-loading i {
+      font-size: 1.8rem;
+      color: #f97316;
+    }
+
+    /* ── Buttons ── */
+    .btn-next {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+      letter-spacing: .2px;
+    }
+
+    .btn-next:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, .35);
+    }
+
+    .btn-back {
+      background: none;
+      border: 1px solid #e5e7eb;
+      color: #9ca3af;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all .2s;
+      margin-bottom: 14px;
+    }
+
+    .btn-back:hover {
+      border-color: #f97316;
+      color: #f97316;
+    }
+
+    /* ── Payment options ── */
+    .pay-opt {
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .pay-opt:hover {
+      border-color: #f97316;
+    }
+
+    .pay-opt.sel {
+      border-color: #f97316;
+      background: #fffaf4;
+    }
+
+    .pay-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pay-info strong {
+      display: block;
+      font-size: .9rem;
+      color: #1f2937;
+      margin-bottom: 3px;
+    }
+
+    .pay-info span {
+      font-size: .78rem;
+      color: #6b7280;
+    }
+
+    .pay-radio {
+      margin-left: auto;
+      accent-color: #f97316;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* ── Professional UPI Box ── */
+    .upi-box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-top: 18px;
+      display: none;
+      animation: fadeUp .4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .upi-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #f97316, #fb923c); }
+    .upi-box.show { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(-12px) } to { opacity:1; transform:translateY(0) } }
+
+    .qr-wrap {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 10px;
+      display: inline-block;
+      margin-bottom: 14px;
+      border: 2px solid #f3f4f6;
+      box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    }
+    .qr-wrap img { width: 200px; height: auto; display: block; border-radius: 10px; }
+
+    .upi-id-badge {
+      background: #fdf5ef;
+      border: 1.5px dashed #f97316;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ea580c;
+      letter-spacing: .4px;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .upi-id-badge:hover { background: #ffedd5; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(249,115,22,.15); }
+
+    .upi-apps { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .upi-app { background: #f3f4f6; border-radius: 10px; padding: 5px 12px; font-size: .75rem; font-weight: 700; color: #4b5563; display: flex; align-items: center; gap: 5px; }
+
+    .upi-steps-list { font-size: .78rem; color: #4b5563; line-height: 1.8; text-align: left; margin-top: 16px; background: #f9fafb; padding: 14px 16px; border-radius: 12px; border: 1px solid #f3f4f6; }
+    .upi-steps-list span { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+    .upi-steps-list i { color: #f97316; margin-top: 3px; }
+
+      color: #ffd166;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+      display: inline-block;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .upi-id-badge:hover {
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .upi-apps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+
+    .upi-app {
+      background: rgba(255, 255, 255, .1);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: .72rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .upi-steps-list {
+      font-size: .76rem;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.9;
+      text-align: left;
+      margin-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      padding-top: 12px;
+    }
+
+    .upi-steps-list span {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    /* ── Screenshot upload ── */
+    .ss-area {
+      border: 2px dashed #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 14px;
+      background: #fafafa;
+      display: none;
+    }
+
+    .ss-area.show {
+      display: block;
+    }
+
+    .ss-area:hover,
+    .ss-area.has-file {
+      border-color: #f97316;
+      background: #fffaf4;
+    }
+
+    .ss-area.has-file {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .ss-area i {
+      font-size: 36px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+      display: block;
+      transition: color .2s;
+    }
+
+    .ss-area:hover i {
+      color: #f97316;
+    }
+
+    .ss-area.has-file i {
+      color: #16a34a;
+    }
+
+    .ss-area p {
+      font-size: .82rem;
+      color: #6b7280;
+      margin: 0;
+    }
+
+    .ss-preview-img {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 8px;
+      margin: 10px auto;
+      display: none;
+      border: 2px solid #16a34a;
+    }
+
+    /* ── Sidebar summary ── */
+    .ck-sidebar .cart-summary {
+      border-radius: 16px;
+    }
+
+    .summ-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .summ-item:last-child {
+      border-bottom: none;
+    }
+
+    .summ-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid #e5e7eb;
+      flex-shrink: 0;
+    }
+
+    .summ-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .summ-info .n {
+      font-weight: 600;
+      font-size: .82rem;
+      color: #1f2937;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .summ-info .q {
+      font-size: .73rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .summ-price {
+      font-weight: 700;
+      font-size: .85rem;
+      color: #7b1a1a;
+      white-space: nowrap;
+      padding-left: 6px;
+    }
+
+    /* ── Confirm review ── */
+    .confirm-block {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .confirm-block-label {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+
+    .confirm-block-val {
+      font-size: .88rem;
+      color: #1f2937;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .confirm-item-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: .86rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .confirm-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .confirm-item-row .cn {
+      color: #374151;
+    }
+
+    .confirm-item-row .cp {
+      font-weight: 700;
+      color: #7b1a1a;
+    }
+
+    .confirm-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0 2px;
+      border-top: 2px solid #f5e6cc;
+      margin-top: 4px;
+    }
+
+    .confirm-total-row .cl {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #7b1a1a;
+    }
+
+    .confirm-total-row .cv {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #7b1a1a;
+    }
+
+    /* ── Place order btn ── */
+    .btn-order {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      letter-spacing: .3px;
+    }
+
+    .btn-order:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, .4);
+    }
+
+    .btn-order:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .secure-txt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #9ca3af;
+      font-size: .7rem;
+      margin-top: 8px;
+    }
+
+    .err-box {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1.5px solid #fecaca;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: .82rem;
+      margin-bottom: 12px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="site-header"></header>
+
+  <div class="page-banner">
+    <div class="container">
+      <h1>Shopping Cart</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Cart</span>
+      </div>
+    </div>
+  </div>
+
+  <main style="padding-bottom: 80px;">
+    <div class="container">
+
+      <!-- ── Progress Bar ── -->
+      <div class="cart-steps" id="cart-steps">
+        <div class="cart-step active" id="si-1" onclick="if(currentStep > 1) goToStep(1)" style="cursor:pointer;">
+          <div class="step-num">1</div>
+          <span>Cart</span>
+        </div>
+        <div class="cart-step-line" id="sl-1"></div>
+        <div class="cart-step" id="si-2" onclick="if(currentStep > 2) goToStep(2)" style="cursor:pointer;">
+          <div class="step-num">2</div>
+          <span>Your Details</span>
+        </div>
+        <div class="cart-step-line" id="sl-2"></div>
+        <div class="cart-step" id="si-3" onclick="if(currentStep > 3) goToStep(3)" style="cursor:pointer;">
+          <div class="step-num">3</div>
+          <span>Payment</span>
+        </div>
+        <div class="cart-step-line" id="sl-3"></div>
+        <div class="cart-step" id="si-4">
+          <div class="step-num">4</div>
+          <span>Confirm</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 1: Cart ══ -->
+      <div class="ck-panel active" id="cart-step-1">
+        <div class="cart-layout">
+          <div id="cart-items"><!-- Injected by JS --></div>
+          <aside>
+            <div class="cart-summary">
+              <h3><i class="fas fa-receipt" style="color:var(--saffron)"></i> Order Summary</h3>
+              <div id="cart-summary-detail"><!-- Injected by JS --></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- ══ STEP 2: Your Details ══ -->
+      <div class="ck-panel" id="cart-step-2">
+        <button class="btn-back" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back to Cart</button>
+        <div class="ck-layout">
+          <div>
+            <div class="sec-card">
+              <div class="sec-head">
+                <div class="sec-num">1</div>
+                <h3>Your Details</h3>
+              </div>
+              <div class="sec-body">
+                <div class="form-row2">
+                  <div class="fg">
+                    <label>Full Name <em>*</em></label>
+                    <input type="text" id="cust-name" class="fc" placeholder="e.g. Ravi Kumar">
+                  </div>
+                  <div class="fg">
+                    <label>Mobile Number <em>*</em></label>
+                    <input type="tel" id="cust-phone" class="fc" placeholder="10-digit number">
+                  </div>
+                </div>
+                <div class="fg">
+                  <label>Flat / House No. &amp; Street <em>*</em></label>
+                  <input type="text" id="cust-address" class="fc" placeholder="e.g. Flat 4B, Sri Nagar Colony, MG Road">
+                </div>
+                <div class="form-row3">
+                  <div class="fg">
+                    <label>Area / Landmark</label>
+                    <input type="text" id="cust-area" class="fc" placeholder="e.g. Dilsukhnagar">
+                  </div>
+                  <div class="fg">
+                    <label>City <em>*</em></label>
+                    <input type="text" id="cust-city" class="fc" placeholder="Hyderabad" value="Hyderabad">
+                  </div>
+                  <div class="fg">
+                    <label>PIN Code <em>*</em></label>
+                    <input type="text" id="cust-pin" class="fc" placeholder="500060" maxlength="6" inputmode="numeric">
+                  </div>
+                </div>
+                <!-- Amazon-style Add Location on Map -->
+                <div id="map-btn" class="map-btn" onclick="openMapModal()">
+                  <i class="fas fa-map-marker-alt map-pin-icon"></i>
+                  <div class="map-btn-text">
+                    <div class="map-btn-label" id="map-btn-label">Add location on map</div>
+                    <div class="map-btn-sub" id="map-btn-sub">Tap to use current location or search for your address
+                    </div>
+                  </div>
+                  <i class="fas fa-chevron-right" style="color:#d1d5db;font-size:.75rem"></i>
+                </div>
+                <div class="fg" style="margin-bottom:0">
+                  <label>Special Instructions <span style="color:#9ca3af;font-weight:400">(optional)</span></label>
+                  <textarea id="order-notes" class="fc" rows="2"
+                    placeholder="e.g. Call before delivery, leave at door..."></textarea>
+                </div>
+              </div>
+            </div>
+            <button class="btn-next" onclick="goToStep3()">
+              Continue to Payment <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="ck-sidebar">
+            <div class="cart-summary">
+              <h3><i class="fas fa-receipt" style="color:var(--saffron)"></i> Your Order</h3>
+              <div id="step2-sidebar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ STEP 3: Payment ══ -->
+      <div class="ck-panel" id="cart-step-3">
+        <button class="btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back to Details</button>
+        <div class="ck-layout">
+          <div>
+            <div class="sec-card">
+              <div class="sec-head">
+                <div class="sec-num">3</div>
+                <h3>Payment Method</h3>
+              </div>
+              <div class="sec-body">
+                <!-- COD -->
+                <div class="pay-opt sel" id="opt-cod" onclick="selectPay('cod')">
+                  <div class="pay-icon">💵</div>
+                  <div class="pay-info">
+                    <strong>Cash on Delivery (COD)</strong>
+                    <span>Pay with cash when your order arrives. No advance needed.</span>
+                  </div>
+                  <input type="radio" class="pay-radio" name="pay" value="cod" checked>
+                </div>
+                <!-- UPI -->
+                <div class="pay-opt" id="opt-upi" onclick="selectPay('upi')">
+                  <div class="pay-icon">📱</div>
+                  <div class="pay-info">
+                    <strong>UPI / QR Code Payment</strong>
+                    <span>Pay via GPay, PhonePe, Paytm, BHIM or any UPI app.</span>
+                    <!-- UPI QR -->
+                    <div class="upi-box" id="upi-box">
+                      <div style="font-weight:800;font-size:1.1rem;color:#1f2937;margin-bottom:14px;">Scan & Pay via UPI</div>
+                      <div class="qr-wrap">
+                        <img id="upi-qr-img" src="images/Qr.jpeg" alt="Scan to Pay - Sri Manikanta Pooja Stores">
+                      </div>
+                      <div class="upi-id-badge" id="upi-id-txt" onclick="copyUPIId()" title="Click to copy">
+                        <span>9110582086@ptyes</span>
+                        <i class="far fa-copy" style="font-size:.85rem"></i>
+                      </div>
+                      <div style="color:#6b7280;font-size:.72rem;margin-bottom:10px">Click UPI ID to copy</div>
+                      <div style="background:#fff7ed;padding:10px 16px;border-radius:10px;display:inline-block;margin-bottom:10px;border:1px solid #ffedd5;">
+                        <div style="color:#ea580c;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Total Amount</div>
+                        <div style="color:#1f2937;font-size:1.3rem;font-weight:800;margin-top:2px" id="upi-amt-display">&#8377;0</div>
+                      </div>
+                      <div class="upi-apps">
+                        <span class="upi-app"><i class="fas fa-mobile-alt" style="color:#00baf2"></i> Paytm</span>
+                        <span class="upi-app"><i class="fas fa-mobile-alt" style="color:#5f259f"></i> PhonePe</span>
+                        <span class="upi-app"><i class="fas fa-mobile-alt" style="color:#ea4335"></i> GPay</span>
+                        <span class="upi-app"><i class="fas fa-university" style="color:#f97316"></i> BHIM</span>
+                      </div>
+                      <div class="upi-steps-list">
+                        <span><i class="fas fa-mobile-alt"></i> Open any UPI app on your phone</span>
+                        <span><i class="fas fa-qrcode"></i> Scan the QR or copy UPI ID above</span>
+                        <span><i class="fas fa-rupee-sign"></i> Pay exactly: <strong style="color:#ea580c" id="upi-steps-amt">&#8377;0</strong></span>
+                        <span><i class="fas fa-cloud-upload-alt"></i> Upload payment screenshot below</span>
+                      </div>
+                    </div>
+                    <!-- Screenshot -->
+                    <div class="ss-area" id="ss-area" onclick="document.getElementById('ss-input').click()">
+                      <input type="file" id="ss-input" accept="image/*" style="display:none" onchange="handleSS(this)">
+                      <i class="fas fa-cloud-upload-alt" id="ss-icon"></i>
+                      <p id="ss-label"><strong>Upload Payment Screenshot</strong><br>Tap here to select your screenshot
+                      </p>
+                      <img id="ss-preview-img" class="ss-preview-img">
+                    </div>
+                    <!-- UTR -->
+                    <div id="utr-area" style="margin-top:16px;display:none">
+                      <div style="font-size:.75rem;color:rgba(255,255,255,.6);text-align:center;margin-bottom:8px">-- OR
+                        --</div>
+                      <label
+                        style="display:block;font-size:.85rem;color:#93c5fd;margin-bottom:6px;font-weight:600">Enter UTR
+                        / Transaction No.</label>
+                      <input type="text" id="upi-utr" placeholder="12-digit UTR number"
+                        style="width:100%;padding:12px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.2);color:white;font-family:monospace;font-size:1rem;outline:none;transition:all .2s"
+                        onfocus="this.style.borderColor='#3b82f6'"
+                        onblur="this.style.borderColor='rgba(255,255,255,0.2)'">
+                    </div>
+                  </div>
+                  <input type="radio" class="pay-radio" name="pay" value="upi">
+                </div>
+              </div>
+            </div>
+            <button class="btn-next" onclick="goToStep4()">
+              Review Order <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="ck-sidebar">
+            <div class="cart-summary">
+              <h3><i class="fas fa-receipt" style="color:var(--saffron)"></i> Your Order</h3>
+              <div id="step3-sidebar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ STEP 4: Confirm ══ -->
+      <div class="ck-panel" id="cart-step-4">
+        <button class="btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Back to Payment</button>
+        <div class="ck-layout">
+          <div>
+            <div class="sec-card">
+              <div class="sec-head">
+                <div class="sec-num">4</div>
+                <h3>Confirm Your Order</h3>
+              </div>
+              <div class="sec-body">
+                <div class="err-box" id="order-error"></div>
+                <div class="confirm-block">
+                  <div class="confirm-block-label">Delivering To</div>
+                  <div class="confirm-block-val" id="confirm-addr"></div>
+                </div>
+                <div class="confirm-block">
+                  <div class="confirm-block-label">Payment Method</div>
+                  <div class="confirm-block-val" id="confirm-pay"></div>
+                </div>
+                <div class="confirm-block">
+                  <div class="confirm-block-label">Items</div>
+                  <div id="confirm-items"></div>
+                  <div class="confirm-total-row">
+                    <span class="cl">Total</span>
+                    <span class="cv" id="confirm-total">₹0</span>
+                  </div>
+                </div>
+                <button class="btn-order" id="place-btn" onclick="placeOrder()">
+                  <i class="fas fa-lock"></i> <span id="btn-txt">Place Order (COD)</span>
+                </button>
+                <div class="secure-txt">
+                  <i class="fas fa-shield-alt"></i> Secure &amp; Encrypted &nbsp;|&nbsp; <i class="fas fa-lock"></i>
+                  100% Safe
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ck-sidebar">
+            <div class="cart-summary">
+              <h3><i class="fas fa-receipt" style="color:var(--saffron)"></i> Your Order</h3>
+              <div id="step4-sidebar"></div>
+            </div>
+            <!-- Help -->
+            <div style="background:#7b1a1a;border-radius:16px;padding:18px;margin-top:16px;color:white">
+              <div style="font-weight:700;font-size:.9rem;color:#ffd166;margin-bottom:10px"><i class="fas fa-headset"
+                  style="color:#f97316"></i> Need Help?</div>
+              <a href="tel:+919110582086"
+                style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:white;text-decoration:none;font-size:.82rem;font-weight:600;margin-bottom:8px">
+                <i class="fas fa-phone-alt" style="color:#f97316"></i> +91 91105 82086
+              </a>
+              <a href="tel:+919849985423"
+                style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:white;text-decoration:none;font-size:.82rem;font-weight:600">
+                <i class="fas fa-phone-alt" style="color:#f97316"></i> +91 98499 85423
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- You May Also Like (only on step 1) -->
+      <div id="ymal-wrap">
+        <div class="ymal-section" id="ymal-section">
+          <div class="ymal-header">
+            <div class="ymal-title"><i class="fas fa-bolt"></i> You May Also Like</div>
+            <div class="ymal-tabs">
+              <button class="ymal-tab active" onclick="loadYMAL('related', this)">Related</button>
+              <button class="ymal-tab" onclick="loadYMAL('bestsellers', this)">Best Sellers</button>
+              <button class="ymal-tab" onclick="loadYMAL('new', this)">Recently Added</button>
+            </div>
+          </div>
+          <div class="ymal-grid" id="ymal-grid">
+            <div class="ymal-loading"><i class="fas fa-spinner fa-spin" style="font-size:24px"></i><br>Loading
+              suggestions…</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <div id="floating-actions"></div>
+
+  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+  <script src="js/main.js?v=2"></script>
+  <script src="js/auth.js?v=6"></script>
+  <script src="js/cart.js?v=9"></script>
+
+  <!-- MAP MODAL -->
+  <div class="map-modal-overlay" id="map-modal-overlay">
+    <div class="map-modal">
+      <div class="map-modal-header">
+        <button class="map-modal-back" onclick="closeMapModal()">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <span style="font-size:.9rem;font-weight:700;color:#1f2937">Choose Delivery Location</span>
+      </div>
+      <div id="map-container" style="position:relative;flex:1;min-height:0;">
+        <div id="leaflet-map" style="width:100%;height:100%;"></div>
+        <div class="map-center-pin">📍</div>
+        <button class="map-locate-btn" onclick="locateMe()" title="Use my location">
+          <i class="fas fa-crosshairs"></i>
+        </button>
+        <div class="map-loading" id="map-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>Getting your location...</span>
+        </div>
+        <div class="map-bottom-card">
+          <div class="map-addr-label">Selected Location</div>
+          <div class="map-addr-text" id="map-addr-text">Move the map to set your delivery location</div>
+          <button class="map-confirm-btn" onclick="confirmMapLocation()">
+            <i class="fas fa-check"></i> Confirm location
+          </button>
+          <div class="map-manual-link" onclick="closeMapModal()">Or, enter address manually</div>
+        </div>
+      </div>
+      <div class="map-search-wrap">
+        <div class="map-search-box">
+          <i class="fas fa-search"></i>
+          <input class="map-search-input" id="map-search-input" type="text"
+            placeholder="Search for area, building or landmark..." autocomplete="off">
+          <i class="fas fa-times" id="map-search-clear" style="cursor:pointer;color:#9ca3af;display:none"
+            onclick="clearSearch()"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let locationiqMap = null, pendingGeocode = false;
+    let lastLat = 17.385, lastLng = 78.4867;
+    window.mapLocationLink = '';
+    const locationiqToken = 'pk.aa0b309dc9d009f5ac51ca5342e9b9ca';
+
+    function openMapModal() {
+      document.getElementById('map-modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (!locationiqMap) {
+        initLocationiqMap();
+      }
+    }
+
+    function closeMapModal() {
+      document.getElementById('map-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function initLocationiqMap() {
+      locationiqMap = L.map('leaflet-map', { zoomControl: false }).setView([lastLat, lastLng], 15);
+      L.control.zoom({ position: 'bottomright' }).addTo(locationiqMap);
+
+      // Add LocationIQ streets tile layer
+      L.tileLayer(`https://{s}-tiles.locationiq.com/v3/streets/r/{z}/{x}/{y}.png?key=${locationiqToken}`, {
+        maxZoom: 18,
+        attribution: '© LocationIQ © OpenStreetMap'
+      }).addTo(locationiqMap);
+
+      locationiqMap.on('moveend', () => {
+        const center = locationiqMap.getCenter();
+        lastLat = center.lat;
+        lastLng = center.lng;
+        reverseGeocodeLocationiq(lastLat, lastLng);
+      });
+
+      // Custom search handler
+      document.getElementById('map-search-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          searchLocationiq(this.value);
+        }
+      });
+
+      const input = document.getElementById('map-search-input');
+      input.addEventListener('input', () => {
+        document.getElementById('map-search-clear').style.display = input.value ? 'block' : 'none';
+      });
+
+      locateMe();
+    }
+
+    function searchLocationiq(query) {
+      if (!query) return;
+      showMapLoading(true);
+      fetch(`https://us1.locationiq.com/v1/search.php?key=${locationiqToken}&q=${encodeURIComponent(query)}&format=json&countrycodes=in&limit=1`)
+        .then(r => r.json())
+        .then(data => {
+          showMapLoading(false);
+          if (data && data.length > 0) {
+            const res = data[0];
+            lastLat = parseFloat(res.lat);
+            lastLng = parseFloat(res.lon);
+            locationiqMap.setView([lastLat, lastLng], 16);
+            parseLocationiqAddress(res, lastLat, lastLng);
+          } else {
+            alert('Location not found. Please try a different search.');
+          }
+        })
+        .catch(() => showMapLoading(false));
+    }
+
+    function locateMe() {
+      if (!navigator.geolocation) { showMapLoading(false); return; }
+      showMapLoading(true);
+      document.getElementById('map-addr-text').textContent = 'Getting your location...';
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          lastLat = pos.coords.latitude; lastLng = pos.coords.longitude;
+          if (locationiqMap) {
+            locationiqMap.setView([lastLat, lastLng], 16);
+          }
+          showMapLoading(false);
+          reverseGeocodeLocationiq(lastLat, lastLng);
+        },
+        () => { showMapLoading(false); reverseGeocodeLocationiq(lastLat, lastLng); },
+        { timeout: 8000 }
+      );
+    }
+
+    function showMapLoading(s) { document.getElementById('map-loading').style.display = s ? 'flex' : 'none'; }
+
+    function reverseGeocodeLocationiq(lat, lng) {
+      if (pendingGeocode) return;
+      pendingGeocode = true;
+
+      fetch(`https://us1.locationiq.com/v1/reverse.php?key=${locationiqToken}&lat=${lat}&lon=${lng}&format=json`)
+        .then(r => r.json())
+        .then(data => {
+          pendingGeocode = false;
+          if (data && data.address) {
+            parseLocationiqAddress(data, lat, lng);
+          } else {
+            document.getElementById('map-addr-text').textContent = 'Move the map to your delivery location';
+          }
+        })
+        .catch(err => {
+          pendingGeocode = false;
+          document.getElementById('map-addr-text').textContent = 'Location selected';
+        });
+    }
+
+    function parseLocationiqAddress(data, fallbackLat, fallbackLng) {
+      const txt = data.display_name || 'Location selected';
+      document.getElementById('map-addr-text').textContent = txt;
+
+      let addr = data.address || {};
+      let road = addr.road || addr.pedestrian || addr.suburb || '';
+      let area = addr.suburb || addr.neighbourhood || addr.city_district || '';
+      let city = addr.city || addr.town || addr.county || addr.state_district || 'Hyderabad';
+      let pin = addr.postcode || '';
+
+      if (locationiqMap) {
+        locationiqMap._resolved = {
+          txt: txt,
+          road: road,
+          area: area,
+          city: city,
+          pin: pin,
+          lat: fallbackLat || lastLat,
+          lng: fallbackLng || lastLng
+        };
+      }
+    }
+
+    function clearSearch() {
+      document.getElementById('map-search-input').value = '';
+      document.getElementById('map-search-clear').style.display = 'none';
+    }
+
+    function confirmMapLocation() {
+      const r = locationiqMap && locationiqMap._resolved;
+      if (!r) { closeMapModal(); return; }
+      const addrEl = document.getElementById('cust-address');
+      const areaEl = document.getElementById('cust-area');
+      const cityEl = document.getElementById('cust-city');
+      const pinEl = document.getElementById('cust-pin');
+
+      // Do NOT autofill address so user must enter House/Flat No. manually
+      // if (addrEl && !addrEl.value && r.road) addrEl.value = r.road;
+      if (areaEl) areaEl.value = r.area;
+      if (cityEl) cityEl.value = r.city;
+      if (pinEl && r.pin) pinEl.value = r.pin;
+
+      window.mapLocationLink = `https://www.google.com/maps?q=${r.lat},${r.lng}`;
+
+      // Calculate Distance (Haversine formula)
+      const storeLat = 17.364262;
+      const storeLng = 78.524058;
+      const R = 6371; // km
+      const dLat = (r.lat - storeLat) * Math.PI / 180;
+      const dLon = (r.lng - storeLng) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(storeLat * Math.PI / 180) * Math.cos(r.lat * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      window.customerDistanceKm = R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+
+      // Update sidebar to show new delivery charge
+      if (typeof renderSidebar === 'function') {
+        renderSidebar('step2-sidebar');
+      }
+
+      const btn = document.getElementById('map-btn');
+      const lbl = document.getElementById('map-btn-label');
+      const sub = document.getElementById('map-btn-sub');
+      if (btn) btn.classList.add('map-confirmed');
+      if (lbl) lbl.textContent = 'Location confirmed';
+      if (sub) sub.textContent = r.txt.length > 60 ? r.txt.substring(0, 60) + '...' : r.txt;
+      closeMapModal();
+    }
+  </script>
+</body>
+
+</html>

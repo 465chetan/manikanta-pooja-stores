@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details | Sri Manikanta Pooja Stores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--sidebar-w:240px}*{box-sizing:border-box}
+    body{margin:0;font-family:var(--font-body);background:#f8f4f0}
+    .dash-layout{display:flex;min-height:100vh}
+    .dash-sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,var(--maroon) 0%,#3a0a0a 100%);color:white;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto}
+    .dash-sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);text-align:center}
+    .dash-sidebar-logo .emoji{font-size:32px}
+    .dash-sidebar-logo h2{color:var(--gold);font-size:.85rem;margin:6px 0 2px;font-family:var(--font-heading)}
+    .dash-sidebar-logo p{color:rgba(255,255,255,.5);font-size:.7rem;margin:0}
+    .dash-nav{padding:16px 0}
+    .dash-nav-section{padding:8px 20px 4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35)}
+    .dash-nav-item{display:flex;align-items:center;gap:12px;padding:12px 20px;color:rgba(255,255,255,.75);text-decoration:none;font-size:.875rem;transition:all .2s;border-left:3px solid transparent}
+    .dash-nav-item:hover,.dash-nav-item.active{background:rgba(255,255,255,.1);color:white;border-left-color:var(--saffron)}
+    .dash-nav-item .icon{width:18px;text-align:center}
+    .dash-main{margin-left:var(--sidebar-w);flex:1}
+    .dash-topbar{background:white;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+    .dash-topbar-title{font-size:1.1rem;font-weight:700;color:var(--maroon);font-family:var(--font-heading)}
+    .user-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--maroon));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.82rem}
+    .dash-content{padding:28px;max-width:1000px}
+    /* Order header */
+    .order-header-card{background:white;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+    .order-num{font-size:1.4rem;font-weight:800;color:var(--maroon);font-family:var(--font-heading)}
+    .order-date-info{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+    .status-badge{padding:6px 16px;border-radius:20px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+    .status-pending{background:#fef3c7;color:#92400e}
+    .status-confirmed{background:#dbeafe;color:#1e40af}
+    .status-processing{background:#e0e7ff;color:#3730a3}
+    .status-shipped{background:#d1fae5;color:#065f46}
+    .status-delivered{background:#d1fae5;color:#065f46}
+    .status-cancelled{background:#fee2e2;color:#991b1b}
+    /* Timeline */
+    .timeline-card{background:white;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px}
+    .timeline-card h3{font-family:var(--font-heading);color:var(--maroon);margin:0 0 20px;font-size:1rem}
+    .timeline{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:8px}
+    .timeline-step{display:flex;flex-direction:column;align-items:center;flex:1;min-width:100px;position:relative}
+    .timeline-step:not(:last-child)::after{content:'';position:absolute;top:20px;left:50%;width:100%;height:3px;background:#e5e7eb;z-index:0}
+    .timeline-step.done:not(:last-child)::after{background:var(--saffron)}
+    .timeline-dot{width:40px;height:40px;border-radius:50%;border:3px solid #e5e7eb;background:white;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:1;position:relative;flex-shrink:0}
+    .timeline-step.done .timeline-dot{border-color:var(--saffron);background:var(--saffron)}
+    .timeline-step.current .timeline-dot{border-color:var(--maroon);background:var(--maroon);box-shadow:0 0 0 4px rgba(123,26,26,.2)}
+    .timeline-label{font-size:.72rem;font-weight:600;color:var(--text-muted);margin-top:8px;text-align:center;text-transform:capitalize}
+    .timeline-step.done .timeline-label,.timeline-step.current .timeline-label{color:var(--maroon)}
+    /* Cancelled bar */
+    .cancelled-bar{background:#fee2e2;border:1px solid #fecaca;border-radius:12px;padding:14px 20px;color:#991b1b;font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+    /* Items */
+    .items-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px;overflow:hidden}
+    .items-card-header{padding:18px 20px;border-bottom:1px solid var(--border-light);font-weight:700;color:var(--maroon);font-family:var(--font-heading)}
+    .order-item-row{display:flex;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border-light);align-items:center}
+    .order-item-row:last-child{border-bottom:none}
+    .order-item-img{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1px solid var(--border)}
+    .order-item-info{flex:1}
+    .order-item-name{font-weight:700;font-size:.9rem;color:var(--text-dark)}
+    .order-item-variant{font-size:.78rem;color:var(--text-muted)}
+    .order-item-price{font-weight:800;color:var(--maroon);white-space:nowrap}
+    /* Summary + Address grid */
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+    .info-card{background:white;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .info-card h4{font-family:var(--font-heading);color:var(--maroon);margin:0 0 12px;font-size:.95rem;display:flex;align-items:center;gap:8px}
+    .info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-light);font-size:.875rem}
+    .info-row:last-child{border-bottom:none}
+    .info-row .label{color:var(--text-muted)}
+    .info-row .value{font-weight:600}
+    .info-row.total .value{font-size:1.1rem;font-weight:800;color:var(--maroon)}
+    .address-text{font-size:.875rem;line-height:1.7;color:var(--text-dark)}
+    .back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--maroon);text-decoration:none;font-weight:600;font-size:.875rem;padding:8px 16px;background:white;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .back-btn:hover{background:var(--maroon);color:white}
+    .mobile-menu-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--maroon)}
+    @media(max-width:768px){.dash-sidebar{transform:translateX(-100%)}.dash-sidebar.open{transform:translateX(0)}.dash-main{margin-left:0}.mobile-menu-btn{display:block}.dash-content{padding:16px}.info-grid{grid-template-columns:1fr}.timeline{gap:0}.timeline-step{min-width:80px}}
+  </style>
+</head>
+<body>
+<div class="dash-layout">
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="dash-sidebar-logo"><div class="emoji">🕉️</div><h2>Sri Manikanta</h2><p>My Account</p></div>
+    <nav class="dash-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="index.html" class="dash-nav-item"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+      <a href="orders.html" class="dash-nav-item active"><span class="icon"><i class="fas fa-shopping-bag"></i></span> My Orders</a>
+      <div class="dash-nav-section">Account</div>
+      <a href="profile.html" class="dash-nav-item"><span class="icon"><i class="fas fa-user"></i></span> My Profile</a>
+      <a href="addresses.html" class="dash-nav-item"><span class="icon"><i class="fas fa-map-marker-alt"></i></span> Saved Addresses</a>
+      <div class="dash-nav-section">Store</div>
+      <a href="../shop.html" class="dash-nav-item"><span class="icon"><i class="fas fa-store"></i></span> Browse Products</a>
+      <a href="../cart.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-cart"></i></span> My Cart</a>
+      <div style="padding-top:20px"><div class="dash-nav-item" style="cursor:pointer;color:rgba(255,100,100,.8)" onclick="AuthManager.logout()"><span class="icon"><i class="fas fa-sign-out-alt"></i></span> Logout</div></div>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="document.getElementById('dash-sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+        <a href="orders.html" class="back-btn"><i class="fas fa-arrow-left"></i> My Orders</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar" id="user-initial">U</div>
+        <span id="user-name" style="font-weight:600;font-size:.875rem;color:var(--maroon)"></span>
+      </div>
+    </div>
+
+    <div class="dash-content" id="order-detail-container">
+      <div style="text-align:center;padding:60px;color:var(--text-muted)"><i class="fas fa-spinner fa-spin" style="font-size:32px"></i><br><br>Loading order details...</div>
+    </div>
+  </main>
+</div>
+
+<script>document.write('<script src="../js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="../js/main.js?v=2"></script>
+<script src="../js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!AuthManager.requireLogin()) return;
+  const user = AuthManager.getUser();
+  document.getElementById('user-name').textContent    = user.full_name.split(' ')[0];
+  document.getElementById('user-initial').textContent = user.full_name.charAt(0).toUpperCase();
+
+  const orderId = new URLSearchParams(window.location.search).get('id');
+  if (!orderId) { window.location.href = 'orders.html'; return; }
+
+  const data = await DashboardAPI.getOrderDetail(orderId);
+  if (!data.success) { document.getElementById('order-detail-container').innerHTML = `<div style="text-align:center;padding:60px"><h3>Order not found</h3><a href="orders.html" class="btn btn-primary">← Back to Orders</a></div>`; return; }
+
+  const { order, items, payment, timeline } = data;
+  renderOrderDetail(order, items, payment, timeline);
+});
+
+function renderOrderDetail(order, items, payment, timeline) {
+  const container = document.getElementById('order-detail-container');
+  const address = order.address || {};
+  const isCancelled = order.order_status === 'cancelled';
+
+  // Status icons
+  const statusIcons = {pending:'⏳',confirmed:'✅',processing:'📦',shipped:'🚚',delivered:'🎉',cancelled:'❌'};
+
+  // Timeline HTML
+  const timelineHtml = !isCancelled && timeline.length ? `
+    <div class="timeline-card">
+      <h3><i class="fas fa-route"></i> Order Tracking</h3>
+      <div class="timeline">
+        ${timeline.map(step => `
+          <div class="timeline-step ${step.completed ? 'done' : ''} ${step.current ? 'current' : ''}">
+            <div class="timeline-dot">${step.completed || step.current ? (step.current ? statusIcons[step.status] || '●' : '✓') : ''}</div>
+            <div class="timeline-label">${step.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : '';
+
+  const cancelledHtml = isCancelled ? `
+    <div class="cancelled-bar">
+      <i class="fas fa-times-circle"></i>
+      This order was cancelled. ${order.cancelled_reason ? `Reason: ${order.cancelled_reason}` : ''}
+      ${order.payment_status === 'paid' ? ' Refund will be processed in 3-5 business days.' : ''}
+    </div>` : '';
+
+  // Items
+  const subtotal  = Number(order.subtotal);
+  const delivery  = Number(order.delivery_charge);
+  const total     = Number(order.total);
+  const itemsHtml = items.map(item => `
+    <div class="order-item-row">
+      <img class="order-item-img" src="../${item.image}" onerror="this.src='../images/1000090824.jpg'" alt="${item.name}">
+      <div class="order-item-info">
+        <div class="order-item-name">${item.name}</div>
+        ${item.variant ? `<div class="order-item-variant">Size/Variant: ${item.variant}</div>` : ''}
+        <div class="order-item-variant">Qty: ${item.qty} × ₹${Number(item.price).toLocaleString('en-IN')}</div>
+      </div>
+      <div class="order-item-price">₹${(item.qty * Number(item.price)).toLocaleString('en-IN')}</div>
+    </div>`).join('');
+
+  const paymentInfo = payment ? `<div class="info-row"><span class="label">Transaction ID</span><span class="value" style="font-size:.75rem">${payment.razorpay_payment_id || 'N/A'}</span></div>` : '';
+
+  container.innerHTML = `
+    <div class="order-header-card">
+      <div>
+        <div class="order-num">${order.order_number}</div>
+        <div class="order-date-info"><i class="fas fa-calendar-alt"></i> Placed on ${new Date(order.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+      </div>
+      <span class="status-badge status-${order.order_status}">${statusIcons[order.order_status]} ${order.order_status.charAt(0).toUpperCase()+order.order_status.slice(1)}</span>
+    </div>
+
+    ${cancelledHtml}
+    ${timelineHtml}
+
+    <div class="items-card">
+      <div class="items-card-header"><i class="fas fa-box"></i> Order Items (${items.length})</div>
+      ${itemsHtml}
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h4><i class="fas fa-receipt"></i> Payment Summary</h4>
+        <div class="info-row"><span class="label">Subtotal</span><span class="value">₹${subtotal.toLocaleString('en-IN')}</span></div>
+        <div class="info-row"><span class="label">Delivery</span><span class="value">${delivery === 0 ? '<span style="color:green">FREE</span>' : '₹'+delivery}</span></div>
+        <div class="info-row total"><span class="label">Total Paid</span><span class="value">₹${total.toLocaleString('en-IN')}</span></div>
+        <div class="info-row"><span class="label">Payment Method</span><span class="value">${order.payment_method.toUpperCase()}</span></div>
+        <div class="info-row"><span class="label">Payment Status</span><span class="value" style="color:${order.payment_status==='paid'?'green':'orange'}">${order.payment_status.toUpperCase()}</span></div>
+        ${paymentInfo}
+      </div>
+
+      <div class="info-card">
+        <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+        ${address.full_name ? `
+          <div class="address-text">
+            <strong>${address.full_name}</strong><br>
+            ${address.mobile ? `📞 ${address.mobile}<br>` : ''}
+            ${address.address_line}<br>
+            ${address.landmark ? `Near: ${address.landmark}<br>` : ''}
+            ${address.city}, ${address.state}<br>
+            PIN: ${address.pincode}
+          </div>` : '<p style="color:var(--text-muted);font-size:.875rem">No delivery address on record.</p>'}
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="orders.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Orders</a>
+      <a href="../shop.html" class="btn btn-primary"><i class="fas fa-store"></i> Continue Shopping</a>
+      ${!isCancelled ? `<a href="https://wa.me/919110582086?text=Hi! I have a query about my order ${order.order_number}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Ask on WhatsApp</a>` : ''}
+    </div>`;
+}
+</script>
+</body>
+</html>

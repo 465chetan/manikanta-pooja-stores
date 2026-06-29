@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Sri Manikanta Pooja Stores</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #fffdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-wrap { width: 100%; max-width: 420px; padding: 20px; }
+    .login-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 36px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    }
+    .login-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+    .login-logo .icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 8px 24px rgba(249,115,22,0.35);
+      flex-shrink: 0;
+    }
+    .login-logo h1 {
+      font-size: 1.1rem; font-weight: 800; color: #1e1e2d;
+      margin: 0; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .login-logo h1 span { color: #f97316; }
+    .login-logo p {
+      font-size: 0.65rem; color: #9ca3af;
+      margin: 2px 0 0; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;
+    }
+    .login-heading { font-size: 1.4rem; font-weight: 800; color: #1e1e2d; margin-bottom: 6px; }
+    .login-sub { font-size: 0.85rem; color: #6b7280; margin-bottom: 28px; }
+    .error-msg {
+      display: none;
+      background: #fef2f2; border: 1px solid #fecaca;
+      color: #b91c1c; padding: 12px 14px; border-radius: 10px;
+      font-size: 0.84rem; margin-bottom: 16px;
+    }
+    .input-group { margin-bottom: 18px; }
+    .input-group label {
+      display: block; font-size: 0.75rem; font-weight: 700;
+      color: #374151; margin-bottom: 7px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .input-wrap { position: relative; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%); color: #9ca3af; font-size: 14px;
+    }
+    .form-control {
+      width: 100%; padding: 12px 14px 12px 40px;
+      border: 2px solid #e5e7eb; border-radius: 10px;
+      font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+      background: #fff; color: #1f2937;
+    }
+    .form-control:focus { border-color: #f97316; }
+    .eye-btn {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%); background: none; border: none;
+      color: #9ca3af; cursor: pointer; font-size: 14px; padding: 4px;
+      transition: color .2s;
+    }
+    .eye-btn:hover { color: #1e1e2d; }
+    .btn-submit {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white; border: none; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; display: flex; align-items: center;
+      justify-content: center; gap: 10px; font-family: inherit;
+      box-shadow: 0 4px 15px rgba(249,115,22,0.35);
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(249,115,22,0.45); }
+    .btn-submit:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
+    .login-footer {
+      margin-top: 24px; text-align: center;
+      font-size: 0.78rem; color: #9ca3af;
+    }
+    .powered { color: #f97316; font-weight: 600; }
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* ── Custom Theme Overrides for Calm & Classic Feel ── */
+    :root {
+      --admin-sidebar: 240px;
+      --admin-primary: #decbb7; /* Very Light Warm Biscuit/Brown */
+      --admin-accent: #f08b43;  /* Peaceful Light Orange */
+      --admin-accent-hover: #d9742e;
+      --admin-bg: #F7F5EE;      /* Soft Serene Cream Page Background */
+      --admin-card-bg: #ffffff; /* Crisp White for Content Cards */
+      --admin-border: #eadecc;  /* Very Light Brown/Sand Border */
+      --text-primary: #4a382e;  /* Grounded Muted Coffee Dark Text */
+      --text-muted: #8a7366;    /* Muted Soft Brown Text */
+      --sidebar-dark: #f8cca7;  /* Soft Light Orange for Logo Area */
+      --sidebar-text: #4a382e;  /* Dark Text for Light Sidebar */
+      --sidebar-active-bg: #ecdcc9;
+    }
+    
+    body {
+      background: var(--admin-bg) !important;
+      color: var(--text-primary) !important;
+    }
+    
+    /* Force warm coffee brown color on all general text, titles, details, and labels */
+    body, h1, h2, h3, h4, h5, h6, p, td, th, label, input, select, textarea, 
+    .topbar-title, .admin-topbar-title, .info-row .val, .pay-row .pv, 
+    .pay-total .pv, .item-name, .item-price, .subtotal-val, 
+    .info-value, .value, .admin-card-title, .admin-stat-info .value, .stat-mini .val,
+    #today-revenue, #week-revenue, #month-revenue, #year-revenue,
+    #today-orders, #week-orders, #month-orders, #year-orders,
+    #s-total, #s-delivered, #s-shipped, #s-cancelled, #s-revenue, #s-products {
+      color: var(--text-primary) !important;
+    }
+    
+    .admin-sidebar {
+      background: var(--admin-primary) !important;
+      border-right: 1px solid var(--admin-border) !important;
+      color: var(--sidebar-text) !important;
+    }
+    
+    .admin-logo {
+      background: var(--sidebar-dark) !important;
+      border-bottom: 2px solid #e6a100 !important; /* Elegant Gold dividing line */
+    }
+    
+    .admin-logo h1 {
+      color: var(--text-primary) !important;
+    }
+    
+    .admin-logo h1 span {
+      color: #d4af37 !important; /* Rich Antique Gold for brand name */
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .admin-logo .icon {
+      background: linear-gradient(135deg, var(--admin-accent), #ffd700) !important; /* Saffron Orange to Gold Gradient */
+      box-shadow: 0 4px 15px rgba(240, 139, 67, 0.25) !important;
+    }
+    
+    .admin-logo p {
+      color: var(--text-muted) !important;
+    }
+    
+    .admin-nav-label, .nav-label {
+      color: #b84c05 !important; /* Rich Dark Saffron Orange */
+      opacity: 1 !important;
+      font-weight: 800 !important;
+      letter-spacing: 1.5px !important;
+    }
+    
+    .admin-nav-link, .nav-link {
+      color: var(--sidebar-text) !important;
+      border-left-width: 4px !important;
+      transition: all 0.3s ease !important;
+      font-weight: 600;
+    }
+    
+    .admin-nav-link i, .nav-link i {
+      color: var(--sidebar-text) !important;
+    }
+    
+    .admin-nav-link:hover, .admin-nav-link.active,
+    .nav-link:hover, .nav-link.active {
+      background: var(--sidebar-active-bg) !important;
+      color: var(--text-primary) !important;
+      border-left-color: #ffd700 !important; /* Bright Gold indicator on active link */
+    }
+    
+    .admin-nav-link:hover i, .admin-nav-link.active i,
+    .nav-link:hover i, .nav-link.active i {
+      color: var(--text-primary) !important;
+    }
+    
+    .admin-nav-link .badge, .nav-link .badge {
+      background: linear-gradient(135deg, var(--admin-accent), #e6a100) !important; /* Orange-Gold Badge */
+      color: white !important;
+    }
+    
+    .admin-topbar, .topbar {
+      background: #ffffff !important; /* Clean White Topbar to break cream */
+      border-bottom: 1px solid var(--admin-border) !important;
+      box-shadow: 0 2px 10px rgba(74, 56, 46, 0.02) !important;
+    }
+    
+    .admin-topbar-title, .topbar-title {
+      color: var(--text-primary) !important;
+      font-family: 'Segoe UI', system-ui, sans-serif !important;
+    }
+    
+    .admin-content, .content {
+      background: var(--admin-bg) !important;
+    }
+    
+    .admin-card, .card {
+      background: var(--admin-card-bg) !important;
+      border: 1px solid var(--admin-border) !important;
+      box-shadow: 0 6px 20px rgba(74, 56, 46, 0.03) !important;
+      border-radius: 16px !important;
+      overflow: hidden;
+      border-top: 3px solid var(--admin-accent) !important; /* Orange top strip */
+    }
+    
+    .admin-card-header, .card-title {
+      border-bottom: 1px solid var(--admin-border) !important;
+      background: #ffffff !important; /* White background to break cream */
+      padding: 16px 24px !important;
+      border-left: 4px solid var(--admin-accent) !important; /* Saffron Left Accent Border */
+    }
+    
+    .admin-card-title, .card-title {
+      color: var(--text-primary) !important;
+      font-weight: 700 !important;
+    }
+    
+    .admin-stat {
+      background: var(--admin-card-bg) !important;
+      border: 1px solid var(--admin-border) !important;
+      box-shadow: 0 6px 20px rgba(74, 56, 46, 0.03) !important;
+      border-radius: 16px !important;
+      border-bottom: 3px solid var(--admin-accent) !important; /* Saffron Bottom Border */
+    }
+    
+    .admin-stat-icon {
+      border-radius: 12px !important;
+    }
+    
+    .admin-table th {
+      background: #F5F2EA !important; /* Soft sand-grey table headers */
+      color: var(--text-muted) !important;
+      border-bottom: 1px solid var(--admin-border) !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+    }
+    
+    .admin-table td {
+      border-bottom: 1px solid #FAF7EE !important;
+      color: var(--text-primary) !important;
+    }
+    
+    .admin-table tr:hover td {
+      background: rgba(234, 222, 204, 0.15) !important;
+    }
+    
+    .today-banner {
+      background: linear-gradient(135deg, var(--admin-accent), #d4af37) !important; /* Elegant Orange-Gold Gradient */
+      box-shadow: 0 10px 25px rgba(240, 139, 67, 0.15) !important;
+      border-radius: 16px !important;
+      color: white !important;
+    }
+    .today-banner,
+    .today-banner *,
+    .today-banner div,
+    .today-banner span,
+    .today-banner #today-orders,
+    .today-banner #today-revenue,
+    .today-banner #pending-orders,
+    .today-banner #total-customers {
+      color: #ffffff !important;
+    }
+    
+    .today-metric .lbl {
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+    
+    /* Visited/Details links in orange-gold */
+    a {
+      color: var(--admin-accent) !important;
+    }
+    a:hover {
+      color: var(--admin-accent-hover) !important;
+    }
+    
+    .back-btn {
+      background: #ecdcc9 !important;
+      color: var(--text-primary) !important;
+      border: 1px solid var(--admin-border) !important;
+    }
+    .back-btn:hover {
+      background: var(--sidebar-dark) !important;
+    }
+    
+    /* Muted Labels should be light brown, not dark */
+    .info-row .lbl, .pay-row .pl, .pay-method .pl, .pay-total .pl, .subtotal-lbl,
+    .text-muted, .info-label, .admin-logo p {
+      color: var(--text-muted) !important;
+    }
+    
+    /* Stats & Historical cards adjustments */
+    .admin-card[style*="linear-gradient"], .card[style*="linear-gradient"] {
+      background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent)) !important;
+    }
+    
+    .admin-card[style*="linear-gradient"] .admin-card-header, .card[style*="linear-gradient"] .admin-card-header {
+      background: transparent !important;
+      border: none !important;
+    }
+    
+    .admin-card-header[style*="background"],
+    .admin-card-header[style*="linear-gradient"] {
+      background: #ffffff !important;
+      border-bottom: 1px solid var(--admin-border) !important;
+      border-left: 4px solid var(--admin-accent) !important;
+    }
+    
+    .admin-card-header[style*="background"] *,
+    .admin-card-header[style*="linear-gradient"] * {
+      color: var(--text-primary) !important;
+    }
+    
+    /* Calm status badges */
+    .badge-status {
+      border-radius: 20px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3px;
+    }
+    .badge-pending { background: #FCF4DD !important; color: #A06D00 !important; border: 1px solid #F5E5BE !important; }
+    .badge-confirmed { background: #E1F8EB !important; color: #157347 !important; border: 1px solid #C3EED3 !important; }
+    .badge-processing { background: #EBE8FC !important; color: #433D8B !important; border: 1px solid #D6D0F7 !important; }
+    .badge-shipped { background: #E1F8EB !important; color: #157347 !important; border: 1px solid #C3EED3 !important; }
+    .badge-delivered { background: #E1F8EB !important; color: #157347 !important; border: 1px solid #C3EED3 !important; }
+    .badge-cancelled { background: #FCE8E6 !important; color: #A8201A !important; border: 1px solid #F8D1CE !important; }
+    .badge-paid { background: #E1F8EB !important; color: #157347 !important; border: 1px solid #C3EED3 !important; }
+    .badge-unpaid { background: #FCF4DD !important; color: #A06D00 !important; border: 1px solid #F5E5BE !important; }
+    
+    /* Form controls & login page overrides */
+    .form-control:focus {
+      border-color: var(--admin-accent) !important;
+      box-shadow: 0 0 0 3px rgba(240, 139, 67, 0.1) !important;
+    }
+    
+    .login-card {
+      background: var(--admin-card-bg) !important;
+      border: 1px solid var(--admin-border) !important;
+      box-shadow: 0 10px 40px rgba(74, 56, 46, 0.05) !important;
+      border-radius: 24px !important;
+    }
+    
+    .login-logo h1 span {
+      color: var(--admin-accent) !important;
+    }
+    
+    .btn-submit {
+      background: linear-gradient(135deg, var(--admin-accent), #fbb686) !important;
+      box-shadow: 0 4px 15px rgba(240, 139, 67, 0.2) !important;
+    }
+    .btn-submit:hover {
+      box-shadow: 0 6px 20px rgba(240, 139, 67, 0.3) !important;
+    }
+    
+    /* Detail Panel Header styling overrides */
+    .detail-panel-header {
+      background: var(--sidebar-dark) !important; /* Soft light orange background */
+      border-bottom: 2px solid var(--admin-border) !important;
+    }
+    
+    .detail-panel-header #detail-order-num,
+    .detail-panel-header div,
+    .detail-panel-header span,
+    .detail-panel-header p {
+      color: var(--text-primary) !important; /* Grounded coffee brown text */
+    }
+    
+    /* Target subtext in detail panel header specifically */
+    .detail-panel-header div[style*="rgba(255,255,255"] {
+      color: var(--text-muted) !important; /* Muted brown instead of white opacity */
+    }
+    
+    .detail-panel-close {
+      color: var(--text-primary) !important; /* Coffee brown Close icon */
+      opacity: 0.8 !important;
+      transition: opacity 0.2s;
+    }
+    .detail-panel-close:hover {
+      opacity: 1 !important;
+      background: rgba(74, 56, 46, 0.08) !important; /* Soft dark brown hover backdrop */
+    }
+    
+    /* Hide pending badge when 0 or by default on load */
+    #pending-badge {
+      display: none;
+    }
+    
+    /* Active Category Tab & Filter Chips */
+    .cat-tab.active,
+    .filter-chip.active {
+      background: var(--admin-accent) !important;
+      color: white !important;
+      border-color: var(--admin-accent) !important;
+    }
+
+    .filter-chip:hover:not(.active) {
+      border-color: var(--admin-accent) !important;
+      color: var(--admin-accent) !important;
+    }
+
+    .search-input:focus {
+      border-color: var(--admin-accent) !important;
+    }
+
+    /* WhatsApp Buttons: force white text and icon */
+    a.btn-wa, a.btn-wa *,
+    a.chat-btn, a.chat-btn *,
+    .btn-wa-send, .btn-wa-send *,
+    a[href*="wa.me"][style*="background"], a[href*="wa.me"][style*="background"] * {
+      color: #ffffff !important;
+    }
+
+    /* WhatsApp Button Backgrounds */
+    a.btn-wa, a.chat-btn {
+      background-color: #25d366 !important;
+    }
+    a.btn-wa:hover, a.chat-btn:hover {
+      background-color: #128c7e !important;
+    }
+
+    /* Plain text WhatsApp links (not buttons) should be green */
+    a[href*="wa.me"]:not(.btn-wa):not(.chat-btn):not([style*="background"]) {
+      color: #25d366 !important;
+    }
+    a[href*="wa.me"]:not(.btn-wa):not(.chat-btn):not([style*="background"]) * {
+      color: #25d366 !important;
+    }
+
+    /* Google Maps Branded Button */
+    a.map-btn, a[href*="google.com/maps"] {
+      background: #e8f0fe !important;
+      color: #1a73e8 !important;
+      border: 1px solid #d2e3fc !important;
+    }
+    a.map-btn:hover, a[href*="google.com/maps"]:hover {
+      background: #d2e3fc !important;
+      color: #1a73e8 !important;
+    }
+    a.map-btn svg, a[href*="google.com/maps"] svg,
+    a.map-btn svg path, a[href*="google.com/maps"] svg path {
+      fill: #1a73e8 !important;
+    }
+
+    /* WhatsApp Section Title (Make Orange) */
+    .wa-section-title {
+      color: var(--admin-accent) !important;
+    }
+
+    /* WhatsApp Msg Bubble Textarea Override */
+    textarea.wa-msg-bubble {
+      color: #1f2937 !important;
+      background: #dcf8c6 !important;
+      width: 100% !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 10px 14px !important;
+      font-family: inherit !important;
+      font-size: 0.82rem !important;
+      resize: vertical !important;
+      outline: none !important;
+      line-height: 1.65 !important;
+    }
+</style>
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="icon"><i class="fas fa-om" style="font-size: 22px; color: white;"></i></div>
+      <div><h1>Sri <span>Manikanta</span></h1><p>Admin Panel</p></div>
+    </div>
+
+    <div class="login-heading">Welcome back 👋</div>
+    <div class="login-sub">Sign in to manage your store</div>
+
+    <div class="error-msg" id="error-msg">
+      <i class="fas fa-exclamation-circle"></i> <span id="error-text">Invalid email or password.</span>
+    </div>
+
+    <form id="login-form" onsubmit="doLogin(event)">
+      <div class="input-group">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <i class="fas fa-envelope input-icon"></i>
+          <input type="email" id="login-email" class="form-control" placeholder="admin@smps.com" required autocomplete="username">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+          <button type="button" class="eye-btn" id="eye-btn" onclick="togglePwd()"><i class="fas fa-eye" id="eye-icon"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit" id="login-btn">
+        <i class="fas fa-sign-in-alt"></i> Sign In to Admin
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <span class="powered">Sri Manikanta Pooja Stores</span> &nbsp;·&nbsp; Admin v2.0
+    </div>
+  </div>
+</div>
+
+<script>document.write('<script src="../js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="../js/auth.js?v=26"></script>
+<script>
+// Redirect if already logged in
+if (AdminAPI.isLoggedIn()) {
+  window.location.href = 'dashboard.html';
+}
+
+function togglePwd() {
+  const inp = document.getElementById('login-password');
+  const icon = document.getElementById('eye-icon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.className = 'fas fa-eye-slash';
+  } else {
+    inp.type = 'password';
+    icon.className = 'fas fa-eye';
+  }
+}
+
+async function doLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  const errDiv = document.getElementById('error-msg');
+  const errText = document.getElementById('error-text');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  errDiv.style.display = 'none';
+
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  const result = await AdminAPI.login(email, password);
+
+  if (result.success) {
+    btn.innerHTML = '<i class="fas fa-check"></i> Success! Redirecting...';
+    setTimeout(() => window.location.href = 'dashboard.html', 800);
+  } else {
+    errText.textContent = result.message || 'Invalid email or password.';
+    errDiv.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In to Admin';
+  }
+}
+</script>
+</body>
+</html>

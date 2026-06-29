@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Sri Manikanta Pooja Stores</title>
+  <meta name="description" content="Login to your account at Sri Manikanta Pooja Stores to track orders and manage your profile.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background: linear-gradient(135deg, var(--maroon) 0%, #3a0a0a 50%, #1a0000 100%); min-height: 100vh; }
+    .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: calc(var(--header-h) + 40px) 20px 40px; }
+    .auth-card { background: white; border-radius: 20px; overflow: hidden; width: 100%; max-width: 440px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); }
+    .auth-header { background: linear-gradient(135deg, var(--maroon), #5a1010); padding: 32px; text-align: center; }
+    .auth-header .logo { font-size: 52px; margin-bottom: 8px; display: block; }
+    .auth-header h1 { color: var(--gold); font-family: var(--font-heading); font-size: 1.4rem; margin: 0; }
+    .auth-header p { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin: 6px 0 0; }
+    .auth-body { padding: 32px; }
+    .auth-tabs { display: flex; margin-bottom: 28px; border-bottom: 2px solid var(--border); }
+    .auth-tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.2s; text-decoration: none; font-size: 0.9rem; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .auth-tab.active { color: var(--maroon); border-bottom-color: var(--maroon); }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-weight: 700; font-size: 0.82rem; color: #374151; margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .form-control { width: 100%; padding: 13px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 0.95rem; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; font-family: inherit; background: #fafafa; }
+    .form-control:focus { outline: none; border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(255,119,34,0.15); background: white; }
+    .input-group { position: relative; }
+    .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 14px; pointer-events: none; }
+    .input-group .form-control { padding-left: 42px; }
+    .input-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; cursor: pointer; font-size: 14px; padding: 4px; }
+    .input-eye:hover { color: var(--saffron); }
+    .btn-auth { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 8px; letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-auth-primary { background: linear-gradient(135deg, var(--saffron), #e86b00); color: white; }
+    .btn-auth-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,119,34,0.4); }
+    .btn-auth-primary:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
+    .auth-divider { text-align: center; margin: 20px 0; color: var(--text-muted); font-size: 0.85rem; position: relative; }
+    .auth-divider::before, .auth-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: var(--border); }
+    .auth-divider::before { left: 0; } .auth-divider::after { right: 0; }
+    .forgot-link { display: block; text-align: right; font-size: 0.82rem; color: var(--saffron); text-decoration: none; margin-top: 8px; font-weight: 600; }
+    .forgot-link:hover { text-decoration: underline; }
+    .auth-alert { padding: 12px 16px; border-radius: 10px; font-size: 0.875rem; margin-bottom: 18px; display: none; border-left: 4px solid; }
+    .auth-alert.error   { background: #fef2f2; color: #b91c1c; border-color: #fca5a5; }
+    .auth-alert.success { background: #f0fdf4; color: #166534; border-color: #86efac; }
+    .trust-badges { display: flex; justify-content: center; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+    .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--text-muted); }
+    .back-to-shop { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 18px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none; }
+    .back-to-shop:hover { color: var(--saffron); }
+    .new-customer-box { background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 10px; padding: 14px 16px; text-align: center; margin-top: 16px; }
+    .new-customer-box p { margin: 0 0 8px; font-size: .875rem; color: #6b7280; }
+    .new-customer-box a { display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; background: linear-gradient(135deg,#7b1a1a,#5a1010); color: white; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: .875rem; transition: all .2s; }
+    .new-customer-box a:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(123,26,26,.3); }
+  </style>
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <span class="logo">🕉️</span>
+      <h1>Sri Manikanta Pooja Stores</h1>
+      <p>Dilsukhnagar, Hyderabad</p>
+    </div>
+    <div class="auth-body">
+      <div class="auth-tabs">
+        <a href="login.html" class="auth-tab active">Login</a>
+        <a href="register.html" class="auth-tab">Register</a>
+      </div>
+
+      <div class="auth-alert" id="auth-alert"></div>
+
+      <form id="login-form" novalidate>
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label" for="email"><i class="fas fa-envelope" style="color:var(--saffron);margin-right:6px"></i>Email Address</label>
+          <div class="input-group">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="email" class="form-control"
+              placeholder="Enter your registered email"
+              autocomplete="email" required>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="password"><i class="fas fa-lock" style="color:var(--saffron);margin-right:6px"></i>Password</label>
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" class="form-control"
+              placeholder="Enter your password"
+              autocomplete="current-password" required>
+            <i class="fas fa-eye input-eye" id="toggle-pwd" onclick="togglePassword('password', this)" title="Show/Hide password"></i>
+          </div>
+          <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+        </div>
+
+        <div id="order-error" style="display:none;background:#fef2f2;color:#b91c1c;padding:10px 14px;border-radius:8px;font-size:.875rem;margin-bottom:12px;border-left:4px solid #fca5a5"></div>
+
+        <button type="submit" class="btn-auth btn-auth-primary" id="login-btn">
+          <i class="fas fa-sign-in-alt"></i> Login to My Account
+        </button>
+      </form>
+
+      <div class="new-customer-box">
+        <p>New to Sri Manikanta Pooja Stores?</p>
+        <a href="register.html"><i class="fas fa-user-plus"></i> Create a Free Account</a>
+      </div>
+
+      <div class="trust-badges">
+        <span class="trust-badge"><i class="fas fa-shield-alt" style="color:var(--saffron)"></i> Secure Login</span>
+        <span class="trust-badge"><i class="fas fa-lock" style="color:var(--saffron)"></i> Encrypted</span>
+        <span class="trust-badge"><i class="fas fa-user-check" style="color:var(--saffron)"></i> Privacy Protected</span>
+      </div>
+
+      <a href="index.html" class="back-to-shop">
+        <i class="fas fa-arrow-left"></i> Continue browsing without login
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer id="site-footer"></footer>
+<div id="floating-actions"></div>
+
+<script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="js/main.js?v=2"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Helper: get the redirect target from URL params
+  function getRedirectTarget() {
+    const params = new URLSearchParams(window.location.search);
+    const raw    = params.get('redirect');
+    if (!raw) return null;
+    // Decode it
+    const decoded = decodeURIComponent(raw);
+    return decoded;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // If already logged in, skip straight to destination
+    if (AuthManager.isLoggedIn()) {
+      const target = getRedirectTarget() || 'cart.html';
+      window.location.replace(target);
+      return;
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn      = document.getElementById('login-btn');
+
+      // Validate email
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        showAuthAlert('Please enter a valid email address.', 'error');
+        document.getElementById('email').focus();
+        return;
+      }
+      if (!password) {
+        showAuthAlert('Please enter your password.', 'error');
+        document.getElementById('password').focus();
+        return;
+      }
+
+      btn.disabled  = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+      // Call login API with email + password
+      const result = await AuthManager.login(email, password);
+
+      if (result.success) {
+        showAuthAlert('Login successful! Taking you back...', 'success');
+        // Redirect back to where the user came from
+        const target = getRedirectTarget() || 'cart.html';
+        setTimeout(() => {
+          window.location.replace(target);
+        }, 600);
+      } else {
+        const msg = result.message || 'Incorrect email or password. Please check and try again.';
+        showAuthAlert(msg, 'error');
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to My Account';
+      }
+    });
+
+    // Allow Enter key on both fields
+    ['email','password'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('login-form').dispatchEvent(new Event('submit'));
+      });
+    });
+  });
+
+  function showAuthAlert(msg, type) {
+    const el = document.getElementById('auth-alert');
+    el.textContent   = msg;
+    el.className     = 'auth-alert ' + type;
+    el.style.display = 'block';
+  }
+
+  function togglePassword(fieldId, icon) {
+    const field = document.getElementById(fieldId);
+    if (field.type === 'password') {
+      field.type     = 'text';
+      icon.className = 'fas fa-eye-slash input-eye';
+    } else {
+      field.type     = 'password';
+      icon.className = 'fas fa-eye input-eye';
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | Sri Manikanta Pooja Stores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--sidebar-w:240px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:var(--font-body);background:#f8f4f0}
+    .dash-layout{display:flex;min-height:100vh}
+    .dash-sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,var(--maroon) 0%,#3a0a0a 100%);color:white;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;transition:transform .3s}
+    .dash-sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.1);text-align:center}
+    .dash-sidebar-logo .emoji{font-size:32px}
+    .dash-sidebar-logo h2{color:var(--gold);font-size:.85rem;margin:6px 0 2px;font-family:var(--font-heading)}
+    .dash-sidebar-logo p{color:rgba(255,255,255,.5);font-size:.7rem;margin:0}
+    .dash-nav{padding:16px 0}
+    .dash-nav-section{padding:8px 20px 4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35)}
+    .dash-nav-item{display:flex;align-items:center;gap:12px;padding:12px 20px;color:rgba(255,255,255,.75);text-decoration:none;font-size:.875rem;transition:all .2s;border-left:3px solid transparent}
+    .dash-nav-item:hover,.dash-nav-item.active{background:rgba(255,255,255,.1);color:white;border-left-color:var(--saffron)}
+    .dash-nav-item .icon{width:18px;text-align:center}
+    .dash-main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column}
+    .dash-topbar{background:white;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+    .dash-topbar-title{font-size:1.2rem;font-weight:700;color:var(--maroon);font-family:var(--font-heading)}
+    .user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--maroon));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.875rem}
+    .dash-content{padding:28px;flex:1}
+    /* Filter bar */
+    .filter-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+    .filter-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:white;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text-muted)}
+    .filter-btn.active{background:var(--maroon);color:white;border-color:var(--maroon)}
+    .filter-btn:hover:not(.active){border-color:var(--maroon);color:var(--maroon)}
+    /* Order cards */
+    .order-card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s}
+    .order-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .order-card-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-light);flex-wrap:wrap;gap:10px}
+    .order-num{font-weight:800;color:var(--maroon);font-size:.95rem}
+    .order-date{font-size:.78rem;color:var(--text-muted)}
+    .order-status-badge{padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+    .status-pending{background:#fef3c7;color:#92400e}
+    .status-confirmed{background:#dbeafe;color:#1e40af}
+    .status-processing{background:#e0e7ff;color:#3730a3}
+    .status-shipped{background:#d1fae5;color:#065f46}
+    .status-delivered{background:#d1fae5;color:#065f46}
+    .status-cancelled{background:#fee2e2;color:#991b1b}
+    .order-card-body{padding:16px 20px}
+    .order-items-preview{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+    .order-item-thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;border:1px solid var(--border)}
+    .order-item-thumb-more{width:52px;height:52px;border-radius:10px;background:var(--border-light);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--text-muted)}
+    .order-card-footer{padding:12px 20px;background:#faf7f4;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .order-total{font-weight:800;font-size:1.05rem;color:var(--maroon)}
+    .order-payment-method{font-size:.75rem;color:var(--text-muted);background:white;padding:3px 10px;border-radius:10px;border:1px solid var(--border)}
+    .btn-view{padding:8px 20px;background:var(--maroon);color:white;border:none;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+    .btn-view:hover{background:var(--saffron);transform:translateY(-1px)}
+    .empty-orders{text-align:center;padding:60px 20px}
+    .empty-orders .icon{font-size:64px;margin-bottom:16px}
+    .empty-orders h3{color:var(--maroon);font-family:var(--font-heading);margin-bottom:8px}
+    .empty-orders p{color:var(--text-muted);margin-bottom:24px}
+    .pagination{display:flex;justify-content:center;gap:8px;margin-top:24px}
+    .page-btn{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--border);background:white;font-weight:600;cursor:pointer;font-size:.875rem;transition:all .2s}
+    .page-btn.active{background:var(--maroon);color:white;border-color:var(--maroon)}
+    .page-btn:hover:not(.active){border-color:var(--maroon);color:var(--maroon)}
+    .mobile-menu-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--maroon)}
+    @media(max-width:768px){.dash-sidebar{transform:translateX(-100%)}.dash-sidebar.open{transform:translateX(0)}.dash-main{margin-left:0}.mobile-menu-btn{display:block}.dash-content{padding:16px}.order-card-header{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+<div class="dash-layout">
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="dash-sidebar-logo">
+      <div class="emoji">🕉️</div>
+      <h2>Sri Manikanta</h2>
+      <p>My Account</p>
+    </div>
+    <nav class="dash-nav">
+      <div class="dash-nav-section">Main</div>
+      <a href="index.html" class="dash-nav-item"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+      <a href="orders.html" class="dash-nav-item active"><span class="icon"><i class="fas fa-shopping-bag"></i></span> My Orders</a>
+      <div class="dash-nav-section">Account</div>
+      <a href="profile.html" class="dash-nav-item"><span class="icon"><i class="fas fa-user"></i></span> My Profile</a>
+      <a href="addresses.html" class="dash-nav-item"><span class="icon"><i class="fas fa-map-marker-alt"></i></span> Saved Addresses</a>
+      <div class="dash-nav-section">Store</div>
+      <a href="../shop.html" class="dash-nav-item"><span class="icon"><i class="fas fa-store"></i></span> Browse Products</a>
+      <a href="../cart.html" class="dash-nav-item"><span class="icon"><i class="fas fa-shopping-cart"></i></span> My Cart</a>
+      <div style="padding-top:20px">
+        <div class="dash-nav-item" style="cursor:pointer;color:rgba(255,100,100,.8)" onclick="AuthManager.logout()">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span> Logout
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="dash-main">
+    <div class="dash-topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="document.getElementById('dash-sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+        <div class="dash-topbar-title">My Orders</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar" id="user-initial">U</div>
+        <span id="user-name" style="font-weight:600;font-size:.875rem;color:var(--maroon)"></span>
+      </div>
+    </div>
+
+    <div class="dash-content">
+      <!-- Filters -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterOrders('all', this)">All Orders</button>
+        <button class="filter-btn" onclick="filterOrders('pending', this)">Pending</button>
+        <button class="filter-btn" onclick="filterOrders('confirmed', this)">Confirmed</button>
+        <button class="filter-btn" onclick="filterOrders('shipped', this)">Shipped</button>
+        <button class="filter-btn" onclick="filterOrders('delivered', this)">Delivered</button>
+        <button class="filter-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
+      </div>
+
+      <!-- Orders list -->
+      <div id="orders-container">
+        <div style="text-align:center;padding:40px;color:var(--text-muted)">
+          <i class="fas fa-spinner fa-spin" style="font-size:32px;margin-bottom:12px"></i><br>Loading orders...
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </main>
+</div>
+
+<script>document.write('<script src="../js/products.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="../js/main.js?v=2"></script>
+<script src="../js/auth.js"></script>
+<script>
+let currentPage = 1;
+let allOrders   = [];
+let currentFilter = 'all';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!AuthManager.requireLogin()) return;
+  const user = AuthManager.getUser();
+  document.getElementById('user-name').textContent    = user.full_name.split(' ')[0];
+  document.getElementById('user-initial').textContent = user.full_name.charAt(0).toUpperCase();
+  await loadOrders(1);
+});
+
+async function loadOrders(page) {
+  currentPage = page;
+  document.getElementById('orders-container').innerHTML = `
+    <div style="text-align:center;padding:40px;color:var(--text-muted)">
+      <i class="fas fa-spinner fa-spin" style="font-size:32px;margin-bottom:12px"></i><br>Loading orders...
+    </div>`;
+  try {
+    const data = await DashboardAPI.getOrders(page);
+    if (!data.success) {
+      if (data.httpStatus === 401) {
+        // Token expired — redirect to login
+        AuthManager.clear();
+        window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
+      document.getElementById('orders-container').innerHTML = `
+        <div style="text-align:center;padding:40px;color:#b91c1c;">
+          <i class="fas fa-exclamation-circle" style="font-size:40px;margin-bottom:12px"></i>
+          <h3>Could not load orders</h3>
+          <p>${data.message || 'Unknown error'}</p>
+          <button onclick="loadOrders(1)" style="margin-top:12px;padding:10px 24px;background:var(--maroon);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;">Try Again</button>
+        </div>`;
+      return;
+    }
+    allOrders = data.orders || [];
+    renderOrders(allOrders);
+    renderPagination(data.pagination);
+  } catch(e) {
+    document.getElementById('orders-container').innerHTML = `
+      <div style="text-align:center;padding:40px;color:#b91c1c;">
+        <i class="fas fa-wifi" style="font-size:40px;margin-bottom:12px"></i>
+        <h3>Connection Error</h3>
+        <p>Cannot reach the server. Make sure Laragon is running.</p>
+        <button onclick="loadOrders(1)" style="margin-top:12px;padding:10px 24px;background:var(--maroon);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;">Retry</button>
+      </div>`;
+  }
+}
+
+function filterOrders(status, btn) {
+  currentFilter = status;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = status === 'all' ? allOrders : allOrders.filter(o => o.order_status === status);
+  renderOrders(filtered);
+}
+
+function renderOrders(orders) {
+  const container = document.getElementById('orders-container');
+  if (!orders.length) {
+    container.innerHTML = `
+      <div class="empty-orders">
+        <div class="icon">📦</div>
+        <h3>No orders found</h3>
+        <p>${currentFilter === 'all' ? "You haven't placed any orders yet." : `No ${currentFilter} orders.`}</p>
+        <a href="../shop.html" class="btn btn-primary">Start Shopping 🛍️</a>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = orders.map(o => {
+    const imgs = o.item_images || [];
+    const thumbs = imgs.slice(0, 3).map(img =>
+      `<img class="order-item-thumb" src="../${img}" onerror="this.src='../images/1000090824.jpg'" alt="Product">`
+    ).join('');
+    const moreCount = (o.item_count || 0) - 3;
+
+    return `
+    <div class="order-card">
+      <div class="order-card-header">
+        <div>
+          <div class="order-num">${o.order_number}</div>
+          <div class="order-date"><i class="fas fa-calendar-alt"></i> ${new Date(o.created_at).toLocaleString('en-IN', {day:'numeric',month:'long',year:'numeric', hour:'numeric', minute:'2-digit', hour12:true})}</div>
+        </div>
+        <span class="order-status-badge status-${o.order_status}">${getStatusLabel(o.order_status)}</span>
+      </div>
+      <div class="order-card-body">
+        <div class="order-items-preview">
+          ${thumbs}
+          ${moreCount > 0 ? `<div class="order-item-thumb-more">+${moreCount}</div>` : ''}
+          <div style="margin-left:8px;font-size:.85rem;color:var(--text-muted)">${o.item_count} item${o.item_count > 1 ? 's' : ''}</div>
+        </div>
+      </div>
+      <div class="order-card-footer">
+        <div>
+          <div class="order-total">₹${Number(o.total).toLocaleString('en-IN')}</div>
+          <span class="order-payment-method">${o.payment_method.toUpperCase()} ${o.payment_status === 'paid' ? '✅' : ''}</span>
+        </div>
+        <a href="order-detail.html?id=${o.id}" class="btn-view"><i class="fas fa-eye"></i> View Details</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getStatusLabel(status) {
+  const labels = {pending:'⏳ Pending',confirmed:'✅ Confirmed',processing:'📦 Processing',shipped:'🚚 Shipped',delivered:'🎉 Delivered',cancelled:'❌ Cancelled'};
+  return labels[status] || status;
+}
+
+function renderPagination(pag) {
+  const container = document.getElementById('pagination');
+  if (pag.total_pages <= 1) { container.innerHTML = ''; return; }
+  let html = '';
+  for (let i = 1; i <= pag.total_pages; i++) {
+    html += `<button class="page-btn ${i === pag.page ? 'active' : ''}" onclick="loadOrders(${i})">${i}</button>`;
+  }
+  container.innerHTML = html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+/uploads/products/*
+!/uploads/products/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/api/config/config.php
+.idea/
+.vscode/
+*.zip
+diagnostic.php
+setup_admin.php

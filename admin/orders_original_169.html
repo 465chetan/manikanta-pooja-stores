@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+  <meta charset="UTF-8">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+  <title>Manage Orders | Admin — Sri Manikanta Pooja Stores</title>
+
+
+
+  <link rel="stylesheet" href="../css/style.css">
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+  <style>
+
+
+
+    :root { --admin-sidebar: 240px; --admin-primary: #8b5a2b; --admin-accent: #fb923c; }
+
+
+
+    *{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5}
+
+
+
+    .admin-layout{display:flex;min-height:100vh}
+
+
+
+    .admin-sidebar {width:var(--admin-sidebar);background: var(--admin-primary);color: #fffdf5;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto}
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+
+
+    
+
+
+
+    .admin-nav{padding:12px 0}
+
+
+
+    .admin-nav-label{padding:10px 16px 4px;font-size:.6rem;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.3)}
+
+
+
+    .admin-nav-link {display:flex;align-items:center;gap:10px;padding:11px 16px;color: #fcece0;text-decoration:none;font-size:.85rem;border-left:3px solid transparent;transition:all .2s}
+
+
+
+    .admin-nav-link:hover, .admin-nav-link.active { background: #7a4b22; color: white;border-left-color:var(--admin-accent)}
+
+
+
+    .admin-nav-link i{width:16px;font-size:13px}
+
+
+
+    .admin-main{margi
+        <div style="text-align:center;margin:8px 0">
+
+          <p style="font-size:.75rem;color:#6b7280;margin:0 0 8px">📸 Customer payment screenshot:</p>
+
+          <a href="../${payment.screenshot_path}" target="_blank">
+
+            <img src="../${payment.screenshot_path}"
+
+                 onerror="this.style.display='none'"
+
+                 style="max-width:100%;max-height:280px;border-radius:10px;border:2px solid #22c55e;cursor:zoom-in;box-shadow:0 4px 16px rgba(0,0,0,.12)"
+
+                 alt="Payment Screenshot">
+
+          </a>
+
+          <p style="font-size:.7rem;color:#3b82f6;margin:6px 0 0">Click image to view full size</p>
+
+        </div>` : `<p style="font-size:.8rem;color:#9ca3af;background:#f9fafb;padding:10px;border-radius:8px;text-align:center">No screenshot uploaded by customer.</p>`}
+
+    </div>` : ``}
+
+
+
+    ${order.notes ? `<div class="detail-section"><h4>📌 Customer Notes</h4><p style="font-size:.83rem;color:#374151;background:#fffbeb;border-radius:8px;padding:10px">${order.notes}</p></div>` : ''}
+
+  `;
+
+
+
+}
+
+
+
+
+
+
+
+function closeDetail() {
+
+
+
+  document.getElementById('detail-panel').classList.remove('open');
+
+
+
+  openOrderId = null;
+
+
+
+  openOrder   = null;
+
+
+
+  openItems   = [];
+
+
+
+}
+
+
+
+
+
+
+
+function previewWhatsAppMessage() {
+
+
+
+  if (!openOrder) return;
+
+
+
+  const status  = document.getElementById('status-select').value;
+
+
+
+  const note    = document.getElementById('admin-notes')?.value.trim();
+
+
+
+  const tmpl    = WA_TEMPLATES[status];
+
+
+
+  if (!tmpl) { document.getElementById('wa-msg-preview').value = 'No template for this status.'; return; }
+
+
+
+
