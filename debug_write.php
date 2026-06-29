@@ -3,24 +3,18 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $path = __DIR__ . '/js/products.js';
-echo "Checking path: " . $path . "<br>";
-echo "File exists: " . (file_exists($path) ? "Yes" : "No") . "<br>";
-echo "Is writable: " . (is_writable($path) ? "Yes" : "No") . "<br>";
-echo "Dir is writable: " . (is_writable(dirname($path)) ? "Yes" : "No") . "<br>";
-
-$testContent = "// Test write " . time() . "\n";
-$res = @file_put_contents($path, $testContent, FILE_APPEND);
-if ($res === false) {
-    $err = error_get_last();
-    echo "Write failed! Error: " . ($err['message'] ?? 'Unknown error') . "<br>";
+if (file_exists($path)) {
+    $content = file_get_contents($path);
+    echo "File size: " . strlen($content) . " bytes<br>";
+    echo "Contains 'Sindoor': " . (str_contains($content, 'Sindoor') ? "YES" : "NO") . "<br>";
+    echo "Contains 'coconut': " . (str_contains($content, 'coconut') ? "YES" : "NO") . "<br>";
+    
+    // Let's print out all the product IDs present in the file
+    if (preg_match_all('/"id":\s*(\d+)/', $content, $matches)) {
+        echo "Product IDs in file: " . implode(", ", $matches[1]) . "<br>";
+    } else {
+        echo "No IDs found!<br>";
+    }
 } else {
-    echo "Write succeeded! Bytes written: " . $res . "<br>";
-}
-
-// Let's also check the owner of the file
-if (function_exists('posix_getpwuid')) {
-    $owner = posix_getpwuid(fileowner($path));
-    echo "File owner: " . $owner['name'] . "<br>";
-    $process = posix_getpwuid(posix_geteuid());
-    echo "Process running as: " . $process['name'] . "<br>";
+    echo "File does not exist!<br>";
 }
