@@ -589,7 +589,11 @@
           <label class="form-label">Description *</label>
           <textarea id="prod-desc" class="form-control" rows="3" placeholder="Describe the product..." required></textarea>
         </div>
-        <div class="form-row-3">
+        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label class="form-label">Size/Weight (e.g. 210g)</label>
+            <input type="text" id="prod-base-size" class="form-control" placeholder="Optional">
+          </div>
           <div class="form-group">
             <label class="form-label">Selling Price (₹) *</label>
             <input type="number" id="prod-price" class="form-control" placeholder="0.00" min="1" required>
@@ -829,6 +833,7 @@ function openProductModal(id = null) {
   document.getElementById('modal-success').style.display = 'none';
   document.getElementById('product-form').reset();
   document.getElementById('product-id').value = '';
+  document.getElementById('prod-base-size').value = '';
   document.getElementById('prod-images').value = '[]';
   document.getElementById('img-preview').innerHTML = '';
   document.getElementById('variants-container').innerHTML = '';
@@ -885,13 +890,28 @@ async function editProduct(id) {
 
       document.getElementById('variants-container').innerHTML = '';
       if (p.sizes && p.sizes.length > 0) {
-        p.sizes.forEach(s => {
+        // Load the first size into the base fields
+        let firstSize = p.sizes[0];
+        if (typeof firstSize === 'string') {
+          document.getElementById('prod-base-size').value = firstSize;
+        } else {
+          document.getElementById('prod-base-size').value = firstSize.name || '';
+          document.getElementById('prod-price').value = firstSize.price || p.price;
+          document.getElementById('prod-original-price').value = firstSize.original_price || p.original_price || '';
+          document.getElementById('prod-stock').value = firstSize.stock !== undefined ? firstSize.stock : (p.stock_qty || '');
+        }
+        
+        // Load the rest into variant rows
+        for (let i = 1; i < p.sizes.length; i++) {
+          let s = p.sizes[i];
           if (typeof s === 'string') {
             addVariantRow({ name: s, price: p.price, original_price: p.original_price, stock: p.stock_qty });
           } else {
             addVariantRow(s);
           }
-        });
+        }
+      } else {
+        document.getElementById('prod-base-size').value = '';
       }
     }
   } catch (e) {
@@ -977,6 +997,18 @@ document.getElementById('product-form').addEventListener('submit', async (e) => 
       original_price: parseFloat(row.querySelector('.var-orig').value) || null,
       stock: parseInt(row.querySelector('.var-stock').value) || 0,
       image: imageUrl
+    });
+  }
+  
+  // Add base size as the first element if provided
+  const baseSize = document.getElementById('prod-base-size').value.trim();
+  if (baseSize) {
+    sizes.unshift({
+      name: baseSize,
+      price: parseFloat(document.getElementById('prod-price').value) || 0,
+      original_price: document.getElementById('prod-original-price').value ? parseFloat(document.getElementById('prod-original-price').value) : null,
+      stock: parseInt(document.getElementById('prod-stock').value) || 0,
+      image: ''
     });
   }
 
