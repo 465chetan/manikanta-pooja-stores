@@ -1144,7 +1144,7 @@ const CATEGORIES = [
         "id": "dhoop-sticks",
         "name": "Dhoop Sticks",
         "telugu": "",
-        "img": "images/1000090824.jpg",
+        "img": "images/cat_dhoop.png",
         "desc": "",
         "emoji": "🌸",
         "count": 0
@@ -1153,7 +1153,7 @@ const CATEGORIES = [
         "id": "more-and-other",
         "name": "More and other",
         "telugu": "",
-        "img": "images/1000090824.jpg",
+        "img": "images/cat_other.png",
         "desc": "",
         "emoji": "🌸",
         "count": 0
