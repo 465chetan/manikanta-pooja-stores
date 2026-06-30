@@ -106,15 +106,29 @@ function regenerate_products_js() {
 
     // 4. Save to files (always save to the active directory, fall back to local dev folders if they exist)
     $relativePath = __DIR__ . '/../../../js/products.js';
-    file_put_contents($relativePath, $jsContent);
+    
+    // Also try DOCUMENT_ROOT as a reliable fallback for cPanel
+    $docRootPath = isset($_SERVER['DOCUMENT_ROOT']) ? rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/js/products.js' : null;
+    
+    $saved = false;
+    if (@file_put_contents($relativePath, $jsContent) !== false) {
+        $saved = true;
+    } elseif ($docRootPath && @file_put_contents($docRootPath, $jsContent) !== false) {
+        $saved = true;
+    }
+    
+    if (!$saved) {
+        // If we can't save the JS file, the frontend won't update!
+        throw new Exception("Failed to write to js/products.js. Please check folder permissions (chmod 755 js/ and chmod 664 js/products.js). Tried paths: $relativePath" . ($docRootPath ? " and $docRootPath" : ""));
+    }
     
     $workspacePath = 'C:/Users/Laggoni chethan sai/trail web/js/products.js';
     if (file_exists(dirname($workspacePath)) && realpath(dirname($workspacePath)) !== realpath(dirname($relativePath))) {
-        file_put_contents($workspacePath, $jsContent);
+        @file_put_contents($workspacePath, $jsContent);
     }
     
     $laragonPath = 'C:/laragon/www/smps/js/products.js';
     if (file_exists(dirname($laragonPath)) && realpath(dirname($laragonPath)) !== realpath(dirname($relativePath))) {
-        file_put_contents($laragonPath, $jsContent);
+        @file_put_contents($laragonPath, $jsContent);
     }
 }

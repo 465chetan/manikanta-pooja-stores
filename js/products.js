@@ -500,36 +500,6 @@ const PRODUCTS = [
         "featured": true
     },
     {
-        "id": 28,
-        "category": "thali",
-        "categoryName": "Puja Thali & Vessels",
-        "name": "Brass Puja Thali Set",
-        "telugu": "పూజా పళ్ళెం సెట్",
-        "price": 699,
-        "originalPrice": 950,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090831.jpg",
-        "images": [
-            "images/1000090831.jpg"
-        ],
-        "description": "Complete 7-piece brass puja thali set includes: thali, diya, bell, incense holder, kumkum holder, haldi holder and flower bowl. Premium engraved design, gift-ready packaging.",
-        "sizes": [
-            "Small (7\")",
-            "Medium (9\")",
-            "Large (11\")"
-        ],
-        "tags": [
-            "thali set",
-            "brass",
-            "gifting",
-            "complete set"
-        ],
-        "badge": "popular",
-        "inStock": true,
-        "featured": true
-    },
-    {
         "id": 27,
         "category": "idols",
         "categoryName": "Idols (Vigrahas)",
@@ -644,36 +614,6 @@ const PRODUCTS = [
         "badge": null,
         "inStock": true,
         "featured": false
-    },
-    {
-        "id": 23,
-        "category": "photos",
-        "categoryName": "God Photos & Frames",
-        "name": "Lord Venkateswara (Balaji) Frame",
-        "telugu": "వేంకటేశ్వర స్వామి",
-        "price": 280,
-        "originalPrice": 380,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090826.jpg",
-        "images": [
-            "images/1000090826.jpg"
-        ],
-        "description": "Tirupati Balaji Venkateswara Swami photo frame with traditional design. Special Telugu deity, brass-finished border, premium quality print, auspicious gift.",
-        "sizes": [
-            "6×8 inch",
-            "8×10 inch",
-            "12×15 inch",
-            "18×24 inch"
-        ],
-        "tags": [
-            "tirupati",
-            "balaji",
-            "telugu deity"
-        ],
-        "badge": "popular",
-        "inStock": true,
-        "featured": true
     },
     {
         "id": 22,
@@ -823,184 +763,6 @@ const PRODUCTS = [
         "featured": true
     },
     {
-        "id": 16,
-        "category": "oils",
-        "categoryName": "Pooja Oils & Ghee",
-        "name": "Jasmine Pooja Oil (Malli Nune)",
-        "telugu": "మల్లి నూనె",
-        "price": 75,
-        "originalPrice": 100,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090829.jpg",
-        "images": [
-            "images/1000090829.jpg"
-        ],
-        "description": "Fragrant jasmine-infused pooja oil used for deity abhishekam and lamp. Sweet natural jasmine fragrance, traditional formulation used in temples.",
-        "sizes": [
-            "50ml",
-            "100ml",
-            "250ml"
-        ],
-        "tags": [
-            "jasmine",
-            "abhishekam",
-            "fragrant"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 15,
-        "category": "oils",
-        "categoryName": "Pooja Oils & Ghee",
-        "name": "Coconut Pooja Oil",
-        "telugu": "కొబ్బరి నూనె",
-        "price": 90,
-        "originalPrice": 120,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090828.jpg",
-        "images": [
-            "images/1000090828.jpg"
-        ],
-        "description": "Pure cold-pressed coconut oil for lamp and diya. Ideal for South Indian rituals and Vishnu puja. Long-burning, bright flame, pure natural quality.",
-        "sizes": [
-            "100ml",
-            "250ml",
-            "500ml",
-            "1L"
-        ],
-        "tags": [
-            "coconut oil",
-            "vishnu puja",
-            "lamp oil"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 14,
-        "category": "oils",
-        "categoryName": "Pooja Oils & Ghee",
-        "name": "Pure Cow Ghee (Desi)",
-        "telugu": "ఆవు నెయ్యి",
-        "price": 450,
-        "originalPrice": 580,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090827.jpg",
-        "images": [
-            "images/1000090827.jpg"
-        ],
-        "description": "Pure A2 desi cow ghee for havan, lamp and prasad. Made from curd of indigenous cows using traditional Vedic method. Sacred, pure and highly aromatic.",
-        "sizes": [
-            "100g",
-            "250g",
-            "500g",
-            "1kg"
-        ],
-        "tags": [
-            "cow ghee",
-            "havan",
-            "prasad"
-        ],
-        "badge": "popular",
-        "inStock": true,
-        "featured": true
-    },
-    {
-        "id": 13,
-        "category": "oils",
-        "categoryName": "Pooja Oils & Ghee",
-        "name": "Pure Sesame (Til) Pooja Oil",
-        "telugu": "నువ్వుల నూనె",
-        "price": 120,
-        "originalPrice": 160,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090826.jpg",
-        "images": [
-            "images/1000090826.jpg"
-        ],
-        "description": "Cold-pressed pure sesame oil for diya and lamp. Traditional pooja oil used for Lord Shiva and Saturn (Shani) worship. Natural, unrefined, pure quality.",
-        "sizes": [
-            "100ml",
-            "250ml",
-            "500ml",
-            "1L"
-        ],
-        "tags": [
-            "sesame oil",
-            "til oil",
-            "shani puja"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 12,
-        "category": "kumkum",
-        "categoryName": "Kumkum & Haldi",
-        "name": "Sindoor (Vermilion)",
-        "telugu": "సింధూర్",
-        "price": 20,
-        "originalPrice": 30,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090825.jpg",
-        "images": [
-            "images/1000090825.jpg"
-        ],
-        "description": "Auspicious deep red sindoor for Goddess Lakshmi and Durga puja. Also used as mangalsutra sindoor. Natural ingredients, vibrant red color.",
-        "sizes": [
-            "5g",
-            "10g",
-            "25g",
-            "50g"
-        ],
-        "tags": [
-            "sindoor",
-            "lakshmi",
-            "marriage"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 11,
-        "category": "kumkum",
-        "categoryName": "Kumkum & Haldi",
-        "name": "Kumkum & Haldi Combo Pack",
-        "telugu": "కుంకుమ పసుపు కాంబో",
-        "price": 55,
-        "originalPrice": 80,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090824.jpg",
-        "images": [
-            "images/1000090824.jpg"
-        ],
-        "description": "Value combo pack with premium red kumkum and pure haldi turmeric. Perfect for daily rituals, festivals and ceremonies. Sealed airtight for freshness.",
-        "sizes": [
-            "50g+50g",
-            "100g+100g",
-            "250g+250g"
-        ],
-        "tags": [
-            "combo",
-            "value pack",
-            "festival"
-        ],
-        "badge": "sale",
-        "inStock": true,
-        "featured": false
-    },
-    {
         "id": 10,
         "category": "kumkum",
         "categoryName": "Kumkum & Haldi",
@@ -1066,7 +828,7 @@ const PRODUCTS = [
         "id": 8,
         "category": "camphor",
         "categoryName": "Camphor (Kapoor)",
-        "name": "Camphor Aarti Lamp Refill",
+        "name": "Camphor Aarti Lamp Refill  90",
         "telugu": "కర్పూర్ ఆరతి",
         "price": 120,
         "originalPrice": 150,
@@ -1078,14 +840,22 @@ const PRODUCTS = [
         ],
         "description": "Premium camphor cubes specially shaped for brass aarti lamps. Consistent size, pure grade camphor. Pack includes 24 large cubes for extended puja sessions.",
         "sizes": [
-            "Pack of 12",
-            "Pack of 24"
+            {
+                "name": "Pack of 12",
+                "price": 120,
+                "original_price": 150,
+                "stock": 100,
+                "image": ""
+            },
+            {
+                "name": "Pack of 24",
+                "price": 120,
+                "original_price": 150,
+                "stock": 100,
+                "image": ""
+            }
         ],
-        "tags": [
-            "aarti lamp",
-            "premium",
-            "cubes"
-        ],
+        "tags": [],
         "badge": "new",
         "inStock": true,
         "featured": false
@@ -1118,37 +888,6 @@ const PRODUCTS = [
         "badge": null,
         "inStock": true,
         "featured": false
-    },
-    {
-        "id": 6,
-        "category": "camphor",
-        "categoryName": "Camphor (Kapoor)",
-        "name": "Pure Camphor Tablets",
-        "telugu": "కర్పూరం",
-        "price": 30,
-        "originalPrice": 45,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090829.jpg",
-        "images": [
-            "images/1000090829.jpg"
-        ],
-        "description": "Pure white camphor tablets for aarti and puja. Burns completely without residue. Highest quality camphor with strong, clean fragrance. Essential for daily worship.",
-        "sizes": [
-            "10g",
-            "50g",
-            "100g",
-            "250g",
-            "500g"
-        ],
-        "tags": [
-            "aarti",
-            "daily puja",
-            "essential"
-        ],
-        "badge": "popular",
-        "inStock": true,
-        "featured": true
     },
     {
         "id": 5,
@@ -1309,7 +1048,7 @@ const CATEGORIES = [
         "img": "images/cat_diyas.png",
         "desc": "",
         "emoji": "✨",
-        "count": 3
+        "count": 2
     },
     {
         "id": "kumkum",
@@ -1318,7 +1057,7 @@ const CATEGORIES = [
         "img": "images/cat_kumkum.png",
         "desc": "",
         "emoji": "🔴",
-        "count": 4
+        "count": 2
     },
     {
         "id": "oils",
@@ -1327,7 +1066,7 @@ const CATEGORIES = [
         "img": "images/cat_oils.png",
         "desc": "",
         "emoji": "🪔",
-        "count": 4
+        "count": 0
     },
     {
         "id": "diyas",
@@ -1345,7 +1084,7 @@ const CATEGORIES = [
         "img": "images/cat_idols.png",
         "desc": "",
         "emoji": "🖼️",
-        "count": 4
+        "count": 3
     },
     {
         "id": "idols",
@@ -1363,7 +1102,7 @@ const CATEGORIES = [
         "img": "images/cat_thali.png",
         "desc": "",
         "emoji": "🍽️",
-        "count": 1
+        "count": 0
     },
     {
         "id": "malas",

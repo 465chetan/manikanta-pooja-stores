@@ -33,3 +33,4 @@ jobs:
           database/
           .github/
           **/*.zip
+          js/products.js
