@@ -1045,7 +1045,7 @@ const CATEGORIES = [
         "id": "camphor",
         "name": "Camphor (Kapoor)",
         "telugu": "కర్పూరం",
-        "img": "images/cat_diyas.png",
+        "img": "images/cat_camphor.png",
         "desc": "",
         "emoji": "✨",
         "count": 2
@@ -1081,7 +1081,7 @@ const CATEGORIES = [
         "id": "photos",
         "name": "God Photos & Frames",
         "telugu": "దేవుడి ఫోటోలు",
-        "img": "images/cat_idols.png",
+        "img": "images/cat_photos.png",
         "desc": "",
         "emoji": "🖼️",
         "count": 3
@@ -1117,7 +1117,7 @@ const CATEGORIES = [
         "id": "havan",
         "name": "Havan Samagri",
         "telugu": "హవన్ సామగ్రి",
-        "img": "images/cat_festival.png",
+        "img": "images/cat_havan.png",
         "desc": "",
         "emoji": "🔥",
         "count": 2
