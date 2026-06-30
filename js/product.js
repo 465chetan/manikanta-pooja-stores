@@ -305,13 +305,11 @@ function renderRelated(p) {
   const sameCategory  = shuffle(others.filter(x => x.category.toLowerCase() === currentCat));
   const otherCategory = shuffle(others.filter(x => x.category.toLowerCase() !== currentCat));
 
-  // Up to 3 from same category + fill remaining (max 8 total) from other categories
-  const maxSame  = Math.min(3, sameCategory.length);
-  const maxOther = Math.min(8 - maxSame, otherCategory.length);
-  const mixed = [...sameCategory.slice(0, maxSame), ...otherCategory.slice(0, maxOther)];
+  // Prioritize same category first, then fill with other categories, up to 8 total
+  const mixed = [...sameCategory, ...otherCategory].slice(0, 8);
 
-  // Final shuffle so same-category items don't always appear first
-  const related = shuffle(mixed).slice(0, 8);
+  // Final shuffle so the layout looks dynamic
+  const related = shuffle(mixed);
 
   if (related.length === 0) {
     document.getElementById('related-section')?.style?.setProperty('display', 'none');
