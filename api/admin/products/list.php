@@ -76,15 +76,8 @@ if ($method === 'POST') {
     $base_orig  = !empty($body['original_price']) ? (float)$body['original_price'] : null;
 
     if (!empty($sizes) && is_array($sizes[0])) {
-        $min_price = null;
-        foreach ($sizes as $s) {
-            $p = (float)($s['price'] ?? 0);
-            if ($min_price === null || $p < $min_price) {
-                $min_price = $p;
-                $base_orig = !empty($s['original_price']) ? (float)$s['original_price'] : null;
-            }
-        }
-        if ($min_price !== null) $base_price = $min_price;
+        $base_price = (float)($sizes[0]['price'] ?? 0);
+        $base_orig  = !empty($sizes[0]['original_price']) ? (float)$sizes[0]['original_price'] : null;
     }
 
     $stmt = $pdo->prepare("
@@ -128,15 +121,8 @@ if ($method === 'PUT') {
     $base_orig  = !empty($body['original_price']) ? (float)$body['original_price'] : null;
 
     if (!empty($sizes) && is_array($sizes[0])) {
-        $min_price = null;
-        foreach ($sizes as $s) {
-            $p = (float)($s['price'] ?? 0);
-            if ($min_price === null || $p < $min_price) {
-                $min_price = $p;
-                $base_orig = !empty($s['original_price']) ? (float)$s['original_price'] : null;
-            }
-        }
-        if ($min_price !== null) $base_price = $min_price;
+        $base_price = (float)($sizes[0]['price'] ?? 0);
+        $base_orig  = !empty($sizes[0]['original_price']) ? (float)$sizes[0]['original_price'] : null;
     }
 
     $pdo->prepare("
