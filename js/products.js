@@ -1161,9 +1161,9 @@ const CATEGORIES = [
 ];
 
 const FESTIVALS = [
-  { cat: 'festivals', color: '#ff9900', emoji: '🪔', name: 'Diwali', telugu: 'దీపావళి', date: 'Nov 12' },
-  { cat: 'festivals', color: '#ff5500', emoji: '🐘', name: 'Ganesh Chaturthi', telugu: 'వినాయక చవితి', date: 'Sep 18' },
-  { cat: 'festivals', color: '#00aa55', emoji: '🥭', name: 'Ugadi', telugu: 'ఉగాది', date: 'Mar 22' }
+  { cat: 'festivals', color: '#ff9900', emoji: '🪔', name: 'Diwali', telugu: 'దీపావళి', date: 'Nov 12', image: 'images/festival_diwali.png' },
+  { cat: 'festivals', color: '#ff5500', emoji: '🐘', name: 'Ganesh Chaturthi', telugu: 'వినాయక చవితి', date: 'Sep 18', image: 'images/festival_ganesh.png' },
+  { cat: 'festivals', color: '#00aa55', emoji: '🥭', name: 'Ugadi', telugu: 'ఉగాది', date: 'Mar 22', image: 'images/festival_ugadi.png' }
 ];
 
 if (typeof module !== 'undefined' && module.exports) {

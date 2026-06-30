@@ -225,7 +225,6 @@ function renderCategories() {
     <a href="shop.html?cat=${c.id}" class="category-card-sm reveal reveal-delay-${(i % 4) + 1}" id="cat-${c.id}">
       <img src="${c.img}" alt="${c.name}" class="cat-sm-img">
       <div class="cat-sm-name">${c.name}</div>
-      <div class="cat-sm-telugu">${c.telugu}</div>
       <div class="cat-sm-count">${c.count} items</div>
     </a>
   `).join('');
