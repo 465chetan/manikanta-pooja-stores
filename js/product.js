@@ -77,11 +77,20 @@ function renderProductDetail(p) {
   const discount = getDiscount(p.price, p.originalPrice);
 
   // Gallery
+  let allThumbs = [...p.images];
+  if (p.sizes && p.sizes.length > 0) {
+    p.sizes.forEach(s => {
+      if (typeof s === 'object' && s.image && !allThumbs.includes(s.image)) {
+        allThumbs.push(s.image);
+      }
+    });
+  }
+
   const mainImg = document.getElementById('main-product-img');
-  if (mainImg) mainImg.src = p.images[0] || p.image;
+  if (mainImg) mainImg.src = allThumbs[0] || p.image;
   const thumbRow = document.getElementById('thumb-row');
   if (thumbRow) {
-    thumbRow.innerHTML = p.images.map((img, i) => `
+    thumbRow.innerHTML = allThumbs.map((img, i) => `
       <div class="thumb${i===0?' active':''}" onclick="setMainImg('${img}', this)">
         <img src="${img}" alt="View ${i+1}" loading="lazy" onerror="this.src='${p.image}'">
       </div>`).join('');
@@ -152,7 +161,31 @@ function renderProductDetail(p) {
 function setMainImg(src, thumbEl) {
   document.getElementById('main-product-img').src = src;
   document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-  thumbEl.classList.add('active');
+  if (thumbEl) thumbEl.classList.add('active');
+  
+  if (currentProduct && currentProduct.sizes) {
+    const vIndex = currentProduct.sizes.findIndex(s => s.image === src);
+    if (vIndex !== -1) {
+      const boxes = document.querySelectorAll('.variant-box');
+      if (boxes[vIndex] && !boxes[vIndex].classList.contains('active')) {
+        selectedVariantObj = currentProduct.sizes[vIndex];
+        selectedVariant = selectedVariantObj.name;
+        
+        document.querySelectorAll('.variant-box').forEach(b => b.classList.remove('active'));
+        boxes[vIndex].classList.add('active');
+        
+        document.getElementById('product-price').textContent = formatPrice(selectedVariantObj.price);
+        if (selectedVariantObj.original_price) {
+          document.getElementById('product-price-orig').textContent = formatPrice(selectedVariantObj.original_price);
+          const discount = getDiscount(selectedVariantObj.price, selectedVariantObj.original_price);
+          document.getElementById('product-price-save').textContent = `${discount}% off — Save ${formatPrice(selectedVariantObj.original_price - selectedVariantObj.price)}`;
+        } else {
+          document.getElementById('product-price-orig').textContent = '';
+          document.getElementById('product-price-save').textContent = '';
+        }
+      }
+    }
+  }
 }
 
 function selectVariant(index, btn) {
@@ -177,6 +210,11 @@ function selectVariant(index, btn) {
   if (selectedVariantObj.image) {
     document.getElementById('main-product-img').src = selectedVariantObj.image;
     document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.thumb img').forEach(img => {
+      if (img.getAttribute('src') === selectedVariantObj.image) {
+        img.parentElement.classList.add('active');
+      }
+    });
   }
 }
 
