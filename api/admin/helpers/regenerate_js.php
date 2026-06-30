@@ -92,11 +92,11 @@ function regenerate_products_js() {
     // Categories Array
     $jsContent .= "const CATEGORIES = " . json_encode($jsCategories, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . ";\n\n";
     
-    // Festivals Array (Static fallback since it was in the original file)
+    // Festivals Array (Static — includes background images for festival cards)
     $jsContent .= "const FESTIVALS = [\n";
-    $jsContent .= "  { cat: 'festivals', color: '#ff9900', emoji: '🪔', name: 'Diwali', telugu: 'దీపావళి', date: 'Nov 12' },\n";
-    $jsContent .= "  { cat: 'festivals', color: '#ff5500', emoji: '🐘', name: 'Ganesh Chaturthi', telugu: 'వినాయక చవితి', date: 'Sep 18' },\n";
-    $jsContent .= "  { cat: 'festivals', color: '#00aa55', emoji: '🥭', name: 'Ugadi', telugu: 'ఉగాది', date: 'Mar 22' }\n";
+    $jsContent .= "  { cat: 'festivals', color: '#ff9900', emoji: '🪔', name: 'Diwali', telugu: 'దీపావళి', date: 'Nov 12', image: 'images/festival_diwali.png' },\n";
+    $jsContent .= "  { cat: 'festivals', color: '#ff5500', emoji: '🐘', name: 'Ganesh Chaturthi', telugu: 'వినాయక చవితి', date: 'Sep 18', image: 'images/festival_ganesh.png' },\n";
+    $jsContent .= "  { cat: 'festivals', color: '#00aa55', emoji: '🥭', name: 'Ugadi', telugu: 'ఉగాది', date: 'Mar 22', image: 'images/festival_ugadi.png' }\n";
     $jsContent .= "];\n\n";
     
     // Auth Check
