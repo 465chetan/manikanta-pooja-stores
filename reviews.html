@@ -583,7 +583,11 @@
           signal: controller.signal
         });
         clearTimeout(timer);
-        const data = await res.json();
+        const rawText = await res.text();
+        let cleanText = rawText.trim();
+        const jsonStart = cleanText.indexOf('{');
+        if (jsonStart > 0) cleanText = cleanText.substring(jsonStart);
+        const data = JSON.parse(cleanText);
 
         if (data.success) {
           // Reset form
@@ -642,7 +646,11 @@
     async function loadReviews() {
       try {
         const res = await fetch(API_URL);
-        const data = await res.json();
+        const rawText = await res.text();
+        let cleanText = rawText.trim();
+        const jsonStart = cleanText.indexOf('{');
+        if (jsonStart > 0) cleanText = cleanText.substring(jsonStart);
+        const data = JSON.parse(cleanText);
         document.getElementById('reviews-loading').style.display = 'none';
 
         if (!data.success || !data.reviews.length) {
