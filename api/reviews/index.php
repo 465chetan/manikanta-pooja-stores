@@ -9,21 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 require_once __DIR__ . '/../../config/database.php';
 
-// Auto-create table if not exists
-function ensureTable($pdo) {
-    $pdo->exec("CREATE TABLE IF NOT EXISTS reviews (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        rating TINYINT NOT NULL DEFAULT 5,
-        review TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        is_approved TINYINT(1) DEFAULT 1
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-}
-
 try {
     $pdo = db();
-    ensureTable($pdo);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
