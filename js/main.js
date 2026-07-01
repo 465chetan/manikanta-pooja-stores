@@ -170,6 +170,7 @@ function renderHeader(activePage = '') {
     { href: 'index.html',    label: 'Home',        icon: 'fa-home' },
     { href: 'shop.html',     label: 'Shop',        icon: 'fa-store' },
     { href: '#',             label: 'Visit Store', icon: 'fa-map-marker-alt', onclick: 'openStoreMap(event)' },
+    { href: 'reviews.html',  label: 'Review Us',   icon: 'fa-star' },
     { href: 'about.html',   label: 'About Us',    icon: 'fa-info-circle' },
     { href: 'contact.html', label: 'Contact Us',     icon: 'fa-phone' }
   ];
@@ -224,6 +225,7 @@ function renderHeader(activePage = '') {
         </div>
 
         <a href="about.html" class="nav-link${activePage === 'about.html' ? ' active' : ''}">About Us</a>
+        <a href="reviews.html" class="nav-link${activePage === 'reviews.html' ? ' active' : ''}" style="color: #FFD700; font-weight: 700;"><i class='fas fa-star' style='font-size:11px;margin-right:4px'></i>Review Us</a>
         <a href="contact.html" class="nav-link${activePage === 'contact.html' ? ' active' : ''}">Contact Us</a>
       </div>
 
@@ -500,6 +502,7 @@ function renderFooter() {
           <li><a href="index.html">Home</a></li>
           <li><a href="shop.html">All Products</a></li>
           <li><a href="about.html">About Us</a></li>
+          <li><a href="reviews.html">⭐ Review Us</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="cart.html">Cart</a></li>
         </ul>

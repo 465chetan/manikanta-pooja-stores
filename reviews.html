@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews | Sri Manikanta Pooja Stores – Hyderabad</title>
+  <meta name="description" content="Read genuine customer reviews for Sri Manikanta Pooja Stores, Dilsukhnagar Hyderabad. Share your experience and help us serve you better.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=25">
+  <link rel="stylesheet" href="css/components.css?v=25">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --maroon: #7B1C1C;
+      --maroon-dark: #5a1212;
+      --saffron: #FF8C00;
+      --gold: #D4A017;
+      --cream: #FFF8F0;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --text-dark: #1a1a1a;
+      --text-muted: #666;
+      --border: #e8e0d8;
+      --shadow: 0 4px 24px rgba(123,28,28,0.10);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--cream); font-family: 'Inter', sans-serif; color: var(--text-dark); }
+
+    /* ── Page Hero ── */
+    .review-hero {
+      background: linear-gradient(135deg, var(--maroon-dark) 0%, #9b2c2c 50%, #7B1C1C 100%);
+      padding: 60px 20px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .review-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .review-hero-tag {
+      display: inline-block;
+      background: rgba(255,140,0,0.2);
+      border: 1px solid rgba(255,140,0,0.4);
+      color: #FFB347;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 18px;
+    }
+    .review-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 48px);
+      color: white;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .review-hero h1 span { color: #FFB347; }
+    .review-hero p { color: rgba(255,255,255,0.75); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+    .hero-stars-row {
+      display: flex; justify-content: center; gap: 6px;
+      margin: 20px 0 0;
+    }
+    .hero-stars-row i { font-size: 28px; color: #FFD700; filter: drop-shadow(0 2px 6px rgba(255,200,0,0.5)); animation: starPop 0.4s ease backwards; }
+    .hero-stars-row i:nth-child(1) { animation-delay: 0.1s; }
+    .hero-stars-row i:nth-child(2) { animation-delay: 0.2s; }
+    .hero-stars-row i:nth-child(3) { animation-delay: 0.3s; }
+    .hero-stars-row i:nth-child(4) { animation-delay: 0.4s; }
+    .hero-stars-row i:nth-child(5) { animation-delay: 0.5s; }
+    @keyframes starPop { from { transform: scale(0) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+
+    /* ── Main Layout ── */
+    .reviews-page { max-width: 900px; margin: -40px auto 60px; padding: 0 20px; position: relative; z-index: 2; }
+
+    /* ── Review Form Card ── */
+    .review-form-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+    }
+    .form-card-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--cream);
+    }
+    .form-card-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--maroon), #9b2c2c);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: white; flex-shrink: 0;
+    }
+    .form-card-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--maroon); font-weight: 700; }
+    .form-card-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── Star Rating Input ── */
+    .star-rating-group { margin-bottom: 28px; }
+    .star-rating-group label { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; display: block; }
+    .star-rating-input { display: flex; gap: 10px; align-items: center; }
+    .star-rating-input .star-btn {
+      font-size: 40px; cursor: pointer;
+      color: #ddd;
+      transition: color 0.15s, transform 0.15s;
+      background: none; border: none; padding: 0; line-height: 1;
+    }
+    .star-rating-input .star-btn:hover,
+    .star-rating-input .star-btn.active { color: #FFD700; transform: scale(1.25); }
+    .star-label-text { font-size: 15px; color: var(--text-muted); margin-left: 8px; transition: color 0.2s; }
+
+    /* ── Input Fields ── */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .review-form-card { padding: 24px 20px; } }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+    .form-group label span { color: #e53935; }
+    .form-group input, .form-group textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      color: var(--text-dark);
+      background: #fdfaf7;
+      resize: none;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--maroon);
+      box-shadow: 0 0 0 3px rgba(123,28,28,0.08);
+      background: white;
+    }
+    .form-group textarea { height: 110px; }
+
+    /* ── Submit Button ── */
+    .submit-review-btn {
+      width: 100%;
+      padding: 17px;
+      background: linear-gradient(135deg, var(--maroon), #9b2c2c);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 22px;
+      letter-spacing: 0.5px;
+    }
+    .submit-review-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(123,28,28,0.30); }
+    .submit-review-btn:active { transform: translateY(0); }
+    .submit-review-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-error {
+      background: #fff0f0; border: 1px solid #ffcdd2;
+      border-radius: 10px; padding: 12px 16px;
+      color: #c62828; font-size: 14px; display: none; margin-top: 10px;
+    }
+
+    /* ── Google Popup Overlay ── */
+    .gmap-popup-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+    .gmap-popup-overlay.open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .gmap-popup {
+      background: white;
+      border-radius: 28px;
+      max-width: 480px;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      animation: popupSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes popupSlideUp { from { transform: translateY(60px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    .popup-gradient-header {
+      background: linear-gradient(135deg, #4285F4 0%, #34A853 40%, #FBBC04 70%, #EA4335 100%);
+      padding: 36px 32px 28px;
+      text-align: center;
+      position: relative;
+    }
+    .popup-google-icon {
+      width: 72px; height: 72px;
+      background: white;
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .popup-google-icon svg { width: 42px; height: 42px; }
+    .popup-gradient-header h2 { color: white; font-size: 22px; font-weight: 700; font-family: 'Playfair Display', serif; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .popup-gradient-header p { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 8px; }
+
+    .popup-body { padding: 28px 32px 32px; }
+    .popup-stars-preview { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
+    .popup-stars-preview i { font-size: 32px; color: #FFD700; animation: starBounce 0.6s ease backwards; }
+    .popup-stars-preview i:nth-child(1) { animation-delay: 0.1s; }
+    .popup-stars-preview i:nth-child(2) { animation-delay: 0.2s; }
+    .popup-stars-preview i:nth-child(3) { animation-delay: 0.3s; }
+    .popup-stars-preview i:nth-child(4) { animation-delay: 0.4s; }
+    .popup-stars-preview i:nth-child(5) { animation-delay: 0.5s; }
+    @keyframes starBounce { from { transform: scale(0); } 60% { transform: scale(1.3); } to { transform: scale(1); } }
+
+    .popup-benefit-list { list-style: none; margin: 18px 0; }
+    .popup-benefit-list li {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: #444;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .popup-benefit-list li:last-child { border-bottom: none; }
+    .popup-benefit-list li .benefit-icon {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .bg-blue { background: #e8f0fe; }
+    .bg-green { background: #e6f4ea; }
+    .bg-yellow { background: #fef3cd; }
+
+    .popup-google-btn {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #4285F4, #1a73e8);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px; font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+    }
+    .popup-google-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(66,133,244,0.4); color: white; }
+
+    .popup-skip-btn {
+      display: block; width: 100%;
+      text-align: center;
+      padding: 12px;
+      color: #999;
+      font-size: 13px;
+      cursor: pointer;
+      border: none; background: none;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.2s;
+    }
+    .popup-skip-btn:hover { color: #555; }
+
+    /* ── Review Stats Banner ── */
+    .review-stats {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 28px; align-items: center;
+      margin-bottom: 30px;
+    }
+    .stats-big-rating { text-align: center; }
+    .stats-number { font-size: 64px; font-weight: 800; color: var(--maroon); line-height: 1; font-family: 'Playfair Display', serif; }
+    .stats-stars { display: flex; gap: 4px; justify-content: center; margin: 8px 0; }
+    .stats-stars i { color: #FFD700; font-size: 20px; }
+    .stats-count { font-size: 13px; color: var(--text-muted); }
+    .stats-bars { flex: 1; }
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .bar-label { font-size: 13px; color: var(--text-muted); width: 14px; text-align: right; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 8px; background: #f0f0f0; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFA000); border-radius: 4px; transition: width 1s ease; }
+    .bar-count { font-size: 12px; color: var(--text-muted); width: 20px; }
+
+    /* ── Reviews List ── */
+    .reviews-list-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 22px;
+    }
+    .reviews-list-header h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--maroon); }
+    .reviews-count-badge {
+      background: var(--maroon); color: white;
+      font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+    }
+
+    .review-cards-grid { display: flex; flex-direction: column; gap: 18px; }
+
+    .review-card {
+      background: white;
+      border-radius: 18px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 16px rgba(123,28,28,0.07);
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: cardFadeIn 0.5s ease backwards;
+    }
+    @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .review-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(123,28,28,0.12); }
+
+    .review-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .reviewer-info { display: flex; align-items: center; gap: 14px; }
+    .reviewer-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--maroon), #9b2c2c);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .reviewer-name { font-size: 16px; font-weight: 700; color: var(--text-dark); }
+    .reviewer-date { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .review-card-stars i { color: #FFD700; font-size: 16px; }
+    .review-text { font-size: 15px; color: #444; line-height: 1.7; border-top: 1px solid #f5f0eb; padding-top: 12px; margin-top: 12px; }
+    .review-verified { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #2E7D32; font-weight: 600; margin-top: 10px; }
+    .review-verified i { font-size: 10px; }
+
+    /* ── Empty State ── */
+    .empty-reviews { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-reviews i { font-size: 56px; color: #ddd; margin-bottom: 16px; display: block; }
+    .empty-reviews h3 { font-size: 20px; color: #999; margin-bottom: 8px; }
+    .empty-reviews p { font-size: 14px; }
+
+    /* ── Loading ── */
+    .reviews-loading { text-align: center; padding: 40px; color: var(--text-muted); }
+    .reviews-loading i { font-size: 32px; animation: spin 1s linear infinite; display: block; margin-bottom: 12px; color: var(--maroon); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Success Toast ── */
+    .review-success-bar {
+      background: linear-gradient(135deg, #2E7D32, #388E3C);
+      color: white; padding: 16px 24px;
+      border-radius: 14px; display: none;
+      align-items: center; gap: 12px;
+      font-size: 15px; font-weight: 600;
+      margin-bottom: 20px;
+      animation: slideDown 0.4s ease;
+    }
+    .review-success-bar.show { display: flex; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <!-- Page Hero -->
+  <div class="review-hero">
+    <div class="review-hero-tag">⭐ Share Your Experience</div>
+    <h1>Love Our Store? <span>Tell the World!</span></h1>
+    <p>Your kind words inspire us to serve better and help fellow devotees discover quality pooja samagri.</p>
+    <div class="hero-stars-row">
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="reviews-page">
+
+    <!-- Success Bar -->
+    <div class="review-success-bar" id="success-bar">
+      <i class="fas fa-check-circle" style="font-size:22px"></i>
+      <span>Thank you! Your review has been posted successfully. 🙏</span>
+    </div>
+
+    <!-- Review Form -->
+    <div class="review-form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">✍️</div>
+        <div>
+          <div class="form-card-title">Write Your Review</div>
+          <div class="form-card-sub">Share your honest experience with Sri Manikanta Pooja Stores</div>
+        </div>
+      </div>
+
+      <!-- Star Rating -->
+      <div class="star-rating-group">
+        <label>Your Rating <span style="color:#e53935">*</span></label>
+        <div class="star-rating-input" id="star-input">
+          <button class="star-btn" data-val="1" type="button" aria-label="1 star">★</button>
+          <button class="star-btn" data-val="2" type="button" aria-label="2 stars">★</button>
+          <button class="star-btn" data-val="3" type="button" aria-label="3 stars">★</button>
+          <button class="star-btn" data-val="4" type="button" aria-label="4 stars">★</button>
+          <button class="star-btn" data-val="5" type="button" aria-label="5 stars">★</button>
+          <span class="star-label-text" id="star-label">Click a star to rate</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name <span>*</span></label>
+          <input type="text" id="rv-name" placeholder="e.g. Ramesh Kumar" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Location <span style="color:#aaa;font-weight:400">(optional)</span></label>
+          <input type="text" id="rv-location" placeholder="e.g. Dilsukhnagar, Hyderabad">
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:0">
+        <label>Your Review <span>*</span></label>
+        <textarea id="rv-text" placeholder="Tell us about your experience — product quality, service, delivery, or anything else you'd like to share…"></textarea>
+      </div>
+
+      <div class="form-error" id="rv-error"></div>
+
+      <button class="submit-review-btn" id="submit-btn" onclick="submitReview()">
+        <i class="fas fa-paper-plane"></i>
+        Submit My Review
+      </button>
+    </div>
+
+    <!-- Rating Stats -->
+    <div class="review-stats" id="review-stats" style="display:none">
+      <div class="stats-big-rating">
+        <div class="stats-number" id="avg-rating">5.0</div>
+        <div class="stats-stars" id="avg-stars"></div>
+        <div class="stats-count" id="total-count">0 reviews</div>
+      </div>
+      <div class="stats-bars" id="stats-bars"></div>
+    </div>
+
+    <!-- Reviews List -->
+    <div class="reviews-list-header">
+      <h2>Customer Reviews</h2>
+      <span class="reviews-count-badge" id="count-badge">0</span>
+    </div>
+
+    <div id="reviews-loading" class="reviews-loading">
+      <i class="fas fa-circle-notch"></i>
+      Loading reviews…
+    </div>
+
+    <div class="review-cards-grid" id="reviews-grid"></div>
+  </div>
+
+  <!-- ── Beautiful Google Popup ── -->
+  <div class="gmap-popup-overlay" id="google-popup">
+    <div class="gmap-popup">
+
+      <div class="popup-gradient-header">
+        <div class="popup-google-icon">
+          <!-- Google G Logo SVG -->
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        </div>
+        <h2>You're Amazing! 🎉</h2>
+        <p>Your review helps thousands of devotees find quality pooja samagri</p>
+      </div>
+
+      <div class="popup-body">
+        <div class="popup-stars-preview">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+
+        <ul class="popup-benefit-list">
+          <li>
+            <div class="benefit-icon bg-blue">🌍</div>
+            <div><strong>Reach more devotees</strong><br><span style="color:#777;font-size:12px">Your Google review helps our store appear higher in search results</span></div>
+          </li>
+          <li>
+            <div class="benefit-icon bg-green">💚</div>
+            <div><strong>Support a local business</strong><br><span style="color:#777;font-size:12px">Help Sri Manikanta Pooja Stores grow and serve more families</span></div>
+          </li>
+          <li>
+            <div class="benefit-icon bg-yellow">⭐</div>
+            <div><strong>Takes only 30 seconds</strong><br><span style="color:#777;font-size:12px">Just click, paste your review and tap Post!</span></div>
+          </li>
+        </ul>
+
+        <a href="https://g.page/r/CeCXuIWABtaEEAE/review" target="_blank" class="popup-google-btn" id="google-review-btn" onclick="closeGooglePopup()">
+          <svg width="22" height="22" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#fff"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#fff"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#fff"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#fff"/>
+          </svg>
+          Post on Google Reviews
+        </a>
+
+        <button class="popup-skip-btn" onclick="closeGooglePopup()">
+          <i class="fas fa-times" style="margin-right:5px"></i>Maybe Later
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="site-footer"></footer>
+  <div id="floating-actions"></div>
+
+  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
+  <script src="js/main.js?v=26"></script>
+  <script>
+    // ── Init ──────────────────────────────────────────────────
+    initSite('reviews.html');
+
+    const API_URL = 'api/reviews/index.php';
+    let selectedRating = 0;
+
+    // ── Star Rating ────────────────────────────────────────────
+    const starBtns = document.querySelectorAll('.star-btn');
+    const starLabel = document.getElementById('star-label');
+    const starLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent!'];
+
+    function highlightStars(val) {
+      starBtns.forEach(b => {
+        b.classList.toggle('active', parseInt(b.dataset.val) <= val);
+      });
+      starLabel.textContent = val > 0 ? starLabels[val] : 'Click a star to rate';
+      starLabel.style.color = val > 0 ? '#D4A017' : '';
+      starLabel.style.fontWeight = val > 0 ? '700' : '';
+    }
+
+    starBtns.forEach(btn => {
+      btn.addEventListener('mouseenter', () => highlightStars(parseInt(btn.dataset.val)));
+      btn.addEventListener('mouseleave', () => highlightStars(selectedRating));
+      btn.addEventListener('click', () => {
+        selectedRating = parseInt(btn.dataset.val);
+        highlightStars(selectedRating);
+      });
+    });
+
+    // ── Submit Review ──────────────────────────────────────────
+    async function submitReview() {
+      const name   = document.getElementById('rv-name').value.trim();
+      const review = document.getElementById('rv-text').value.trim();
+      const errEl  = document.getElementById('rv-error');
+      const btn    = document.getElementById('submit-btn');
+
+      errEl.style.display = 'none';
+
+      if (!selectedRating) { showError('⭐ Please select a star rating.'); return; }
+      if (!name)           { showError('👤 Please enter your name.'); return; }
+      if (!review)         { showError('✏️ Please write your review before submitting.'); return; }
+      if (review.length < 15) { showError('✏️ Please write at least 15 characters.'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submitting…';
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, rating: selectedRating, review })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          // Reset form
+          document.getElementById('rv-name').value = '';
+          document.getElementById('rv-location').value = '';
+          document.getElementById('rv-text').value = '';
+          selectedRating = 0;
+          highlightStars(0);
+
+          // Show success bar
+          const bar = document.getElementById('success-bar');
+          bar.classList.add('show');
+          setTimeout(() => bar.classList.remove('show'), 5000);
+
+          // Reload reviews
+          await loadReviews();
+
+          // Show Google Popup after 800ms
+          setTimeout(() => {
+            document.getElementById('google-popup').classList.add('open');
+            document.body.style.overflow = 'hidden';
+          }, 800);
+
+        } else {
+          showError(data.message || 'Something went wrong. Please try again.');
+        }
+      } catch (e) {
+        showError('⚠️ Network error. Please check your connection and try again.');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit My Review';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('rv-error');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    // ── Google Popup ────────────────────────────────────────────
+    function closeGooglePopup() {
+      document.getElementById('google-popup').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('google-popup').addEventListener('click', function(e) {
+      if (e.target === this) closeGooglePopup();
+    });
+
+    // ── Load Reviews ────────────────────────────────────────────
+    async function loadReviews() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        document.getElementById('reviews-loading').style.display = 'none';
+
+        if (!data.success || !data.reviews.length) {
+          document.getElementById('reviews-grid').innerHTML = `
+            <div class="empty-reviews">
+              <i class="fas fa-comment-dots"></i>
+              <h3>No reviews yet</h3>
+              <p>Be the first to share your experience!</p>
+            </div>`;
+          return;
+        }
+
+        renderStats(data.reviews);
+        renderCards(data.reviews);
+        document.getElementById('count-badge').textContent = data.reviews.length;
+
+      } catch (e) {
+        document.getElementById('reviews-loading').innerHTML = '<p style="color:#999">Could not load reviews.</p>';
+      }
+    }
+
+    function renderStats(reviews) {
+      const total = reviews.length;
+      const avg = (reviews.reduce((s, r) => s + r.rating, 0) / total).toFixed(1);
+      const counts = [0, 0, 0, 0, 0, 0]; // index 1-5
+      reviews.forEach(r => counts[r.rating]++);
+
+      document.getElementById('avg-rating').textContent = avg;
+      document.getElementById('total-count').textContent = `${total} review${total !== 1 ? 's' : ''}`;
+      document.getElementById('avg-stars').innerHTML = renderStarsHTML(parseFloat(avg));
+
+      const barsEl = document.getElementById('stats-bars');
+      barsEl.innerHTML = [5,4,3,2,1].map(star => {
+        const pct = total > 0 ? Math.round((counts[star] / total) * 100) : 0;
+        return `
+          <div class="bar-row">
+            <span class="bar-label">${star}</span>
+            <i class="fas fa-star" style="color:#FFD700;font-size:11px;flex-shrink:0"></i>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+            <span class="bar-count">${counts[star]}</span>
+          </div>`;
+      }).join('');
+
+      document.getElementById('review-stats').style.display = 'grid';
+    }
+
+    function renderCards(reviews) {
+      document.getElementById('reviews-grid').innerHTML = reviews.map((r, i) => {
+        const initials = r.name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+        const date = new Date(r.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+        return `
+          <div class="review-card" style="animation-delay:${i * 0.05}s">
+            <div class="review-card-top">
+              <div class="reviewer-info">
+                <div class="reviewer-avatar">${initials}</div>
+                <div>
+                  <div class="reviewer-name">${escapeHtml(r.name)}</div>
+                  <div class="reviewer-date">${date}</div>
+                </div>
+              </div>
+              <div class="review-card-stars">${renderStarsHTML(r.rating)}</div>
+            </div>
+            <div class="review-text">${escapeHtml(r.review)}</div>
+            <div class="review-verified"><i class="fas fa-check-circle"></i> Verified Customer</div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderStarsHTML(rating) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= Math.floor(rating)) html += '<i class="fas fa-star"></i>';
+        else if (i - rating < 1 && i - rating > 0) html += '<i class="fas fa-star-half-alt"></i>';
+        else html += '<i class="far fa-star" style="color:#ddd"></i>';
+      }
+      return html;
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
+    // Load on page start
+    loadReviews();
+  </script>
+</body>
+</html>
