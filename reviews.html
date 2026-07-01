@@ -571,12 +571,18 @@
       btn.disabled = true;
       btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submitting…';
 
+      // 6-second timeout so it never spins forever
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6000);
+
       try {
         const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, rating: selectedRating, review })
+          body: JSON.stringify({ name, rating: selectedRating, review }),
+          signal: controller.signal
         });
+        clearTimeout(timer);
         const data = await res.json();
 
         if (data.success) {
@@ -592,8 +598,8 @@
           bar.classList.add('show');
           setTimeout(() => bar.classList.remove('show'), 5000);
 
-          // Reload reviews
-          await loadReviews();
+          // Reload reviews (non-blocking — don't await)
+          loadReviews();
 
           // Show Google Popup after 800ms
           setTimeout(() => {
@@ -605,7 +611,12 @@
           showError(data.message || 'Something went wrong. Please try again.');
         }
       } catch (e) {
-        showError('⚠️ Network error. Please check your connection and try again.');
+        clearTimeout(timer);
+        if (e.name === 'AbortError') {
+          showError('⏱️ Server took too long. Your review may still have been saved — please refresh the page to check.');
+        } else {
+          showError('⚠️ Network error. Please check your connection and try again.');
+        }
       }
 
       btn.disabled = false;
