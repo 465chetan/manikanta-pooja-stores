@@ -74,11 +74,12 @@ body {
   /* Show hamburger */
   .hamburger { display: flex !important; }
 
-  /* Logo: compact */
-  .logo-icon  { width: 34px !important; height: 34px !important; font-size: 15px !important; }
-  .logo-name  { font-size: 12px !important; }
-  .logo-sub   { font-size: 8px !important; }
-  /* Hide address subtitle on mobile */
+  /* Logo: show full store name on 2 lines */
+  .logo-icon  { width: 34px !important; height: 34px !important; font-size: 16px !important; flex-shrink: 0 !important; }
+  .logo-text  { display: flex !important; flex-direction: column !important; justify-content: center !important; }
+  .logo-name  { font-size: 13px !important; line-height: 1.2 !important; white-space: normal !important; }
+  .logo-sub   { font-size: 8px !important; line-height: 1.2 !important; }
+  /* Hide address subtitle on mobile — keep only tagline */
   .logo-sub:last-child { display: none !important; }
 
   /* Header left section — NO overflow:hidden, we need logo to be clipped
@@ -100,15 +101,8 @@ body {
     flex-shrink: 0 !important;
   }
 
-  /* WhatsApp quick enquiry: icon only */
-  .header-enquiry-btn {
-    padding: 7px 8px !important;
-    border-radius: 50% !important;
-    width: 34px !important;
-    height: 34px !important;
-    justify-content: center !important;
-  }
-  .header-enquiry-btn span { display: none !important; }
+  /* WhatsApp quick enquiry: HIDE on mobile — it's in floating buttons already */
+  .header-enquiry-btn { display: none !important; }
 
   /* Cart & search buttons: smaller */
   .cart-btn     { width: 34px !important; height: 34px !important; font-size: 14px !important; }
