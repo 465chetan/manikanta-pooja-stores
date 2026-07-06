@@ -722,6 +722,18 @@ function handleSwitchAccount(e) {
 
 // ── Init ──────────────────────────────────────────────────────
 function initSite(activePage = '') {
+  // ── Inject mobile.css once (works for all pages automatically) ──
+  if (!document.getElementById('mobile-css')) {
+    const mLink = document.createElement('link');
+    mLink.id   = 'mobile-css';
+    mLink.rel  = 'stylesheet';
+    // Resolve path relative to current page (works in subdirs too)
+    const depth = (window.location.pathname.match(/\//g) || []).length - 1;
+    const prefix = '../'.repeat(Math.max(0, depth));
+    mLink.href = prefix + 'css/mobile.css?v=2';
+    document.head.appendChild(mLink);
+  }
+
   Cart.load();
   Wishlist.load();
 
