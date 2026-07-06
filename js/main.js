@@ -730,7 +730,7 @@ function initSite(activePage = '') {
     // Resolve path relative to current page (works in subdirs too)
     const depth = (window.location.pathname.match(/\//g) || []).length - 1;
     const prefix = '../'.repeat(Math.max(0, depth));
-    mLink.href = prefix + 'css/mobile.css?v=4';
+    mLink.href = prefix + 'css/mobile.css?v=5';
     document.head.appendChild(mLink);
   }
 
