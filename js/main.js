@@ -730,7 +730,7 @@ function initSite(activePage = '') {
     // Resolve path relative to current page (works in subdirs too)
     const depth = (window.location.pathname.match(/\//g) || []).length - 1;
     const prefix = '../'.repeat(Math.max(0, depth));
-    mLink.href = prefix + 'css/mobile.css?v=2';
+    mLink.href = prefix + 'css/mobile.css?v=3';
     document.head.appendChild(mLink);
   }
 
@@ -766,6 +766,31 @@ function initSite(activePage = '') {
 
     // All-menu drawer trigger
     document.getElementById('all-menu-btn')?.addEventListener('click', openDrawer);
+
+    // ── Mobile Profile Dropdown: click/tap toggle ──────────────
+    // On touch devices CSS :hover doesn't work, so we use a click toggle
+    const profileDropdown = document.getElementById('header-profile-dropdown');
+    if (profileDropdown) {
+      const profileBtn = profileDropdown.querySelector('.cart-btn');
+      profileBtn?.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        // Toggle .open class which shows the dropdown via CSS
+        profileDropdown.classList.toggle('open');
+      });
+      // Close dropdown when clicking anywhere outside it
+      document.addEventListener('click', function (e) {
+        if (!profileDropdown.contains(e.target)) {
+          profileDropdown.classList.remove('open');
+        }
+      });
+      // Close dropdown when any link inside it is clicked
+      profileDropdown.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('click', () => {
+          profileDropdown.classList.remove('open');
+        });
+      });
+    }
     // Hamburger (mobile) toggle
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
