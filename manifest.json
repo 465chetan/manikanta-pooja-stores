@@ -1,0 +1,50 @@
+{
+  "name": "Sri Manikanta Pooja Stores",
+  "short_name": "Sri Manikanta",
+  "description": "Your one-stop shop for all pooja essentials — Agarbatti, Diyas, Idols, Festival kits and more. Serving Dilsukhnagar, Hyderabad since 25+ years.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FDF8F0",
+  "theme_color": "#7B1A1A",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop Now",
+      "short_name": "Shop",
+      "description": "Browse all products",
+      "url": "/shop.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "My Cart",
+      "short_name": "Cart",
+      "description": "View your cart",
+      "url": "/cart.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Call or WhatsApp us",
+      "url": "/contact.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

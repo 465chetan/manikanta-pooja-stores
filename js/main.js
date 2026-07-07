@@ -915,3 +915,75 @@ function renderStars(rating) {
 function getProductById(id) {
   return typeof PRODUCTS !== 'undefined' ? PRODUCTS.find(p => p.id == id) : null;
 }
+
+// ── PWA: Service Worker Registration ─────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+      .catch(err => console.warn('[PWA] Service Worker registration failed:', err));
+  });
+}
+
+// ── PWA: Install Prompt Banner ────────────────────────────────
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+
+  // Only show if user hasn't dismissed it before
+  if (localStorage.getItem('pwa_install_dismissed')) return;
+
+  // Create a nice install banner
+  const banner = document.createElement('div');
+  banner.id = 'pwa-install-banner';
+  banner.innerHTML = `
+    <div style="
+      position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, #7B1A1A, #9B2A2A);
+      color: white; padding: 12px 18px; border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      display: flex; align-items: center; gap: 12px;
+      z-index: 99999; max-width: 340px; width: 92vw;
+      font-family: inherit; animation: slideUp 0.4s ease;
+    ">
+      <img src="/icons/icon-192.png" style="width:40px;height:40px;border-radius:10px;flex-shrink:0;" alt="App icon">
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:2px;">Install Our App</div>
+        <div style="font-size:11px;opacity:0.85;">Add Sri Manikanta to your home screen!</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button id="pwa-install-btn" style="
+          background:#C9A84C;color:#fff;border:none;padding:7px 12px;
+          border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;
+        ">Install</button>
+        <button id="pwa-dismiss-btn" style="
+          background:rgba(255,255,255,0.15);color:#fff;border:none;
+          padding:7px 10px;border-radius:8px;font-size:12px;cursor:pointer;
+        ">✕</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('pwa-install-btn')?.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    console.log('[PWA] Install outcome:', outcome);
+    deferredInstallPrompt = null;
+    banner.remove();
+  });
+
+  document.getElementById('pwa-dismiss-btn')?.addEventListener('click', () => {
+    localStorage.setItem('pwa_install_dismissed', '1');
+    banner.remove();
+  });
+});
+
+// Remove banner after app is installed
+window.addEventListener('appinstalled', () => {
+  document.getElementById('pwa-install-banner')?.remove();
+  console.log('[PWA] App installed successfully!');
+});
