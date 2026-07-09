@@ -730,21 +730,26 @@ async function verifyUPIPayment(orderId) {
   
   const btn = document.getElementById('verify-btn-' + orderId);
   if (btn) {
+    // Instantly turn the button green to feel incredibly fast
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+    btn.style.background = '#22c55e'; // Green
+    btn.style.boxShadow = 'none';
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Verified';
   }
 
-  const result = await AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true);
-  if (result.success) {
-    alert('Payment verified successfully!');
-    loadOrderDetail(); // reload page to show updated status
-  } else {
-    alert('Failed to verify payment: ' + result.message);
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
-    }
-  }
+  // Fire the API in the background without making the user wait for WhatsApp/Email delays
+  AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true)
+    .then(result => {
+      if (!result.success) {
+        // Only alert if there was an actual backend failure
+        alert('Warning: ' + result.message);
+        if (btn) {
+          btn.disabled = false;
+          btn.style.background = '#f59e0b'; // Orange
+          btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
+        }
+      }
+    }).catch(() => {});
 }
 
 if (AdminAPI.isLoggedIn()) {

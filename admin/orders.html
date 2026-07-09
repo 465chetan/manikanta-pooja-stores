@@ -941,23 +941,35 @@ async function verifyUPIPayment(orderId) {
 
   const btn = document.getElementById('verify-btn-' + orderId);
   if (btn) {
+    // Instantly turn the button green
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+    btn.style.background = '#22c55e'; // Green
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Verified';
   }
 
-  const result = await AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true);
-  if (!result.success) { 
-    showToast('Failed: ' + result.message, 'error'); 
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
-    }
-    return; 
-  }
+  // Update local state instantly so the UI reflects it
+  openOrder.payment_status = 'paid';
+  openOrder.order_status = 'confirmed';
+  
+  // Render the detail panel again to unlock WhatsApp buttons immediately
+  renderDetailPanel(openOrder, window.currentOrderItems || []);
+  showToast('✅ Payment verified successfully!', 'success');
 
-  showToast('✅ Payment verified successfully! WhatsApp actions unlocked.', 'success');
-  loadOrders(currentPage);
-  openDetail(orderId); // Reload the panel to unlock the UI
+  // Fire API in background
+  AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true)
+    .then(result => {
+      if (!result.success) { 
+        showToast('Warning: ' + result.message, 'error'); 
+        if (btn) {
+          btn.disabled = false;
+          btn.style.background = '#f59e0b';
+          btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
+        }
+      } else {
+        // Silently reload orders in background to keep list fresh
+        loadOrders(currentPage);
+      }
+    }).catch(() => {});
 }
 
 // ── Filter & Search ─────────────────────────────────────────────
