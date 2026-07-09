@@ -606,7 +606,7 @@ async function loadOrderDetail() {
           </div>` : `<p style="font-size:.84rem;color:#9ca3af;text-align:center;padding:20px;background:#f9fafb;border-radius:8px">No screenshot uploaded.</p>`}
         
         ${isPending ? `
-        <button onclick="verifyUPIPayment(${order.id})"
+        <button id="verify-btn-${order.id}" onclick="verifyUPIPayment(${order.id})"
           style="width:100%;margin-top:16px;padding:12px;background:#f59e0b;color:white;border:none;border-radius:10px;font-weight:800;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all .2s;box-shadow:0 4px 12px rgba(245,158,11,0.3)">
           <i class="fas fa-check-circle"></i> Mark Payment Verified
         </button>` : `
@@ -728,12 +728,22 @@ async function loadOrderDetail() {
 async function verifyUPIPayment(orderId) {
   if (!confirm('Are you sure you want to mark this UPI payment as VERIFIED?')) return;
   
+  const btn = document.getElementById('verify-btn-' + orderId);
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+  }
+
   const result = await AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true);
   if (result.success) {
     alert('Payment verified successfully!');
     loadOrderDetail(); // reload page to show updated status
   } else {
     alert('Failed to verify payment: ' + result.message);
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
+    }
   }
 }
 

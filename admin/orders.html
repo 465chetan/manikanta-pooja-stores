@@ -842,7 +842,7 @@ async function openDetail(orderId) {
           <p style="font-size:.7rem;color:#3b82f6;margin:6px 0 0">Click image to view full size</p>
         </div>` : `<p style="font-size:.8rem;color:#9ca3af;background:#f9fafb;padding:10px;border-radius:8px;text-align:center">No screenshot uploaded by customer.</p>`}
       ${order.payment_status === 'verifying' ? `
-        <button onclick="verifyUPIPayment(${order.id})"
+        <button id="verify-btn-${order.id}" onclick="verifyUPIPayment(${order.id})"
           style="width:100%;margin-top:12px;padding:12px;background:#22c55e;color:white;border:none;border-radius:10px;font-weight:800;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s">
           <i class="fas fa-check-circle"></i> Mark Payment Verified
         </button>` : ``}
@@ -939,8 +939,21 @@ async function verifyUPIPayment(orderId) {
   const customerName = openOrder.customer_name || openOrder.full_name || 'Customer';
   if (!confirm(`Confirm UPI Payment?\n\nOrder: ${openOrder.order_number}\nCustomer: ${customerName}\n\nThis will:\n - Mark payment as VERIFIED\n - Unlock WhatsApp actions`)) return;
 
+  const btn = document.getElementById('verify-btn-' + orderId);
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+  }
+
   const result = await AdminAPI.updateOrderStatus(orderId, 'confirmed', 'UPI payment screenshot verified by admin', true);
-  if (!result.success) { showToast('Failed: ' + result.message, 'error'); return; }
+  if (!result.success) { 
+    showToast('Failed: ' + result.message, 'error'); 
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Payment Verified';
+    }
+    return; 
+  }
 
   showToast('✅ Payment verified successfully! WhatsApp actions unlocked.', 'success');
   loadOrders(currentPage);
