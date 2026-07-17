@@ -159,64 +159,32 @@ function initHeroSlider() {
   const hero = document.getElementById('hero-slider');
   if (!hero) return;
 
-  const preRendered = hero.querySelector('#slide-0');
-
-  if (preRendered) {
-    // Slide-0 already in HTML — just append slides 1-8
-    HERO_SLIDES.slice(1).forEach((s, i) => {
-      const idx = i + 1;
-      const div = document.createElement('div');
-      div.className = 'hero-slide';
-      div.id = `slide-${idx}`;
-      div.innerHTML = `
-        <img src="${s.image}" alt="${s.tag}" loading="lazy" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <div class="container">
-            <div class="hero-text">
-              <div class="hero-tag">${s.tag}</div>
-              <h2 class="hero-title">${s.title}</h2>
-              <p class="hero-desc">${s.desc}</p>
-              <div class="hero-actions">
-                <a href="${s.btn1.href}" class="btn ${s.btn1.class}">${s.btn1.text}</a>
-                <a href="${s.btn2.href}" class="btn ${s.btn2.class}">${s.btn2.text}</a>
-              </div>
+  hero.innerHTML = HERO_SLIDES.map((s, i) => `
+    <div class="hero-slide${i === 0 ? ' active' : ''}" id="slide-${i}">
+      <img src="${s.image}" alt="${s.tag}" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'auto'}" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="container">
+          <div class="hero-text">
+            <div class="hero-tag"><i class="fas fa-om"></i> ${s.tag}</div>
+            <h1 class="hero-title">${s.title}</h1>
+            <p class="hero-desc">${s.desc}</p>
+            <div class="hero-actions">
+              <a href="${s.btn1.href}" class="btn ${s.btn1.class}">${s.btn1.text} <i class="fas fa-arrow-right"></i></a>
+              <a href="${s.btn2.href}" class="btn ${s.btn2.class}">${s.btn2.text}</a>
             </div>
           </div>
         </div>
-        <div class="hero-badge">
-          <div class="hero-badge-num">${s.badge.num}</div>
-          <div class="hero-badge-label">${s.badge.label}</div>
-        </div>`;
-      hero.appendChild(div);
-    });
-  } else {
-    // Fallback: inject all slides
-    hero.innerHTML = HERO_SLIDES.map((s, i) => `
-      <div class="hero-slide${i === 0 ? ' active' : ''}" id="slide-${i}">
-        <img src="${s.image}" alt="${s.tag}" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'auto'}" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <div class="container">
-            <div class="hero-text">
-              <div class="hero-tag">${s.tag}</div>
-              <h1 class="hero-title">${s.title}</h1>
-              <p class="hero-desc">${s.desc}</p>
-              <div class="hero-actions">
-                <a href="${s.btn1.href}" class="btn ${s.btn1.class}">${s.btn1.text}</a>
-                <a href="${s.btn2.href}" class="btn ${s.btn2.class}">${s.btn2.text}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="hero-badge">
-          <div class="hero-badge-num">${s.badge.num}</div>
-          <div class="hero-badge-label">${s.badge.label}</div>
-        </div>
-      </div>`).join('');
-  }
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">${s.badge.num}</div>
+        <div class="hero-badge-label">${s.badge.label}</div>
+      </div>
+    </div>
+  `).join('');
 
   hero.insertAdjacentHTML('beforeend', `<div class="hero-progress-bar" id="hero-progress"></div>`);
+
 
 
 
