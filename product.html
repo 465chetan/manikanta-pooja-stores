@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,11 +17,12 @@
   <meta name="msapplication-TileImage" content="icons/icon-192.png">
   <title>Product Detail | Sri Manikanta Pooja Stores</title>
   <meta name="description" content="View detailed product information, sizes and add to cart at Sri Manikanta Pooja Stores, Hyderabad.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ•‰ï¸</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=26">
+  <link rel="stylesheet" href="css/components.css?v=26">
   <link rel="stylesheet" href="css/shop.css?v=3">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <style>
     /* Variant Boxes */
     .variant-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
@@ -69,7 +70,7 @@
             <i class="fas fa-tag"></i> Category
           </a>
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-            <h1 class="product-title" id="product-title">Loading…</h1>
+            <h1 class="product-title" id="product-title">Loadingâ€¦</h1>
             <button id="detail-wishlist-btn" title="Add to Wishlist" style="background:var(--white); border:1.5px solid var(--border); border-radius:var(--r-full); width:44px; height:44px; flex-shrink:0; font-size:18px; color:var(--text-muted); cursor:pointer; display:none; align-items:center; justify-content:center; transition:all 0.2s;" onclick="toggleDetailWishlist()">
               <i class="far fa-heart"></i>
             </button>
@@ -87,8 +88,8 @@
 
           <!-- Price -->
           <div class="product-price-row">
-            <span class="product-price" id="product-price">₹0</span>
-            <span class="product-price-original" id="product-price-orig">₹0</span>
+            <span class="product-price" id="product-price">â‚¹0</span>
+            <span class="product-price-original" id="product-price-orig">â‚¹0</span>
             <span class="product-price-save" id="product-price-save"></span>
           </div>
 
@@ -104,7 +105,7 @@
           <!-- Quantity + Add to Cart -->
           <div class="product-action-row">
             <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty(-1)">−</button>
+              <button class="qty-btn" onclick="changeQty(-1)">âˆ’</button>
               <input type="number" class="qty-input" id="qty-input" value="1" min="1" onchange="quantity=+this.value">
               <button class="qty-btn" onclick="changeQty(1)">+</button>
             </div>
@@ -125,10 +126,10 @@
           <!-- Features -->
           <div class="product-features">
             <div class="product-feature-item"><i class="fas fa-leaf"></i> 100% Natural & Pure Ingredients</div>
-            <div class="product-feature-item"><i class="fas fa-truck"></i> Home Delivery — Free above ₹5000 & within 5km</div>
+            <div class="product-feature-item"><i class="fas fa-truck"></i> Home Delivery â€” Free above â‚¹5000 & within 5km</div>
             <div class="product-feature-item"><i class="fas fa-undo"></i> Easy Returns within 3 days</div>
             <div class="product-feature-item"><i class="fas fa-shield-alt"></i> Guaranteed Authentic Product</div>
-            <div class="product-feature-item"><i class="fas fa-map-marker-alt"></i> Sri Manikanta Stores · Dilsukhnagar, Hyderabad</div>
+            <div class="product-feature-item"><i class="fas fa-map-marker-alt"></i> Sri Manikanta Stores Â· Dilsukhnagar, Hyderabad</div>
           </div>
         </div>
 
@@ -147,10 +148,10 @@
   </section>
 
   <!-- (Peek bar removed to prevent obscuring action buttons) -->
-  <!-- ── Sticky Peek Bar ────────────────────────────────────────
+  <!-- â”€â”€ Sticky Peek Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
        Shown at bottom of viewport so customer sees teasers before
        even scrolling. Clicking it jumps to the full section.
-  ──────────────────────────────────────────────────────────── -->
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
   <div id="peek-bar" style="
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
     background: #fff8f0;
@@ -165,14 +166,14 @@
   " onclick="document.getElementById('related-section').scrollIntoView({behavior:'smooth'}); document.getElementById('peek-bar').style.display='none';">
     <!-- Label -->
     <div style="flex-shrink:0; font-family:'Cinzel Decorative',serif; font-size:0.78rem; color:#7a3e00; font-weight:700; white-space:nowrap; text-align:center; line-height:1.3;">
-      ✨ You May<br>Also Like
+      âœ¨ You May<br>Also Like
     </div>
     <!-- Divider -->
     <div style="width:2px; height:48px; background:#f08b43; flex-shrink:0; border-radius:2px;"></div>
     <!-- Thumbnails -->
     <div id="peek-thumbs" style="display:flex; gap:10px; overflow-x:auto; flex:1; scrollbar-width:none; padding:2px 0;"></div>
     <!-- Arrow -->
-    <div style="flex-shrink:0; color:#f08b43; font-size:1.3rem; animation: peekBounce 1.2s ease-in-out infinite;">↑</div>
+    <div style="flex-shrink:0; color:#f08b43; font-size:1.3rem; animation: peekBounce 1.2s ease-in-out infinite;">â†‘</div>
   </div>
   <style>
     @keyframes peekBounce {
@@ -184,16 +185,16 @@
   </style>
 
 
-  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
-  <script src="js/main.js?v=2"></script>
-  <script src="js/product.js"></script>
+  <script src="js/products.js?v=26" defer></script>
+  <script src="js/main.js?v=26" defer></script>
+  <script src="js/product.js?v=26" defer></script>
   <script>
     // Set WhatsApp enquiry link dynamically
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const p = getProductById(params.get('id'));
       if (p) {
-        const msg = `Hello! I'm interested in *${p.name}* (₹${p.price}). Please share details.`;
+        const msg = `Hello! I'm interested in *${p.name}* (â‚¹${p.price}). Please share details.`;
         // Send to primary WhatsApp number
         document.getElementById('whatsapp-enquiry').href = `https://wa.me/919849985423?text=${encodeURIComponent(msg)}`;
       }
@@ -201,3 +202,5 @@
   </script>
 </body>
 </html>
+
+

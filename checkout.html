@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,13 +17,14 @@
   <meta name="msapplication-TileImage" content="icons/icon-192.png">
   <title>Secure Checkout | Sri Manikanta Pooja Stores</title>
   <meta name="description" content="Checkout securely at Sri Manikanta Pooja Stores. Pay via UPI or Cash on Delivery.">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css?v=26">
+  <link rel="stylesheet" href="css/components.css?v=26">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <style>
     body { background: #fdf3e7; }
 
-    /* ── Step Progress Bar ── */
+    /* â”€â”€ Step Progress Bar â”€â”€ */
     .checkout-progress {
       background: white;
       padding: 18px 0 14px;
@@ -80,7 +81,7 @@
     }
     .ps-line.done { background: #16a34a; }
 
-    /* ── Layout ── */
+    /* â”€â”€ Layout â”€â”€ */
     .ck-wrap {
       max-width: 1100px;
       margin: 0 auto;
@@ -91,11 +92,11 @@
       align-items: start;
     }
 
-    /* ── Step panels ── */
+    /* â”€â”€ Step panels â”€â”€ */
     .step-panel { display: none; }
     .step-panel.active { display: block; }
 
-    /* ── Section card ── */
+    /* â”€â”€ Section card â”€â”€ */
     .sec-card {
       background: white;
       border-radius: 16px;
@@ -127,7 +128,7 @@
     }
     .sec-body { padding: 20px 22px; }
 
-    /* ── Form fields ── */
+    /* â”€â”€ Form fields â”€â”€ */
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: .82rem; font-weight: 700; color: #374151; }
@@ -147,7 +148,7 @@
     .form-control::placeholder { color: #9ca3af; }
     textarea.form-control { resize: vertical; min-height: 80px; }
 
-    /* ── "Next Step" button ── */
+    /* â”€â”€ "Next Step" button â”€â”€ */
     .btn-next {
       width: 100%;
       padding: 15px;
@@ -184,7 +185,7 @@
     }
     .btn-back:hover { border-color: #f97316; color: #f97316; }
 
-    /* ── Payment options ── */
+    /* â”€â”€ Payment options â”€â”€ */
     .pay-opt {
       border: 2px solid #e5e7eb;
       border-radius: 12px;
@@ -203,7 +204,7 @@
     .pay-info span { font-size: .78rem; color: #6b7280; }
     .pay-radio { margin-left: auto; accent-color: #f97316; width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; }
 
-    /* ── Professional UPI Box ── */
+    /* â”€â”€ Professional UPI Box â”€â”€ */
     .upi-box {
       background: #ffffff;
       border: 1px solid #e5e7eb;
@@ -259,7 +260,7 @@
     .upi-steps span { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
     .upi-steps i { color: #f97316; margin-top: 4px; font-size: .9rem; }
 
-    /* ── Screenshot upload ── */
+    /* â”€â”€ Screenshot upload â”€â”€ */
     .ss-upload-area {
       border: 2px dashed #e5e7eb;
       border-radius: 12px;
@@ -280,7 +281,7 @@
     .ss-upload-area p { font-size: .82rem; color: #6b7280; margin: 0; }
     .ss-preview { max-width: 200px; max-height: 200px; border-radius: 8px; margin: 10px auto; display: none; border: 2px solid #16a34a; }
 
-    /* ── Order Summary sidebar ── */
+    /* â”€â”€ Order Summary sidebar â”€â”€ */
     .summ-card {
       background: white;
       border-radius: 16px;
@@ -309,7 +310,7 @@
     .row-total .v { font-size: 1.05rem; font-weight: 800; color: #7b1a1a; }
     .free-tag { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px; font-size: .76rem; color: #166534; text-align: center; margin-bottom: 8px; }
 
-    /* ── Confirm step ── */
+    /* â”€â”€ Confirm step â”€â”€ */
     .confirm-items { }
     .confirm-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: .88rem; border-bottom: 1px solid #f5f5f5; }
     .confirm-row:last-child { border-bottom: none; }
@@ -319,7 +320,7 @@
     .confirm-total-row .cl { font-weight: 800; color: #7b1a1a; }
     .confirm-total-row .cv { font-weight: 800; color: #7b1a1a; font-size: 1.1rem; }
 
-    /* ── Place Order button ── */
+    /* â”€â”€ Place Order button â”€â”€ */
     .btn-order {
       width: 100%;
       padding: 16px;
@@ -342,13 +343,13 @@
     .btn-order:disabled { opacity: .6; cursor: not-allowed; transform: none; }
     .secure-txt { display: flex; align-items: center; justify-content: center; gap: 6px; color: #9ca3af; font-size: .7rem; margin-top: 8px; }
 
-    /* ── Error box ── */
+    /* â”€â”€ Error box â”€â”€ */
     .err-box { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fecaca; border-radius: 10px; padding: 10px 14px; font-size: .82rem; margin-bottom: 12px; display: none; }
 
-    /* ── Login gate ── */
+    /* â”€â”€ Login gate â”€â”€ */
     .login-gate { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.07); padding: 36px; text-align: center; margin-bottom: 16px; display: none; }
 
-    /* ── Address cards ── */
+    /* â”€â”€ Address cards â”€â”€ */
     .addr-card { border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all .2s; margin-bottom: 10px; position: relative; }
     .addr-card:hover { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
     .addr-card.sel { border-color: #f97316; background: #fffaf4; }
@@ -359,7 +360,7 @@
     .add-addr { display: flex; align-items: center; gap: 8px; color: #f97316; font-size: .875rem; font-weight: 600; cursor: pointer; padding: 12px 4px; border-top: 1px dashed #e5e7eb; margin-top: 6px; transition: color .2s; }
     .add-addr:hover { color: #ea580c; }
 
-    /* ── Responsive ── */
+    /* â”€â”€ Responsive â”€â”€ */
     @media(max-width: 768px) {
       .ck-wrap { grid-template-columns: 1fr; }
       .summ-card { position: static; order: -1; }
@@ -370,7 +371,7 @@
 <body>
   <header id="site-header"></header>
 
-  <!-- ── Step Progress ── -->
+  <!-- â”€â”€ Step Progress â”€â”€ -->
   <div class="checkout-progress">
     <div class="progress-inner">
       <div class="ps done" id="prog-1">
@@ -401,7 +402,7 @@
 
       <!-- Login Gate -->
       <div class="login-gate" id="login-gate">
-        <div style="font-size:52px;margin-bottom:12px">🔐</div>
+        <div style="font-size:52px;margin-bottom:12px">ðŸ”</div>
         <h3 style="color:#7b1a1a;margin:0 0 8px;font-family:'Segoe UI',sans-serif;font-size:1.3rem">Login Required</h3>
         <p style="color:#6b7280;margin:0 0 22px;font-size:.9rem">Please login or create an account to complete your purchase.<br>It's free and takes less than a minute!</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
@@ -472,7 +473,7 @@
 
             <!-- COD -->
             <div class="pay-opt sel" id="opt-cod" onclick="selectPayment('cod')">
-              <div class="pay-icon">💵</div>
+              <div class="pay-icon">ðŸ’µ</div>
               <div class="pay-info">
                 <strong>Cash on Delivery (COD)</strong>
                 <span>Pay with cash when your order arrives. No advance needed.</span>
@@ -482,7 +483,7 @@
 
             <!-- UPI -->
             <div class="pay-opt" id="opt-upi" onclick="selectPayment('upi')">
-              <div class="pay-icon">📱</div>
+              <div class="pay-icon">ðŸ“±</div>
               <div class="pay-info">
                 <strong>UPI / QR Code Payment</strong>
                 <span>Pay via GPay, PhonePe, Paytm, BHIM or any UPI app.</span>
@@ -501,7 +502,7 @@
                   
                   <div style="background: #fff7ed; padding: 12px; border-radius: 12px; display: inline-block; margin-bottom: 10px; border: 1px solid #ffedd5;">
                     <div style="color:#ea580c;font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Total Amount</div>
-                    <div style="color:#1f2937;font-size:1.4rem;font-weight:800;margin-top:2px;" id="upi-amount-display">₹0</div>
+                    <div style="color:#1f2937;font-size:1.4rem;font-weight:800;margin-top:2px;" id="upi-amount-display">â‚¹0</div>
                   </div>
 
                   <div class="upi-apps">
@@ -514,7 +515,7 @@
                   <div class="upi-steps">
                     <span><i class="fas fa-mobile-alt"></i> Open any UPI app on your phone</span>
                     <span><i class="fas fa-qrcode"></i> Scan the QR code or copy the UPI ID</span>
-                    <span><i class="fas fa-rupee-sign"></i> Pay exactly: <strong style="color:#ea580c" id="upi-steps-amt">₹0</strong></span>
+                    <span><i class="fas fa-rupee-sign"></i> Pay exactly: <strong style="color:#ea580c" id="upi-steps-amt">â‚¹0</strong></span>
                     <span><i class="fas fa-cloud-upload-alt"></i> Upload the payment screenshot below</span>
                   </div>
                 </div>
@@ -576,7 +577,7 @@
               <div id="confirm-items-list"></div>
               <div class="confirm-total-row">
                 <span class="cl">Total</span>
-                <span class="cv" id="confirm-total">₹0</span>
+                <span class="cv" id="confirm-total">â‚¹0</span>
               </div>
             </div>
 
@@ -596,7 +597,7 @@
     <div>
       <div class="summ-card">
         <div class="summ-head">
-          <span style="color:#f97316;font-size:1rem">🧾</span>
+          <span style="color:#f97316;font-size:1rem">ðŸ§¾</span>
           <span class="summ-head-txt">Your Order</span>
         </div>
         <hr class="summ-divider" style="margin:0 22px">
@@ -605,10 +606,10 @@
           <div id="totals-section" style="display:none">
             <div id="free-tag" class="free-tag" style="display:none"></div>
             <div class="totals-block">
-              <div class="row-sm"><span class="l">Subtotal</span><span class="v" id="s-sub">₹0</span></div>
-              <div class="row-sm"><span class="l">Delivery</span><span class="v" id="s-del">₹60</span></div>
+              <div class="row-sm"><span class="l">Subtotal</span><span class="v" id="s-sub">â‚¹0</span></div>
+              <div class="row-sm"><span class="l">Delivery</span><span class="v" id="s-del">â‚¹60</span></div>
             </div>
-            <div class="row-total"><span class="l">Total</span><span class="v" id="s-total">₹0</span></div>
+            <div class="row-total"><span class="l">Total</span><span class="v" id="s-total">â‚¹0</span></div>
           </div>
         </div>
       </div>
@@ -630,18 +631,18 @@
   <footer id="site-footer"></footer>
   <div id="floating-actions"></div>
 
-  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
-  <script src="js/main.js?v=2"></script>
-  <script src="js/cart.js?v=6"></script>
-  <script src="js/auth.js?v=6"></script>
+  <script src="js/products.js?v=26" defer></script>
+  <script src="js/main.js?v=26" defer></script>
+  <script src="js/cart.js?v=26" defer></script>
+  <script src="js/auth.js?v=26" defer></script>
   <script>
-  // ── Config ──────────────────────────────────────────────────────
+  // â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const STORE_UPI_ID   = '9110582086@ptyes';
   const STORE_UPI_NAME = 'Sri Manikanta Pooja Stores';
   const FREE_ABOVE     = 599;
   const DELIVERY_FEE   = 60;
 
-  // ── State ────────────────────────────────────────────────────────
+  // â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   let cartItems       = [];
   let subtotal        = 0;
   let deliveryCharge  = DELIVERY_FEE;
@@ -650,7 +651,7 @@
   let screenshotFile  = null;
   let currentStep     = 2;
 
-  // ── Init ─────────────────────────────────────────────────────────
+  // â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   document.addEventListener('DOMContentLoaded', async () => {
 
     if (window.Cart) window.Cart.load();
@@ -693,7 +694,7 @@
     setupUPIQR();
   });
 
-  // ── Step Navigation ──────────────────────────────────────────────
+  // â”€â”€ Step Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function goToStep(step) {
     document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('step-' + step)?.classList.add('active');
@@ -744,9 +745,9 @@
       `<strong>${name}</strong> &middot; ${phone}<br>${address}`;
     document.getElementById('confirm-payment').innerHTML =
       selectedPayment === 'upi'
-        ? '📱 UPI / QR Code Payment'
-        : '💵 Cash on Delivery (COD)';
-    document.getElementById('confirm-total').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+        ? 'ðŸ“± UPI / QR Code Payment'
+        : 'ðŸ’µ Cash on Delivery (COD)';
+    document.getElementById('confirm-total').textContent = 'â‚¹' + totalAmount.toLocaleString('en-IN');
 
     // Items
     let html = '';
@@ -754,8 +755,8 @@
       const tot = (item.price || 0) * (item.qty || 1);
       const variant = item.variant || item.selectedSize || '';
       html += `<div class="confirm-row">
-        <span class="cl">${item.name}${variant ? ' · ' + variant : ''} × ${item.qty}</span>
-        <span class="cv">₹${tot.toLocaleString('en-IN')}</span>
+        <span class="cl">${item.name}${variant ? ' Â· ' + variant : ''} Ã— ${item.qty}</span>
+        <span class="cv">â‚¹${tot.toLocaleString('en-IN')}</span>
       </div>`;
     });
     document.getElementById('confirm-items-list').innerHTML = html;
@@ -767,7 +768,7 @@
     goToStep(4);
   }
 
-  // ── Summary ──────────────────────────────────────────────────────
+  // â”€â”€ Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function renderSummary() {
     subtotal = 0;
     let html = '';
@@ -780,9 +781,9 @@
         <img class="o-img" src="${img}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
         <div class="o-info">
           <div class="n">${item.name}</div>
-          <div class="q">${variant ? variant + ' × ' + item.qty : 'Qty × ' + item.qty}</div>
+          <div class="q">${variant ? variant + ' Ã— ' + item.qty : 'Qty Ã— ' + item.qty}</div>
         </div>
-        <div class="o-price">₹${tot.toLocaleString('en-IN')}</div>
+        <div class="o-price">â‚¹${tot.toLocaleString('en-IN')}</div>
       </div>`;
     });
     document.getElementById('order-items-list').innerHTML = html;
@@ -790,23 +791,23 @@
     deliveryCharge = subtotal >= FREE_ABOVE ? 0 : DELIVERY_FEE;
     totalAmount    = subtotal + deliveryCharge;
 
-    document.getElementById('s-sub').textContent   = '₹' + subtotal.toLocaleString('en-IN');
-    document.getElementById('s-del').textContent   = deliveryCharge === 0 ? '🎉 FREE' : '₹' + deliveryCharge;
-    document.getElementById('s-total').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+    document.getElementById('s-sub').textContent   = 'â‚¹' + subtotal.toLocaleString('en-IN');
+    document.getElementById('s-del').textContent   = deliveryCharge === 0 ? 'ðŸŽ‰ FREE' : 'â‚¹' + deliveryCharge;
+    document.getElementById('s-total').textContent = 'â‚¹' + totalAmount.toLocaleString('en-IN');
     document.getElementById('totals-section').style.display = 'block';
 
     const ft = document.getElementById('free-tag');
     if (deliveryCharge === 0) {
-      ft.innerHTML = '🎉 You get <strong>FREE Delivery!</strong>';
+      ft.innerHTML = 'ðŸŽ‰ You get <strong>FREE Delivery!</strong>';
       ft.style.display = 'block';
     } else {
-      ft.innerHTML = `Add ₹${(FREE_ABOVE - subtotal).toLocaleString('en-IN')} more for <strong>FREE Delivery</strong>`;
+      ft.innerHTML = `Add â‚¹${(FREE_ABOVE - subtotal).toLocaleString('en-IN')} more for <strong>FREE Delivery</strong>`;
       ft.style.display = 'block';
     }
     updateUPIQR();
   }
 
-  // ── Saved Addresses ──────────────────────────────────────────────
+  // â”€â”€ Saved Addresses â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async function loadSavedAddresses() {
     try {
       const data = await DashboardAPI.getAddresses();
@@ -819,15 +820,15 @@
         document.getElementById('cust-name').value    = def.full_name || document.getElementById('cust-name').value;
         document.getElementById('cust-phone').value   = def.mobile    || document.getElementById('cust-phone').value;
         document.getElementById('cust-address').value =
-          `${def.address_line}${def.landmark ? ', ' + def.landmark : ''}, ${def.city}, ${def.state} – ${def.pincode}`;
+          `${def.address_line}${def.landmark ? ', ' + def.landmark : ''}, ${def.city}, ${def.state} â€“ ${def.pincode}`;
       }
       window._allAddresses = addrs;
       document.getElementById('addr-container').innerHTML = addrs.map(a => `
         <div class="addr-card ${a.id === def.id ? 'sel' : ''}" id="ac-${a.id}" onclick="pickSavedAddr(${a.id})">
           <input type="radio" name="addr" ${a.id === def.id ? 'checked' : ''}>
-          <span class="addr-lbl">${a.label || 'Home'}${a.is_default ? ' ⭐' : ''}</span>
+          <span class="addr-lbl">${a.label || 'Home'}${a.is_default ? ' â­' : ''}</span>
           <div class="addr-name">${a.full_name} <span style="font-weight:400;font-size:.75rem;color:#9ca3af">${a.mobile}</span></div>
-          <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} – ${a.pincode}</div>
+          <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} â€“ ${a.pincode}</div>
         </div>`).join('') +
         `<div class="add-addr" onclick="window.location.href='dashboard/addresses.html?back=checkout'">
           <i class="fas fa-plus-circle"></i> Add a new delivery address
@@ -843,11 +844,11 @@
       document.getElementById('cust-name').value    = addr.full_name;
       document.getElementById('cust-phone').value   = addr.mobile;
       document.getElementById('cust-address').value =
-        `${addr.address_line}${addr.landmark ? ', ' + addr.landmark : ''}, ${addr.city}, ${addr.state} – ${addr.pincode}`;
+        `${addr.address_line}${addr.landmark ? ', ' + addr.landmark : ''}, ${addr.city}, ${addr.state} â€“ ${addr.pincode}`;
     }
   }
 
-  // ── Payment ──────────────────────────────────────────────────────
+  // â”€â”€ Payment â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function selectPayment(method) {
     selectedPayment = method;
     document.querySelectorAll('.pay-opt').forEach(el => el.classList.remove('sel'));
@@ -860,13 +861,13 @@
     if (utrArea) utrArea.style.display = isUPI ? 'block' : 'none';
   }
 
-  // ── UPI QR ───────────────────────────────────────────────────────
+  // â”€â”€ UPI QR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function setupUPIQR() {
     document.getElementById('upi-id-txt').textContent = STORE_UPI_ID;
     updateUPIQR();
   }
   function updateUPIQR() {
-    const amtStr = '₹' + totalAmount.toLocaleString('en-IN');
+    const amtStr = 'â‚¹' + totalAmount.toLocaleString('en-IN');
     const ad = document.getElementById('upi-amount-display');
     const as = document.getElementById('upi-steps-amt');
     if (ad) ad.textContent = amtStr;
@@ -875,12 +876,12 @@
   function copyUPIId() {
     navigator.clipboard?.writeText(STORE_UPI_ID).then(() => {
       const el = document.getElementById('upi-id-txt');
-      el.innerHTML = '<span>✅ Copied!</span>';
+      el.innerHTML = '<span>âœ… Copied!</span>';
       setTimeout(() => el.innerHTML = `<span>${STORE_UPI_ID}</span><i class="far fa-copy" style="font-size: .9rem;"></i>`, 2000);
     });
   }
 
-  // ── Screenshot ───────────────────────────────────────────────────
+  // â”€â”€ Screenshot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function handleScreenshot(input) {
     const file = input.files[0];
     if (!file) return;
@@ -894,7 +895,7 @@
       preview.src   = e.target.result;
       preview.style.display = 'block';
       area.classList.add('has-file');
-      label.innerHTML = `<strong>✅ Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
+      label.innerHTML = `<strong>âœ… Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
       icon.className = 'fas fa-check-circle';
       icon.style.color = '#16a34a';
     };
@@ -908,7 +909,7 @@
     const status = document.getElementById('ss-status');
     status.style.display = 'block';
     status.style.color   = '#6b7280';
-    status.textContent   = '⏳ Uploading screenshot...';
+    status.textContent   = 'â³ Uploading screenshot...';
     try {
       const res  = await fetch(API_BASE + '/payments/upload-screenshot.php', {
         method:  'POST',
@@ -917,22 +918,22 @@
       });
       const data = await res.json();
       if (data.success) {
-        status.textContent = '✅ Screenshot uploaded!';
+        status.textContent = 'âœ… Screenshot uploaded!';
         status.style.color = '#16a34a';
         return data.path;
       } else {
-        status.textContent = '❌ Upload failed: ' + (data.message || 'Try again');
+        status.textContent = 'âŒ Upload failed: ' + (data.message || 'Try again');
         status.style.color = '#b91c1c';
         return null;
       }
     } catch (e) {
-      status.textContent = '❌ Network error during upload.';
+      status.textContent = 'âŒ Network error during upload.';
       status.style.color = '#b91c1c';
       return null;
     }
   }
 
-  // ── Place Order ──────────────────────────────────────────────────
+  // â”€â”€ Place Order â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   async function placeOrder() {
     document.getElementById('order-error').style.display = 'none';
 
@@ -1030,10 +1031,12 @@
 
   function showError(msg) {
     const el = document.getElementById('order-error');
-    el.textContent = '⚠️ ' + msg;
+    el.textContent = 'âš ï¸ ' + msg;
     el.style.display = 'block';
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   </script>
 </body>
 </html>
+
+

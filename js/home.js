@@ -309,15 +309,15 @@ function renderGallery() {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
   const gImages = [
-    { src: 'images/store_exterior_1.png', alt: 'Sri Manikanta Pooja Store Front' },
-    { src: 'images/store_1.jpg', alt: 'Sri Manikanta Pooja Store — View 1' },
-    { src: 'images/store_2.jpg', alt: 'Sri Manikanta Store — View 2' },
-    { src: 'images/store_3.jpg', alt: 'Sri Manikanta Store — View 3' },
-    { src: 'images/store_4.jpg', alt: 'Sri Manikanta Store — View 4' },
-    { src: 'images/store_5.jpg', alt: 'Sri Manikanta Store — View 5' },
-    { src: 'images/store_6.jpg', alt: 'Sri Manikanta Store — View 6' },
-    { src: 'images/store_7.jpg', alt: 'Sri Manikanta Store — View 7' },
-    { src: 'images/store_8.jpg', alt: 'Sri Manikanta Store — View 8' }
+    { src: 'images/store_exterior_1.webp', alt: 'Sri Manikanta Pooja Store Front' },
+    { src: 'images/store_1.webp', alt: 'Sri Manikanta Pooja Store — View 1' },
+    { src: 'images/store_2.webp', alt: 'Sri Manikanta Store — View 2' },
+    { src: 'images/store_3.webp', alt: 'Sri Manikanta Store — View 3' },
+    { src: 'images/store_4.webp', alt: 'Sri Manikanta Store — View 4' },
+    { src: 'images/store_5.webp', alt: 'Sri Manikanta Store — View 5' },
+    { src: 'images/store_6.webp', alt: 'Sri Manikanta Store — View 6' },
+    { src: 'images/store_7.webp', alt: 'Sri Manikanta Store — View 7' },
+    { src: 'images/store_8.webp', alt: 'Sri Manikanta Store — View 8' }
   ];
   grid.innerHTML = gImages.map((img, i) => `
     <div class="gallery-item reveal reveal-delay-${(i % 3) + 1}" onclick="openGalleryModal('${img.src}','${img.alt}')">
@@ -340,4 +340,5 @@ function openGalleryModal(src, alt) {
   document.getElementById('gallery-modal-img').src = src;
   document.getElementById('gallery-modal-img').alt = alt;
 }
+
 

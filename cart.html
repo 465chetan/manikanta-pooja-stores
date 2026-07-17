@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,12 +20,13 @@
   <meta name="description"
     content="Review your cart and place your order for pooja items at Sri Manikanta Pooja Stores, Hyderabad.">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/shop.css">
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ•‰ï¸</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=26">
+  <link rel="stylesheet" href="css/components.css?v=26">
+  <link rel="stylesheet" href="css/shop.css?v=26">
   <link rel="stylesheet" href="css/cart-new.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <!-- Leaflet & LocationIQ -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -34,7 +35,7 @@
       background: #fdf3e7;
     }
 
-    /* ── Progress Steps ── */
+    /* â”€â”€ Progress Steps â”€â”€ */
     .cart-steps {
       display: flex;
       align-items: center;
@@ -106,7 +107,7 @@
       background: #16a34a;
     }
 
-    /* ── Step Panels ── */
+    /* â”€â”€ Step Panels â”€â”€ */
     .ck-panel {
       display: none;
     }
@@ -115,7 +116,7 @@
       display: block;
     }
 
-    /* ── 2-col layout for steps 2,3,4 ── */
+    /* â”€â”€ 2-col layout for steps 2,3,4 â”€â”€ */
     .ck-layout {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -138,7 +139,7 @@
       }
     }
 
-    /* ── Section card ── */
+    /* â”€â”€ Section card â”€â”€ */
     .sec-card {
       background: white;
       border-radius: 16px;
@@ -184,7 +185,7 @@
       padding: 16px 18px;
     }
 
-    /* ── Form ── */
+    /* â”€â”€ Form â”€â”€ */
     .form-row2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -328,7 +329,7 @@
       color: #15803d !important;
     }
 
-    /* ── Map Modal ── */
+    /* â”€â”€ Map Modal â”€â”€ */
     .map-modal-overlay {
       position: fixed;
       inset: 0;
@@ -579,7 +580,7 @@
       color: #f97316;
     }
 
-    /* ── Buttons ── */
+    /* â”€â”€ Buttons â”€â”€ */
     .btn-next {
       width: 100%;
       padding: 13px;
@@ -625,7 +626,7 @@
       color: #f97316;
     }
 
-    /* ── Payment options ── */
+    /* â”€â”€ Payment options â”€â”€ */
     .pay-opt {
       border: 2px solid #e5e7eb;
       border-radius: 12px;
@@ -674,7 +675,7 @@
       margin-top: 4px;
     }
 
-    /* ── Professional UPI Box ── */
+    /* â”€â”€ Professional UPI Box â”€â”€ */
     .upi-box {
       background: #ffffff;
       border: 1px solid #e5e7eb;
@@ -774,7 +775,7 @@
       margin-bottom: 2px;
     }
 
-    /* ── Screenshot upload ── */
+    /* â”€â”€ Screenshot upload â”€â”€ */
     .ss-area {
       border: 2px dashed #e5e7eb;
       border-radius: 12px;
@@ -833,7 +834,7 @@
       border: 2px solid #16a34a;
     }
 
-    /* ── Sidebar summary ── */
+    /* â”€â”€ Sidebar summary â”€â”€ */
     .ck-sidebar .cart-summary {
       border-radius: 16px;
     }
@@ -886,7 +887,7 @@
       padding-left: 6px;
     }
 
-    /* ── Confirm review ── */
+    /* â”€â”€ Confirm review â”€â”€ */
     .confirm-block {
       background: #fafafa;
       border-radius: 10px;
@@ -951,7 +952,7 @@
       color: #7b1a1a;
     }
 
-    /* ── Place order btn ── */
+    /* â”€â”€ Place order btn â”€â”€ */
     .btn-order {
       width: 100%;
       padding: 16px;
@@ -1023,7 +1024,7 @@
   <main style="padding-bottom: 80px;">
     <div class="container">
 
-      <!-- ── Progress Bar ── -->
+      <!-- â”€â”€ Progress Bar â”€â”€ -->
       <div class="cart-steps" id="cart-steps">
         <div class="cart-step active" id="si-1" onclick="if(currentStep > 1) goToStep(1)" style="cursor:pointer;">
           <div class="step-num">1</div>
@@ -1046,7 +1047,7 @@
         </div>
       </div>
 
-      <!-- ══ STEP 1: Cart ══ -->
+      <!-- â•â• STEP 1: Cart â•â• -->
       <div class="ck-panel active" id="cart-step-1">
         <div class="cart-layout">
           <div id="cart-items"><!-- Injected by JS --></div>
@@ -1059,7 +1060,7 @@
         </div>
       </div>
 
-      <!-- ══ STEP 2: Your Details ══ -->
+      <!-- â•â• STEP 2: Your Details â•â• -->
       <div class="ck-panel" id="cart-step-2">
         <button class="btn-back" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back to Cart</button>
         <div class="ck-layout">
@@ -1128,7 +1129,7 @@
         </div>
       </div>
 
-      <!-- ══ STEP 3: Payment ══ -->
+      <!-- â•â• STEP 3: Payment â•â• -->
       <div class="ck-panel" id="cart-step-3">
         <button class="btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back to Details</button>
         <div class="ck-layout">
@@ -1141,7 +1142,7 @@
               <div class="sec-body">
                 <!-- COD -->
                 <div class="pay-opt sel" id="opt-cod" onclick="selectPay('cod')">
-                  <div class="pay-icon">💵</div>
+                  <div class="pay-icon">ðŸ’µ</div>
                   <div class="pay-info">
                     <strong>Cash on Delivery (COD)</strong>
                     <span>Pay with cash when your order arrives. No advance needed.</span>
@@ -1150,7 +1151,7 @@
                 </div>
                 <!-- UPI -->
                 <div class="pay-opt" id="opt-upi" onclick="selectPay('upi')">
-                  <div class="pay-icon">📱</div>
+                  <div class="pay-icon">ðŸ“±</div>
                   <div class="pay-info">
                     <strong>UPI / QR Code Payment</strong>
                     <span>Pay via GPay, PhonePe, Paytm, BHIM or any UPI app.</span>
@@ -1220,7 +1221,7 @@
         </div>
       </div>
 
-      <!-- ══ STEP 4: Confirm ══ -->
+      <!-- â•â• STEP 4: Confirm â•â• -->
       <div class="ck-panel" id="cart-step-4">
         <button class="btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Back to Payment</button>
         <div class="ck-layout">
@@ -1245,7 +1246,7 @@
                   <div id="confirm-items"></div>
                   <div class="confirm-total-row">
                     <span class="cl">Total</span>
-                    <span class="cv" id="confirm-total">₹0</span>
+                    <span class="cv" id="confirm-total">â‚¹0</span>
                   </div>
                 </div>
                 <button class="btn-order" id="place-btn" onclick="placeOrder()">
@@ -1293,7 +1294,7 @@
           </div>
           <div class="ymal-grid" id="ymal-grid">
             <div class="ymal-loading"><i class="fas fa-spinner fa-spin" style="font-size:24px"></i><br>Loading
-              suggestions…</div>
+              suggestionsâ€¦</div>
           </div>
         </div>
       </div>
@@ -1304,10 +1305,10 @@
   <footer id="site-footer"></footer>
   <div id="floating-actions"></div>
 
-  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
-  <script src="js/main.js?v=2"></script>
-  <script src="js/auth.js?v=6"></script>
-  <script src="js/cart.js?v=9"></script>
+  <script src="js/products.js?v=26" defer></script>
+  <script src="js/main.js?v=26" defer></script>
+  <script src="js/auth.js?v=26" defer></script>
+  <script src="js/cart.js?v=26" defer></script>
 
   <!-- MAP MODAL -->
   <div class="map-modal-overlay" id="map-modal-overlay">
@@ -1320,7 +1321,7 @@
       </div>
       <div id="map-container" style="position:relative;flex:1;min-height:0;">
         <div id="leaflet-map" style="width:100%;height:100%;"></div>
-        <div class="map-center-pin">📍</div>
+        <div class="map-center-pin">ðŸ“</div>
         <button class="map-locate-btn" onclick="locateMe()" title="Use my location">
           <i class="fas fa-crosshairs"></i>
         </button>
@@ -1375,7 +1376,7 @@
       // Add LocationIQ streets tile layer
       L.tileLayer(`https://{s}-tiles.locationiq.com/v3/streets/r/{z}/{x}/{y}.png?key=${locationiqToken}`, {
         maxZoom: 18,
-        attribution: '© LocationIQ © OpenStreetMap'
+        attribution: 'Â© LocationIQ Â© OpenStreetMap'
       }).addTo(locationiqMap);
 
       locationiqMap.on('moveend', () => {
@@ -1532,3 +1533,5 @@
 </body>
 
 </html>
+
+

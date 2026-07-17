@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,10 +17,11 @@
   <meta name="msapplication-TileImage" content="icons/icon-192.png">
   <title>Order Confirmed | Sri Manikanta Pooja Stores</title>
   <meta name="description" content="Your order has been placed successfully at Sri Manikanta Pooja Stores.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ•‰ï¸</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=26">
+  <link rel="stylesheet" href="css/components.css?v=26">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <style>
     body { background: linear-gradient(135deg, #fdf6ec 0%, #fff8f0 100%); min-height: 100vh; display: flex; flex-direction: column; }
     .success-page { max-width: 680px; margin: 0 auto; padding: 24px 16px 120px; flex: 1; }
@@ -36,7 +37,7 @@
       overflow: hidden;
     }
     .success-hero::before {
-      content: 'ॐ';
+      content: 'à¥';
       position: absolute;
       font-size: 160px;
       color: rgba(255,255,255,.04);
@@ -134,12 +135,12 @@
   <footer id="site-footer"></footer>
   <div id="floating-actions"></div>
 
-  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
-  <script src="js/main.js?v=2"></script>
-  <script src="js/auth.js?v=6"></script>
-  <script src="js/cart.js?v=6"></script>
+  <script src="js/products.js?v=26" defer></script>
+  <script src="js/main.js?v=26" defer></script>
+  <script src="js/auth.js?v=26" defer></script>
+  <script src="js/cart.js?v=26" defer></script>
   <script>
-  // ── Load order from sessionStorage ─────────────────────────
+  // â”€â”€ Load order from sessionStorage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   document.addEventListener('DOMContentLoaded', async () => {
     initSite('');
 
@@ -148,7 +149,7 @@
     if (!raw) {
       document.getElementById('success-page').innerHTML = `
         <div style="text-align:center;padding:60px">
-          <div style="font-size:48px;margin-bottom:12px">❓</div>
+          <div style="font-size:48px;margin-bottom:12px">â“</div>
           <h2 style="color:#7b1a1a">No Order Found</h2>
           <p style="color:#6b7280">Your session may have expired or you arrived here directly.</p>
           <a href="shop.html" class="btn btn-primary" style="margin-top:16px;display:inline-flex"><i class="fas fa-store"></i> Continue Shopping</a>
@@ -170,7 +171,7 @@
     page.innerHTML = `
       <!-- Hero -->
       <div class="success-hero">
-        <span class="success-ico">🙏</span>
+        <span class="success-ico">ðŸ™</span>
         <h1>Order Placed!</h1>
         <p>Thank you for shopping with Sri Manikanta Pooja Stores</p>
         <div class="order-id-badge">${order.order_number || 'SMPS-XXXX'}</div>
@@ -179,19 +180,19 @@
       <!-- Payment Notice -->
       ${isUPI ? `
       <div class="upi-notice">
-        <span class="n-ico">⚡</span>
+        <span class="n-ico">âš¡</span>
         <h3>UPI Payment Under Verification</h3>
         <p>
-          We have received your payment screenshot and will verify it within <strong>15–30 minutes</strong>.<br>
+          We have received your payment screenshot and will verify it within <strong>15â€“30 minutes</strong>.<br>
           <strong>The store will contact you within 10 minutes for further updates.</strong><br><br>
           Please keep your UPI app open for reference if needed.
         </p>
       </div>` : `
       <div class="cod-notice">
-        <span class="n-ico">💵</span>
+        <span class="n-ico">ðŸ’µ</span>
         <h3>Cash on Delivery Confirmed!</h3>
         <p>
-          Your order is confirmed! Pay <strong>₹${total.toLocaleString('en-IN')}</strong> in cash when our delivery partner arrives.<br>
+          Your order is confirmed! Pay <strong>â‚¹${total.toLocaleString('en-IN')}</strong> in cash when our delivery partner arrives.<br>
           <strong>The store will contact you within 10 minutes for further updates.</strong> Keep your phone reachable!
         </p>
       </div>`}
@@ -206,13 +207,13 @@
               <img class="o-img" src="${item.image || 'images/1000090824.jpg'}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
               <div class="o-info">
                 <div class="n">${item.name}</div>
-                <div class="q">${item.variant ? item.variant + ' · ' : ''}Qty × ${item.qty}</div>
+                <div class="q">${item.variant ? item.variant + ' Â· ' : ''}Qty Ã— ${item.qty}</div>
               </div>
-              <div class="o-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+              <div class="o-price">â‚¹${(item.price * item.qty).toLocaleString('en-IN')}</div>
             </div>`).join('')}
-          <div class="t-row" style="margin-top:12px"><span class="l">Subtotal</span><span class="v">₹${subtotal.toLocaleString('en-IN')}</span></div>
-          <div class="t-row"><span class="l">Delivery</span><span class="v">${delivery === 0 ? '🎉 FREE' : '₹' + delivery.toLocaleString('en-IN')}</span></div>
-          <div class="t-row total"><span class="l">Total</span><span class="v">₹${total.toLocaleString('en-IN')}</span></div>
+          <div class="t-row" style="margin-top:12px"><span class="l">Subtotal</span><span class="v">â‚¹${subtotal.toLocaleString('en-IN')}</span></div>
+          <div class="t-row"><span class="l">Delivery</span><span class="v">${delivery === 0 ? 'ðŸŽ‰ FREE' : 'â‚¹' + delivery.toLocaleString('en-IN')}</span></div>
+          <div class="t-row total"><span class="l">Total</span><span class="v">â‚¹${total.toLocaleString('en-IN')}</span></div>
         </div>
       </div>` : ''}
 
@@ -223,9 +224,9 @@
         <div class="s-card-body">
           <div class="addr-box">
             <strong>${order.address.full_name || ''}</strong>
-            ${order.address.mobile ? ` · ${order.address.mobile}` : ''}<br>
+            ${order.address.mobile ? ` Â· ${order.address.mobile}` : ''}<br>
             ${order.address.address_line || ''}${order.address.landmark ? ', ' + order.address.landmark : ''}<br>
-            ${order.address.city}, ${order.address.state} – ${order.address.pincode}
+            ${order.address.city}, ${order.address.state} â€“ ${order.address.pincode}
           </div>
         </div>
       </div>` : ''}
@@ -235,7 +236,7 @@
       <div class="s-card">
         <div class="s-card-head"><i class="fas fa-image"></i> Your Payment Screenshot (Uploaded)</div>
         <div class="s-card-body ss-preview-box">
-          <p style="font-size:.8rem;color:#6b7280;margin:0 0 8px">Screenshot submitted successfully ✅</p>
+          <p style="font-size:.8rem;color:#6b7280;margin:0 0 8px">Screenshot submitted successfully âœ…</p>
           <img src="${order.screenshot_path}" onerror="this.style.display='none'" alt="Payment Screenshot">
         </div>
       </div>` : ''}
@@ -245,7 +246,7 @@
         <div class="s-card-head"><i class="fas fa-info-circle"></i> Order Information</div>
         <div class="s-card-body">
           <div class="t-row"><span class="l">Order ID</span><span class="v" style="font-family:monospace">${order.order_number}</span></div>
-          <div class="t-row"><span class="l">Payment</span><span class="v">${isUPI ? '📱 UPI (Under Verification)' : '💵 Cash on Delivery'}</span></div>
+          <div class="t-row"><span class="l">Payment</span><span class="v">${isUPI ? 'ðŸ“± UPI (Under Verification)' : 'ðŸ’µ Cash on Delivery'}</span></div>
           <div class="t-row"><span class="l">Estimated Delivery</span><span class="v">Under 24 hrs</span></div>
           <div class="t-row"><span class="l">Store Contact</span><span class="v"><a href="tel:+919110582086" style="color:#f97316">+91 91105 82086</a></span></div>
         </div>
@@ -270,3 +271,5 @@
   </script>
 </body>
 </html>
+
+

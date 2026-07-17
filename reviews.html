@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,12 +15,13 @@
   <!-- Windows tile -->
   <meta name="msapplication-TileColor" content="#7B1A1A">
   <meta name="msapplication-TileImage" content="icons/icon-192.png">
-  <title>Customer Reviews | Sri Manikanta Pooja Stores – Hyderabad</title>
+  <title>Customer Reviews | Sri Manikanta Pooja Stores â€“ Hyderabad</title>
   <meta name="description" content="Read genuine customer reviews for Sri Manikanta Pooja Stores, Dilsukhnagar Hyderabad. Share your experience and help us serve you better.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ•‰ï¸</text></svg>">
   <link rel="stylesheet" href="css/style.css?v=25">
   <link rel="stylesheet" href="css/components.css?v=25">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
@@ -43,7 +44,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--cream); font-family: 'Inter', sans-serif; color: var(--text-dark); }
 
-    /* ── Page Hero ── */
+    /* â”€â”€ Page Hero â”€â”€ */
     .review-hero {
       background: linear-gradient(135deg, var(--maroon-dark) 0%, #9b2c2c 50%, #7B1C1C 100%);
       padding: 60px 20px 80px;
@@ -91,10 +92,10 @@
     .hero-stars-row i:nth-child(5) { animation-delay: 0.5s; }
     @keyframes starPop { from { transform: scale(0) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
 
-    /* ── Main Layout ── */
+    /* â”€â”€ Main Layout â”€â”€ */
     .reviews-page { max-width: 900px; margin: -40px auto 60px; padding: 0 20px; position: relative; z-index: 2; }
 
-    /* ── Review Form Card ── */
+    /* â”€â”€ Review Form Card â”€â”€ */
     .review-form-card {
       background: white;
       border-radius: var(--radius);
@@ -119,7 +120,7 @@
     .form-card-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--maroon); font-weight: 700; }
     .form-card-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 
-    /* ── Star Rating Input ── */
+    /* â”€â”€ Star Rating Input â”€â”€ */
     .star-rating-group { margin-bottom: 28px; }
     .star-rating-group label { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; display: block; }
     .star-rating-input { display: flex; gap: 10px; align-items: center; }
@@ -133,7 +134,7 @@
     .star-rating-input .star-btn.active { color: #FFD700; transform: scale(1.25); }
     .star-label-text { font-size: 15px; color: var(--text-muted); margin-left: 8px; transition: color 0.2s; }
 
-    /* ── Input Fields ── */
+    /* â”€â”€ Input Fields â”€â”€ */
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
     @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .review-form-card { padding: 24px 20px; } }
     .form-group { display: flex; flex-direction: column; gap: 7px; }
@@ -158,7 +159,7 @@
     }
     .form-group textarea { height: 110px; }
 
-    /* ── Submit Button ── */
+    /* â”€â”€ Submit Button â”€â”€ */
     .submit-review-btn {
       width: 100%;
       padding: 17px;
@@ -184,7 +185,7 @@
       color: #c62828; font-size: 14px; display: none; margin-top: 10px;
     }
 
-    /* ── Google Popup Overlay ── */
+    /* â”€â”€ Google Popup Overlay â”€â”€ */
     .gmap-popup-overlay {
       position: fixed; inset: 0;
       background: rgba(0,0,0,0.6);
@@ -286,7 +287,7 @@
     }
     .popup-skip-btn:hover { color: #555; }
 
-    /* ── Review Stats Banner ── */
+    /* â”€â”€ Review Stats Banner â”€â”€ */
     .review-stats {
       background: white;
       border-radius: var(--radius);
@@ -309,7 +310,7 @@
     .bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FFA000); border-radius: 4px; transition: width 1s ease; }
     .bar-count { font-size: 12px; color: var(--text-muted); width: 20px; }
 
-    /* ── Reviews List ── */
+    /* â”€â”€ Reviews List â”€â”€ */
     .reviews-list-header {
       display: flex; align-items: center; gap: 12px;
       margin-bottom: 22px;
@@ -352,18 +353,18 @@
     .review-verified { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #2E7D32; font-weight: 600; margin-top: 10px; }
     .review-verified i { font-size: 10px; }
 
-    /* ── Empty State ── */
+    /* â”€â”€ Empty State â”€â”€ */
     .empty-reviews { text-align: center; padding: 60px 20px; color: var(--text-muted); }
     .empty-reviews i { font-size: 56px; color: #ddd; margin-bottom: 16px; display: block; }
     .empty-reviews h3 { font-size: 20px; color: #999; margin-bottom: 8px; }
     .empty-reviews p { font-size: 14px; }
 
-    /* ── Loading ── */
+    /* â”€â”€ Loading â”€â”€ */
     .reviews-loading { text-align: center; padding: 40px; color: var(--text-muted); }
     .reviews-loading i { font-size: 32px; animation: spin 1s linear infinite; display: block; margin-bottom: 12px; color: var(--maroon); }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Success Toast ── */
+    /* â”€â”€ Success Toast â”€â”€ */
     .review-success-bar {
       background: linear-gradient(135deg, #2E7D32, #388E3C);
       color: white; padding: 16px 24px;
@@ -382,7 +383,7 @@
 
   <!-- Page Hero -->
   <div class="review-hero">
-    <div class="review-hero-tag">⭐ Share Your Experience</div>
+    <div class="review-hero-tag">â­ Share Your Experience</div>
     <h1>Love Our Store? <span>Tell the World!</span></h1>
     <p>Your kind words inspire us to serve better and help fellow devotees discover quality pooja samagri.</p>
     <div class="hero-stars-row">
@@ -400,13 +401,13 @@
     <!-- Success Bar -->
     <div class="review-success-bar" id="success-bar">
       <i class="fas fa-check-circle" style="font-size:22px"></i>
-      <span>Thank you! Your review has been posted successfully. 🙏</span>
+      <span>Thank you! Your review has been posted successfully. ðŸ™</span>
     </div>
 
     <!-- Review Form -->
     <div class="review-form-card">
       <div class="form-card-header">
-        <div class="form-card-icon">✍️</div>
+        <div class="form-card-icon">âœï¸</div>
         <div>
           <div class="form-card-title">Write Your Review</div>
           <div class="form-card-sub">Share your honest experience with Sri Manikanta Pooja Stores</div>
@@ -417,11 +418,11 @@
       <div class="star-rating-group">
         <label>Your Rating <span style="color:#e53935">*</span></label>
         <div class="star-rating-input" id="star-input">
-          <button class="star-btn" data-val="1" type="button" aria-label="1 star">★</button>
-          <button class="star-btn" data-val="2" type="button" aria-label="2 stars">★</button>
-          <button class="star-btn" data-val="3" type="button" aria-label="3 stars">★</button>
-          <button class="star-btn" data-val="4" type="button" aria-label="4 stars">★</button>
-          <button class="star-btn" data-val="5" type="button" aria-label="5 stars">★</button>
+          <button class="star-btn" data-val="1" type="button" aria-label="1 star">â˜…</button>
+          <button class="star-btn" data-val="2" type="button" aria-label="2 stars">â˜…</button>
+          <button class="star-btn" data-val="3" type="button" aria-label="3 stars">â˜…</button>
+          <button class="star-btn" data-val="4" type="button" aria-label="4 stars">â˜…</button>
+          <button class="star-btn" data-val="5" type="button" aria-label="5 stars">â˜…</button>
           <span class="star-label-text" id="star-label">Click a star to rate</span>
         </div>
       </div>
@@ -439,7 +440,7 @@
 
       <div class="form-group" style="margin-bottom:0">
         <label>Your Review <span>*</span></label>
-        <textarea id="rv-text" placeholder="Tell us about your experience — product quality, service, delivery, or anything else you'd like to share…"></textarea>
+        <textarea id="rv-text" placeholder="Tell us about your experience â€” product quality, service, delivery, or anything else you'd like to shareâ€¦"></textarea>
       </div>
 
       <div class="form-error" id="rv-error"></div>
@@ -468,13 +469,13 @@
 
     <div id="reviews-loading" class="reviews-loading">
       <i class="fas fa-circle-notch"></i>
-      Loading reviews…
+      Loading reviewsâ€¦
     </div>
 
     <div class="review-cards-grid" id="reviews-grid"></div>
   </div>
 
-  <!-- ── Beautiful Google Popup ── -->
+  <!-- â”€â”€ Beautiful Google Popup â”€â”€ -->
   <div class="gmap-popup-overlay" id="google-popup">
     <div class="gmap-popup">
 
@@ -488,7 +489,7 @@
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
         </div>
-        <h2>You're Amazing! 🎉</h2>
+        <h2>You're Amazing! ðŸŽ‰</h2>
         <p>Your review helps thousands of devotees find quality pooja samagri</p>
       </div>
 
@@ -500,15 +501,15 @@
 
         <ul class="popup-benefit-list">
           <li>
-            <div class="benefit-icon bg-blue">🌍</div>
+            <div class="benefit-icon bg-blue">ðŸŒ</div>
             <div><strong>Reach more devotees</strong><br><span style="color:#777;font-size:12px">Your Google review helps our store appear higher in search results</span></div>
           </li>
           <li>
-            <div class="benefit-icon bg-green">💚</div>
+            <div class="benefit-icon bg-green">ðŸ’š</div>
             <div><strong>Support a local business</strong><br><span style="color:#777;font-size:12px">Help Sri Manikanta Pooja Stores grow and serve more families</span></div>
           </li>
           <li>
-            <div class="benefit-icon bg-yellow">⭐</div>
+            <div class="benefit-icon bg-yellow">â­</div>
             <div><strong>Takes only 30 seconds</strong><br><span style="color:#777;font-size:12px">Just click, paste your review and tap Post!</span></div>
           </li>
         </ul>
@@ -534,16 +535,16 @@
   <footer id="site-footer"></footer>
   <div id="floating-actions"></div>
 
-  <script>document.write('<script src="js/products.js?t=' + Date.now() + '"><\/script>');</script>
-  <script src="js/main.js?v=26"></script>
+  <script src="js/products.js?v=26" defer></script>
+  <script src="js/main.js?v=26" defer></script>
   <script>
-    // ── Init ──────────────────────────────────────────────────
+    // â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     initSite('reviews.html');
 
     const API_URL = 'api/reviews/index.php';
     let selectedRating = 0;
 
-    // ── Star Rating ────────────────────────────────────────────
+    // â”€â”€ Star Rating â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const starBtns = document.querySelectorAll('.star-btn');
     const starLabel = document.getElementById('star-label');
     const starLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent!'];
@@ -566,7 +567,7 @@
       });
     });
 
-    // ── Submit Review ──────────────────────────────────────────
+    // â”€â”€ Submit Review â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     async function submitReview() {
       const name   = document.getElementById('rv-name').value.trim();
       const review = document.getElementById('rv-text').value.trim();
@@ -575,13 +576,13 @@
 
       errEl.style.display = 'none';
 
-      if (!selectedRating) { showError('⭐ Please select a star rating.'); return; }
-      if (!name)           { showError('👤 Please enter your name.'); return; }
-      if (!review)         { showError('✏️ Please write your review before submitting.'); return; }
-      if (review.length < 15) { showError('✏️ Please write at least 15 characters.'); return; }
+      if (!selectedRating) { showError('â­ Please select a star rating.'); return; }
+      if (!name)           { showError('ðŸ‘¤ Please enter your name.'); return; }
+      if (!review)         { showError('âœï¸ Please write your review before submitting.'); return; }
+      if (review.length < 15) { showError('âœï¸ Please write at least 15 characters.'); return; }
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submitting…';
+      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Submittingâ€¦';
 
       // 6-second timeout so it never spins forever
       const controller = new AbortController();
@@ -614,7 +615,7 @@
           bar.classList.add('show');
           setTimeout(() => bar.classList.remove('show'), 5000);
 
-          // Reload reviews (non-blocking — don't await)
+          // Reload reviews (non-blocking â€” don't await)
           loadReviews();
 
           // Show Google Popup after 800ms
@@ -629,9 +630,9 @@
       } catch (e) {
         clearTimeout(timer);
         if (e.name === 'AbortError') {
-          showError('⏱️ Server took too long. Your review may still have been saved — please refresh the page to check.');
+          showError('â±ï¸ Server took too long. Your review may still have been saved â€” please refresh the page to check.');
         } else {
-          showError('⚠️ Network error. Please check your connection and try again.');
+          showError('âš ï¸ Network error. Please check your connection and try again.');
         }
       }
 
@@ -645,7 +646,7 @@
       el.style.display = 'block';
     }
 
-    // ── Google Popup ────────────────────────────────────────────
+    // â”€â”€ Google Popup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function closeGooglePopup() {
       document.getElementById('google-popup').classList.remove('open');
       document.body.style.overflow = '';
@@ -654,7 +655,7 @@
       if (e.target === this) closeGooglePopup();
     });
 
-    // ── Load Reviews ────────────────────────────────────────────
+    // â”€â”€ Load Reviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     async function loadReviews() {
       try {
         const res = await fetch(API_URL);
@@ -750,3 +751,5 @@
   </script>
 </body>
 </html>
+
+
