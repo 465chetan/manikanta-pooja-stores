@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: 🚀 Auto Deploy to cPanel
 
 on:
   push:
@@ -6,31 +6,26 @@ on:
       - main
 
 jobs:
-  web-deploy:
-    name: Deploy
+  deploy:
+    name: Deploy to Live Server
     runs-on: ubuntu-latest
-    steps:
-    - name: Get latest code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
-    - name: Sync files via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ./public_html/
-        exclude: |
-          **/.git*
-          **/.git*/**
-          api/config/config.php
-          uploads/products/**
-          logs/**
-          diagnostic.php
-          setup_admin.php
-          database/
-          .github/
-          **/*.zip
-          js/products.js
+    steps:
+      - name: ✅ Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📤 Deploy via FTP to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: manikantapoojastore.com
+          username: chethan@manikantapoojastore.com
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            deploy_update.zip
+            deploy_images_webp.zip
+            convert_webp.php
+            test_db.php
