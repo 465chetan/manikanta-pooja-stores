@@ -2,7 +2,7 @@
    SRI MANIKANTA POOJA STORES â€” GLOBAL DESIGN SYSTEM
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap');
+/* Google Fonts loaded in HTML <head> with preconnect for better performance */
 
 /* â”€â”€ CSS Variables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
@@ -114,6 +114,58 @@ a { text-decoration: none; color: inherit; }
 ul, ol { list-style: none; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; }
 input, select, textarea { font-family: inherit; }
+
+/* ── Phase 10: Accessibility ──────────────────────────────────── */
+
+/* Skip navigation link for keyboard users */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--maroon);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  z-index: 99999;
+  transition: top 0.2s;
+}
+.skip-to-content:focus { top: 0; }
+
+/* Improved focus outlines (WCAG 2.1 AA) */
+:focus-visible {
+  outline: 3px solid var(--saffron);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* Improved color contrast for muted text (WCAG AA: min 4.5:1) */
+:root {
+  --text-muted: #555;     /* was #666, improved for contrast */
+  --text-light: #777;     /* was #999, improved for contrast */
+}
+
+/* Minimum touch target size (48px) for mobile accessibility */
+@media (max-width: 768px) {
+  .nav-link, .btn, button, a.category-card-sm {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Reduced motion for users with vestibular disorders */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .ticker-inner { animation: none !important; }
+}
+
 
 /* â”€â”€ Global Font Awesome Icon Alignment Fix â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* Ensures ALL icons (fa, fas, far, fab) are perfectly

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -70,17 +70,47 @@
   <link rel="stylesheet" href="css/home.css?v=26">
   <!-- Font Awesome: async load to avoid render-blocking -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript></noscript>
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 </head>
 <body>
+  <!-- Skip to main content (accessibility) -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
   <!-- Header (injected by JS) -->
-  <header id="site-header"></header>
+  <header id="site-header" role="banner"></header>
 
-  <!-- Hero Slider -->
+  <!-- Main content landmark -->
+  <main id="main-content" role="main">
+
+  <!-- Hero Slider: First slide inlined for fast LCP, rest injected by home.js -->
   <section class="hero" id="hero-slider">
-    <!-- Slides injected by home.js -->
+    <div class="hero-slide active" id="slide-0">
+      <img src="images/hero_slide_1.webp"
+           alt="ॐ Welcome to Sri Manikanta Pooja Stores"
+           fetchpriority="high"
+           loading="eager"
+           width="1920" height="800"
+           decoding="async"
+           id="hero-lcp-img">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="container">
+          <div class="hero-text">
+            <div class="hero-tag"><i class="fas fa-om"></i> ॐ Welcome to Sri Manikanta Pooja Stores</div>
+            <h1 class="hero-title">Your Sacred <span class="highlight">Pooja Samagri</span><br>All in One Place</h1>
+            <p class="hero-desc">Premium quality agarbatti, camphor, kumkum, haldi, diyas and all pooja essentials for every Hindu ritual and festival.</p>
+            <div class="hero-actions">
+              <a href="shop.html" class="btn btn-primary btn-lg">Shop Now <i class="fas fa-arrow-right"></i></a>
+              <a href="shop.html" class="btn btn-white btn-lg">View Categories</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">500+</div>
+        <div class="hero-badge-label">Products</div>
+      </div>
+    </div>
   </section>
   <div class="hero-dots" id="hero-dots"></div>
   <div class="hero-arrows">
@@ -245,8 +275,10 @@
     </div>
   </section>
 
+  </main><!-- /main-content -->
+
   <!-- Footer -->
-  <footer id="site-footer"></footer>
+  <footer id="site-footer" role="contentinfo"></footer>
 
   <!-- Floating Actions -->
   <div id="floating-actions"></div>

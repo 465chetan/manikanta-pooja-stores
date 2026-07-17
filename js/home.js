@@ -134,15 +134,17 @@ function initHeroSlider() {
   const hero = document.getElementById('hero-slider');
   if (!hero) return;
 
-  hero.innerHTML = HERO_SLIDES.map((s, i) => `
-    <div class="hero-slide${i === 0 ? ' active' : ''}" id="slide-${i}">
-      <img src="${s.image}" alt="${s.tag}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.style.display='none'">
+  // Slide 0 is pre-rendered in HTML for fast LCP — only inject slides 1-8
+  const remainingSlides = HERO_SLIDES.slice(1);
+  const slidesHTML = remainingSlides.map((s, i) => `
+    <div class="hero-slide" id="slide-${i + 1}">
+      <img src="${s.image}" alt="${s.tag}" loading="lazy" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="container">
           <div class="hero-text">
             <div class="hero-tag"><i class="fas fa-om"></i> ${s.tag}</div>
-            <h1 class="hero-title">${s.title}</h1>
+            <h2 class="hero-title">${s.title}</h2>
             <p class="hero-desc">${s.desc}</p>
             <div class="hero-actions">
               <a href="${s.btn1.href}" class="btn ${s.btn1.class}">${s.btn1.text} <i class="fas fa-arrow-right"></i></a>
@@ -157,8 +159,10 @@ function initHeroSlider() {
       </div>
     </div>
   `).join('');
+  hero.insertAdjacentHTML('beforeend', slidesHTML);
 
   hero.insertAdjacentHTML('beforeend', `<div class="hero-progress-bar" id="hero-progress"></div>`);
+
 
   const dotsContainer = document.getElementById('hero-dots');
   if (dotsContainer) {
