@@ -2,29 +2,7 @@
 // SRI MANIKANTA POOJA STORES — HOME PAGE JS
 // ============================================================
 
-// ── Inline Category + Festival data (avoids loading products.js on homepage) ──
-const CATEGORIES = [
-  { id:'agarbatti', name:'Agarbatti & Incense', telugu:'అగర్బత్తి', img:'images/cat_agarbatti.webp', emoji:'🕉️', count:10 },
-  { id:'camphor', name:'Camphor (Kapoor)', telugu:'కర్పూరం', img:'images/cat_camphor.webp', emoji:'✨', count:2 },
-  { id:'kumkum', name:'Kumkum & Haldi', telugu:'కుంకుమ పసుపు', img:'images/cat_kumkum.webp', emoji:'🔴', count:2 },
-  { id:'oils', name:'Pooja Oils & Ghee', telugu:'నూనె & నెయ్యి', img:'images/cat_oils.webp', emoji:'🪔', count:0 },
-  { id:'diyas', name:'Diyas & Lamps', telugu:'దీపాలు', img:'images/cat_diyas.webp', emoji:'🪔', count:3 },
-  { id:'photos', name:'God Photos & Frames', telugu:'దేవుడి ఫోటోలు', img:'images/cat_photos.webp', emoji:'🖼️', count:3 },
-  { id:'idols', name:'Idols (Vigrahas)', telugu:'విగ్రహాలు', img:'images/cat_idols.webp', emoji:'🗿', count:3 },
-  { id:'thali', name:'Puja Thali & Vessels', telugu:'పూజా పాత్రలు', img:'images/cat_thali.webp', emoji:'🍽️', count:0 },
-  { id:'malas', name:'Malas & Rosaries', telugu:'మాలలు', img:'images/cat_malas.webp', emoji:'📿', count:3 },
-  { id:'havan', name:'Havan Samagri', telugu:'హవన్ సామగ్రి', img:'images/cat_havan.webp', emoji:'🔥', count:2 },
-  { id:'festivals', name:'Festival Kits', telugu:'పండుగ కిట్లు', img:'images/cat_festival.webp', emoji:'🎉', count:3 },
-  { id:'wedding', name:'Wedding Items', telugu:'వివాహ సామగ్రి', img:'images/cat_wedding.webp', emoji:'💍', count:3 },
-  { id:'dhoop-sticks', name:'Dhoop Sticks', telugu:'', img:'images/cat_dhoop.webp', emoji:'🌸', count:0 },
-  { id:'more-and-other', name:'More and other', telugu:'', img:'images/cat_other.webp', emoji:'🌸', count:0 }
-];
-
-const FESTIVALS = [
-  { cat:'festivals', color:'#ff9900', emoji:'🪔', name:'Diwali', telugu:'దీపావళి', date:'Nov 12', image:'images/festival_diwali.webp' },
-  { cat:'festivals', color:'#ff5500', emoji:'🐘', name:'Ganesh Chaturthi', telugu:'వినాయక చవితి', date:'Sep 18', image:'images/festival_ganesh.webp' },
-  { cat:'festivals', color:'#00aa55', emoji:'🥭', name:'Ugadi', telugu:'ఉగాది', date:'Mar 22', image:'images/festival_ugadi.webp' }
-];
+// Data comes from products.js
 
 document.addEventListener('DOMContentLoaded', () => {
   initSite('index.html');
