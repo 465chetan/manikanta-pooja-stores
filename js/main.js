@@ -595,11 +595,26 @@ function renderFloatingActions() {
 
 // ── Product Card Renderer ─────────────────────────────────────
 function renderProductCard(p) {
-  const discount = getDiscount(p.price, p.originalPrice);
+  // Check if product has multiple object-type sizes (variants)
+  const variants = (p.sizes && p.sizes.length > 1 && typeof p.sizes[0] === 'object') ? p.sizes : null;
+  const firstVariant = variants ? variants[0] : null;
+  const displayPrice = firstVariant ? firstVariant.price : p.price;
+  const displayOriginal = firstVariant ? firstVariant.original_price : p.originalPrice;
+  const discount = getDiscount(displayPrice, displayOriginal);
+
+  const sizePicker = variants ? `
+    <div class="card-size-picker" data-pid="${p.id}">
+      ${variants.map((v, i) => `
+        <button class="size-pill${i === 0 ? ' selected' : ''}" 
+          onclick="event.stopPropagation();selectVariant(this,${p.id},${i})">${v.name}</button>
+      `).join('')}
+    </div>` : '';
+
   return `
-  <div class="product-card reveal" onclick="location.href='product.html?id=${p.id}'">
+  <div class="product-card reveal" data-selected-variant="0" onclick="location.href='product.html?id=${p.id}'">
     <div class="card-img-wrap">
-      <img src="${p.image}" alt="${p.name}" loading="lazy" width="400" height="400" decoding="async" onerror="this.src='https://picsum.photos/seed/${p.id}99/400/400'">
+      <img src="${p.image}" alt="${p.name}" loading="lazy" width="400" height="400" decoding="async"
+           onerror="this.src='https://picsum.photos/seed/${p.id}99/400/400'">
       <div class="card-badges">
         ${p.badge === 'sale'    ? `<span class="badge badge-sale">-${discount}%</span>` : ''}
         ${p.badge === 'new'     ? `<span class="badge badge-new">NEW</span>` : ''}
@@ -621,9 +636,10 @@ function renderProductCard(p) {
         <span class="stars">${renderStars(p.rating)}</span>
         <span class="rating-count">(${p.reviews})</span>
       </div>
+      ${sizePicker}
       <div class="card-price">
-        <span class="price-current">${formatPrice(p.price)}</span>
-        <span class="price-original">${formatPrice(p.originalPrice)}</span>
+        <span class="price-current">${formatPrice(displayPrice)}</span>
+        <span class="price-original">${formatPrice(displayOriginal)}</span>
         <span class="price-discount">${discount}% off</span>
       </div>
       <button class="card-add-btn" onclick="event.stopPropagation();addToCartFromCard(${p.id}, this)">
@@ -633,15 +649,50 @@ function renderProductCard(p) {
   </div>`;
 }
 
+function selectVariant(pillBtn, productId, variantIndex) {
+  const card = pillBtn.closest('.product-card');
+  if (!card) return;
+  card.dataset.selectedVariant = variantIndex;
+
+  // Highlight selected pill
+  card.querySelectorAll('.size-pill').forEach(b => b.classList.remove('selected'));
+  pillBtn.classList.add('selected');
+
+  // Get product and variant
+  const product = getProductById(productId);
+  if (!product || !product.sizes) return;
+  const v = product.sizes[variantIndex];
+  if (!v || typeof v !== 'object') return;
+
+  // Update price display
+  const discount = getDiscount(v.price, v.original_price);
+  const priceEl = card.querySelector('.price-current');
+  const origEl  = card.querySelector('.price-original');
+  const discEl  = card.querySelector('.price-discount');
+  if (priceEl) priceEl.textContent = formatPrice(v.price);
+  if (origEl)  origEl.textContent  = formatPrice(v.original_price);
+  if (discEl)  discEl.textContent  = discount + '% off';
+
+  // Update image
+  if (v.image) {
+    const img = card.querySelector('.card-img-wrap img');
+    if (img) img.src = v.image;
+  }
+}
+
 function addToCartFromCard(id, btn) {
   const product = getProductById(id);
   if (!product) return;
-  
+
   let variantName = '';
   let itemToAdd = { ...product };
-  
+
+  // Check if card has a selected variant
+  const card = btn.closest('.product-card');
+  const selectedIdx = card ? parseInt(card.dataset.selectedVariant || '0') : 0;
+
   if (product.sizes && product.sizes.length > 0) {
-    const s = product.sizes[0];
+    const s = product.sizes[selectedIdx] || product.sizes[0];
     if (typeof s === 'object') {
       variantName = s.name;
       itemToAdd.price = s.price;
@@ -650,9 +701,9 @@ function addToCartFromCard(id, btn) {
       variantName = s;
     }
   }
-  
+
   Cart.add(itemToAdd, 1, variantName);
-  
+
   btn.innerHTML = '<i class="fas fa-check"></i> Added!';
   btn.classList.add('added');
   setTimeout(() => {

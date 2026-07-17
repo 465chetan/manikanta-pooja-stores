@@ -511,6 +511,34 @@ h5, h6          { font-family: var(--font-body); font-weight: 600; }
   background: linear-gradient(135deg, var(--color-success), #1B5E20);
 }
 
+/* ── Variant / Size Picker on Card ────────────────────────────── */
+.card-size-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 10px;
+}
+.size-pill {
+  padding: 4px 12px;
+  border-radius: 50px;
+  border: 1.5px solid var(--saffron);
+  background: transparent;
+  color: var(--saffron);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+}
+.size-pill:hover {
+  background: rgba(255,119,34,0.1);
+}
+.size-pill.selected {
+  background: var(--saffron);
+  color: var(--white);
+}
+
+
 /* â”€â”€ Category Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .category-card {
   border-radius: var(--r-xl);

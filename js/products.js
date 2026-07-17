@@ -34,96 +34,10 @@ const PRODUCTS = [
         "featured": true
     },
     {
-        "id": 5004,
-        "category": "agarbatti",
-        "categoryName": "Agarbatti & Incense",
-        "name": "Ambica Durbar Bathi New Pack",
-        "telugu": "అంబికా దర్బార్ బత్తి న్యూ ప్యాక్",
-        "price": 70,
-        "originalPrice": 85,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090832.jpg",
-        "images": [
-            "images/1000090832.jpg"
-        ],
-        "description": "Ambica Durbar Bathi New Pack – India&#039;s only Herbal Durbar Bathi in a fresh new packaging. Hand rolled blend of 63 herbs. A new look for the same trusted traditional quality.",
-        "sizes": [
-            {
-                "name": "New Pack",
-                "price": 70,
-                "original_price": 85,
-                "stock": 100,
-                "image": ""
-            }
-        ],
-        "tags": [],
-        "badge": "new",
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 5003,
-        "category": "agarbatti",
-        "categoryName": "Agarbatti & Incense",
-        "name": "Ambica Durbar Bathi 75g",
-        "telugu": "అంబికా దర్బార్ బత్తి 75గ్రా",
-        "price": 60,
-        "originalPrice": 75,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090831.jpg",
-        "images": [
-            "images/1000090831.jpg"
-        ],
-        "description": "Ambica Durbar Bathi 75g – India's only Herbal Durbar Bathi. Hand rolled with 63 herbs blend. Compact 75g pack ideal for regular daily use.",
-        "sizes": [
-            "75g Pack"
-        ],
-        "tags": [
-            "ambica",
-            "durbar",
-            "herbal",
-            "75g"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
-        "id": 5002,
-        "category": "agarbatti",
-        "categoryName": "Agarbatti & Incense",
-        "name": "Ambica Durbar Bathi 145g",
-        "telugu": "అంబికా దర్బార్ బత్తి 145గ్రా",
-        "price": 70,
-        "originalPrice": 90,
-        "rating": 0,
-        "reviews": 0,
-        "image": "images/1000090830.jpg",
-        "images": [
-            "images/1000090830.jpg"
-        ],
-        "description": "Ambica Durbar Bathi 145g – India's only Herbal Durbar Bathi in a larger 145g pack. Hand rolled using a traditional blend of 63 herbs for a long-lasting, divine fragrance.",
-        "sizes": [
-            "145g Pack"
-        ],
-        "tags": [
-            "ambica",
-            "durbar",
-            "herbal",
-            "145g",
-            "large pack"
-        ],
-        "badge": null,
-        "inStock": true,
-        "featured": false
-    },
-    {
         "id": 5001,
         "category": "agarbatti",
         "categoryName": "Agarbatti & Incense",
-        "name": "Ambica Durbar Bathi (Herbal)",
+        "name": "Ambica Durbar Bathi",
         "telugu": "అంబికా దర్బార్ బత్తి",
         "price": 60,
         "originalPrice": 75,
@@ -131,19 +45,19 @@ const PRODUCTS = [
         "reviews": 0,
         "image": "images/1000090829.jpg",
         "images": [
-            "images/1000090829.jpg"
+            "images/1000090829.jpg",
+            "images/1000090831.jpg",
+            "images/1000090830.jpg",
+            "images/1000090832.jpg"
         ],
         "description": "Ambica Durbar Bathi – India's only Herbal Durbar Bathi. Hand rolled in India using a mix of 63 herbs. By ACP Industries Ltd., Eluru. A traditional herbal incense loved for generations.",
         "sizes": [
-            "Standard Pack"
+            { "name": "Herbal", "price": 60, "original_price": 75, "stock": 100, "image": "images/1000090829.jpg" },
+            { "name": "75g", "price": 60, "original_price": 75, "stock": 100, "image": "images/1000090831.jpg" },
+            { "name": "145g", "price": 70, "original_price": 90, "stock": 100, "image": "images/1000090830.jpg" },
+            { "name": "New Pack", "price": 70, "original_price": 85, "stock": 100, "image": "images/1000090832.jpg" }
         ],
-        "tags": [
-            "ambica",
-            "durbar",
-            "herbal",
-            "63 herbs",
-            "hand rolled"
-        ],
+        "tags": ["ambica", "durbar", "herbal", "63 herbs", "hand rolled"],
         "badge": "popular",
         "inStock": true,
         "featured": true
