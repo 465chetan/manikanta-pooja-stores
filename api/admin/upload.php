@@ -1,6 +1,7 @@
 <?php
-// â”€â”€ POST /api/admin/upload.php â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── POST /api/admin/upload.php ────────────────────────────────
 // Handles product image uploads (admin only)
+// PHASE 5: Auto-converts uploaded images to WebP for performance
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../helpers/response.php';
@@ -15,12 +16,11 @@ if (empty($_FILES['image'])) {
     error('No image file uploaded.', 400);
 }
 
-$file     = $_FILES['image'];
-$maxSize  = UPLOAD_MAX_SIZE;
-$allowed  = UPLOAD_ALLOWED;
+$file      = $_FILES['image'];
+$maxSize   = UPLOAD_MAX_SIZE;
 $uploadDir = UPLOAD_DIR;
 
-// Validate
+// Validate upload error
 if ($file['error'] !== UPLOAD_ERR_OK) error('File upload error. Please try again.', 400);
 if ($file['size'] > $maxSize) error('File too large. Maximum size is 2MB.', 400);
 

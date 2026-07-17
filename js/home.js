@@ -39,7 +39,7 @@ function renderStoreStatusBanner() {
 // ── Hero Slider ───────────────────────────────────────────────
 const HERO_SLIDES = [
   {
-    image: 'images/hero_slide_1.png',
+    image: 'images/hero_slide_1.webp',
     tag: 'ॐ Welcome to Sri Manikanta Pooja Stores',
     title: 'Your Sacred <span class="highlight">Pooja Samagri</span><br>All in One Place',
     desc: 'Premium quality agarbatti, camphor, kumkum, haldi, diyas and all pooja essentials for every Hindu ritual and festival.',
@@ -48,7 +48,7 @@ const HERO_SLIDES = [
     badge: { num: '500+', label: 'Products' }
   },
   {
-    image: 'images/hero_slide_2.png',
+    image: 'images/hero_slide_2.webp',
     tag: '✨ Festival Season Specials',
     title: 'Complete <span class="highlight">Festival Kits</span><br>For Every Occasion',
     desc: 'Diwali, Ganesh Chaturthi, Ugadi, Navratri — get everything you need in one box. Authentic, pure and delivered to your door.',
@@ -57,7 +57,7 @@ const HERO_SLIDES = [
     badge: { num: '20+', label: 'Yrs in Business' }
   },
   {
-    image: 'images/hero_slide_3.png',
+    image: 'images/hero_slide_3.webp',
     tag: '💍 Wedding & Marriage Items',
     title: 'Complete <span class="highlight">Telugu Wedding</span><br>Samagri Available',
     desc: 'All traditional Telugu Brahmin wedding items — kankanam, mangalsutra thread, kalash, agnihotra samagri and more in one stop.',
@@ -66,7 +66,7 @@ const HERO_SLIDES = [
     badge: { num: '25+', label: 'Yrs Experience' }
   },
   {
-    image: 'images/hero_slide_4.png',
+    image: 'images/hero_slide_4.webp',
     tag: '🕉️ Pure & Traditional',
     title: 'Beautiful <span class="highlight">God Idols</span><br>& Temple Brassware',
     desc: 'Enhance your mandir with our wide range of carefully crafted brass idols, pure silver diyas, and authentic pooja bells.',
@@ -75,7 +75,7 @@ const HERO_SLIDES = [
     badge: { num: '100%', label: 'Authentic' }
   },
   {
-    image: 'images/hero_slide_5.png',
+    image: 'images/hero_slide_5.webp',
     tag: '🌿 Premium Fragrances',
     title: 'Pure <span class="highlight">Agarbatti & Dhoop</span><br>For Daily Pooja',
     desc: 'Fill your home with divine fragrance. Shop our premium collection of incense sticks, dhoop cones, and sambrani.',
@@ -84,7 +84,7 @@ const HERO_SLIDES = [
     badge: { num: '5★', label: 'Quality' }
   },
   {
-    image: 'images/hero_slide_6.png',
+    image: 'images/hero_slide_6.webp',
     tag: '🔴 Sacred Offerings',
     title: 'Authentic <span class="highlight">Kumkum & Haldi</span><br>For Rituals',
     desc: '100% pure and natural turmeric powder, sindoor, and kumkum directly sourced for your daily spiritual needs.',
@@ -93,7 +93,7 @@ const HERO_SLIDES = [
     badge: { num: '1000+', label: 'Happy Clients' }
   },
   {
-    image: 'images/hero_slide_7.png',
+    image: 'images/hero_slide_7.webp',
     tag: '📿 Spiritual Accessories',
     title: 'Beautiful <span class="highlight">Malas & Garlands</span><br>For Deities',
     desc: 'Find the perfect adornments for your idols. We carry tulsi malas, rudraksha, and decorative garlands.',
@@ -102,7 +102,7 @@ const HERO_SLIDES = [
     badge: { num: 'Best', label: 'Designs' }
   },
   {
-    image: 'images/hero_slide_8.png',
+    image: 'images/hero_slide_8.webp',
     tag: '🍽️ Pooja Essentials',
     title: 'Traditional <span class="highlight">Pooja Thalis</span><br>& Accessories',
     desc: 'Complete your pooja room with our beautiful brass and silver-plated thalis, plates, and aarti items.',
@@ -111,7 +111,7 @@ const HERO_SLIDES = [
     badge: { num: 'Pure', label: 'Brass' }
   },
   {
-    image: 'images/hero_slide_9.png',
+    image: 'images/hero_slide_9.webp',
     tag: '🪔 Light the Lamp',
     title: 'Pure <span class="highlight">Pooja Oils & Ghee</span><br>For Deepam',
     desc: 'Ensure a long-lasting and pure flame. Shop our premium sesame oil, castor oil, and pure cow ghee for diyas.',
@@ -223,7 +223,7 @@ function renderCategories() {
   if (!grid) return;
   grid.innerHTML = CATEGORIES.map((c, i) => `
     <a href="shop.html?cat=${c.id}" class="category-card-sm reveal reveal-delay-${(i % 4) + 1}" id="cat-${c.id}">
-      <img src="${c.img}" alt="${c.name}" class="cat-sm-img">
+      <img src="${c.img}" alt="${c.name}" class="cat-sm-img" loading="lazy" width="300" height="300" decoding="async">
       <div class="cat-sm-name">${c.name}</div>
       <div class="cat-sm-count">${c.count} items</div>
     </a>
@@ -340,3 +340,4 @@ function openGalleryModal(src, alt) {
   document.getElementById('gallery-modal-img').src = src;
   document.getElementById('gallery-modal-img').alt = alt;
 }
+

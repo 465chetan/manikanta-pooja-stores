@@ -1036,7 +1036,7 @@ const CATEGORIES = [
         "id": "agarbatti",
         "name": "Agarbatti & Incense",
         "telugu": "అగర్బత్తి",
-        "img": "images/cat_agarbatti.png",
+        "img": "images/cat_agarbatti.webp",
         "desc": "",
         "emoji": "🕉️",
         "count": 10
@@ -1045,7 +1045,7 @@ const CATEGORIES = [
         "id": "camphor",
         "name": "Camphor (Kapoor)",
         "telugu": "కర్పూరం",
-        "img": "images/cat_camphor.png",
+        "img": "images/cat_camphor.webp",
         "desc": "",
         "emoji": "✨",
         "count": 2
@@ -1054,7 +1054,7 @@ const CATEGORIES = [
         "id": "kumkum",
         "name": "Kumkum & Haldi",
         "telugu": "కుంకుమ పసుపు",
-        "img": "images/cat_kumkum.png",
+        "img": "images/cat_kumkum.webp",
         "desc": "",
         "emoji": "🔴",
         "count": 2
@@ -1063,7 +1063,7 @@ const CATEGORIES = [
         "id": "oils",
         "name": "Pooja Oils & Ghee",
         "telugu": "నూనె & నెయ్యి",
-        "img": "images/cat_oils.png",
+        "img": "images/cat_oils.webp",
         "desc": "",
         "emoji": "🪔",
         "count": 0
@@ -1072,7 +1072,7 @@ const CATEGORIES = [
         "id": "diyas",
         "name": "Diyas & Lamps",
         "telugu": "దీపాలు",
-        "img": "images/cat_diyas.png",
+        "img": "images/cat_diyas.webp",
         "desc": "",
         "emoji": "🪔",
         "count": 3
@@ -1081,7 +1081,7 @@ const CATEGORIES = [
         "id": "photos",
         "name": "God Photos & Frames",
         "telugu": "దేవుడి ఫోటోలు",
-        "img": "images/cat_photos.png",
+        "img": "images/cat_photos.webp",
         "desc": "",
         "emoji": "🖼️",
         "count": 3
@@ -1090,7 +1090,7 @@ const CATEGORIES = [
         "id": "idols",
         "name": "Idols (Vigrahas)",
         "telugu": "విగ్రహాలు",
-        "img": "images/cat_idols.png",
+        "img": "images/cat_idols.webp",
         "desc": "",
         "emoji": "🗿",
         "count": 3
@@ -1099,7 +1099,7 @@ const CATEGORIES = [
         "id": "thali",
         "name": "Puja Thali & Vessels",
         "telugu": "పూజా పాత్రలు",
-        "img": "images/cat_thali.png",
+        "img": "images/cat_thali.webp",
         "desc": "",
         "emoji": "🍽️",
         "count": 0
@@ -1108,7 +1108,7 @@ const CATEGORIES = [
         "id": "malas",
         "name": "Malas & Rosaries",
         "telugu": "మాలలు",
-        "img": "images/cat_malas.png",
+        "img": "images/cat_malas.webp",
         "desc": "",
         "emoji": "📿",
         "count": 3
@@ -1117,7 +1117,7 @@ const CATEGORIES = [
         "id": "havan",
         "name": "Havan Samagri",
         "telugu": "హవన్ సామగ్రి",
-        "img": "images/cat_havan.png",
+        "img": "images/cat_havan.webp",
         "desc": "",
         "emoji": "🔥",
         "count": 2
@@ -1126,7 +1126,7 @@ const CATEGORIES = [
         "id": "festivals",
         "name": "Festival Kits",
         "telugu": "పండుగ కిట్లు",
-        "img": "images/cat_festival.png",
+        "img": "images/cat_festival.webp",
         "desc": "",
         "emoji": "🎉",
         "count": 3
@@ -1135,7 +1135,7 @@ const CATEGORIES = [
         "id": "wedding",
         "name": "Wedding Items",
         "telugu": "వివాహ సామగ్రి",
-        "img": "images/cat_wedding.png",
+        "img": "images/cat_wedding.webp",
         "desc": "",
         "emoji": "💍",
         "count": 3
@@ -1144,7 +1144,7 @@ const CATEGORIES = [
         "id": "dhoop-sticks",
         "name": "Dhoop Sticks",
         "telugu": "",
-        "img": "images/cat_dhoop.png",
+        "img": "images/cat_dhoop.webp",
         "desc": "",
         "emoji": "🌸",
         "count": 0
@@ -1153,7 +1153,7 @@ const CATEGORIES = [
         "id": "more-and-other",
         "name": "More and other",
         "telugu": "",
-        "img": "images/cat_other.png",
+        "img": "images/cat_other.webp",
         "desc": "",
         "emoji": "🌸",
         "count": 0
@@ -1169,3 +1169,4 @@ const FESTIVALS = [
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { PRODUCTS, CATEGORIES, FESTIVALS };
 }
+

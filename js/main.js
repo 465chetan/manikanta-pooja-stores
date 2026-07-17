@@ -599,7 +599,7 @@ function renderProductCard(p) {
   return `
   <div class="product-card reveal" onclick="location.href='product.html?id=${p.id}'">
     <div class="card-img-wrap">
-      <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${p.id}99/400/400'">
+      <img src="${p.image}" alt="${p.name}" loading="lazy" width="400" height="400" decoding="async" onerror="this.src='https://picsum.photos/seed/${p.id}99/400/400'">
       <div class="card-badges">
         ${p.badge === 'sale'    ? `<span class="badge badge-sale">-${discount}%</span>` : ''}
         ${p.badge === 'new'     ? `<span class="badge badge-new">NEW</span>` : ''}
