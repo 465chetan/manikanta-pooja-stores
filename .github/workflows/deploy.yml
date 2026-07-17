@@ -17,8 +17,8 @@ jobs:
       - name: 📤 Deploy via FTP to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: manikantapoojastore.com
-          username: chethan@manikantapoojastore.com
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /public_html/
           exclude: |
