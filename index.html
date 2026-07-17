@@ -60,32 +60,46 @@
   <!-- Font preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Google Fonts: NON-BLOCKING async load -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet"></noscript>
-  <!-- Hero image preload (LCP) -->
+  <!-- Google Fonts: display=optional (zero layout shift, non-blocking) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=optional" rel="stylesheet"></noscript>
+  <!-- Hero LCP image preload - CRITICAL -->
   <link rel="preload" as="image" href="images/hero_slide_1.webp" fetchpriority="high" type="image/webp">
-  <!-- Inline critical CSS: renders above-the-fold instantly -->
+  <!-- Minimal critical CSS (no opacity:0, no layout-breaking rules) -->
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth;font-size:16px}
-    body{font-family:'Poppins',system-ui,sans-serif;background:#FDF6EC;color:#2D2D2D;line-height:1.6;overflow-x:hidden}
+    html{font-size:16px}
+    body{font-family:'Poppins',system-ui,-apple-system,sans-serif;background:#FDF6EC;color:#2D2D2D;line-height:1.6;overflow-x:hidden}
     img{max-width:100%;height:auto;display:block}
     a{text-decoration:none;color:inherit}
-    .hero{position:relative;width:100%;min-height:100vh;overflow:hidden;background:#7B1A1A}
-    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease}
-    .hero-slide.active{opacity:1;position:relative}
-    .hero-slide img{width:100%;height:100vh;object-fit:cover}
-    .ticker-bar{background:#5C0F0F;color:#FFD700;padding:8px 0;overflow:hidden;font-size:13px;font-weight:500}
-    nav{background:#7B1A1A;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
-    .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top 0.2s}
+    ul,ol{list-style:none}
+    /* Hero: visible immediately before JS runs */
+    .hero{position:relative;width:100%;background:#7B1A1A;overflow:hidden}
+    #slide-0{display:block}
+    #slide-0 img{width:100%;height:100svh;min-height:500px;object-fit:cover;display:block}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(91,15,15,.75) 0%,rgba(0,0,0,.3) 100%)}
+    .hero-content{position:absolute;inset:0;display:flex;align-items:center}
+    .container{width:100%;max-width:1220px;margin:0 auto;padding:0 20px}
+    .hero-text{max-width:650px}
+    .hero-tag{color:#C9A84C;font-size:.85rem;font-weight:600;margin-bottom:12px}
+    .hero-title{font-size:clamp(1.8rem,5vw,3.2rem);color:#fff;font-weight:700;line-height:1.2;margin-bottom:16px}
+    .highlight{color:#C9A84C}
+    .hero-desc{color:rgba(255,255,255,.88);font-size:clamp(.95rem,2vw,1.1rem);margin-bottom:28px;line-height:1.7}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:50px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;text-decoration:none;transition:all .28s ease}
+    .btn-primary{background:linear-gradient(135deg,#C9A84C,#e8c96a);color:#5C0F0F}
+    .btn-white{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.5);backdrop-filter:blur(10px)}
+    .hero-badge{position:absolute;bottom:32px;right:32px;background:rgba(255,255,255,.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:16px 20px;text-align:center;color:#fff}
+    .hero-badge-num{font-size:1.6rem;font-weight:700;color:#C9A84C;line-height:1}
+    .hero-badge-label{font-size:.72rem;opacity:.8;margin-top:2px}
+    .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top .2s}
     .skip-to-content:focus{top:0}
   </style>
   <!-- Core CSS -->
-  <link rel="stylesheet" href="css/style.css?v=27">
-  <link rel="stylesheet" href="css/components.css?v=27">
-  <link rel="stylesheet" href="css/home.css?v=27">
-  <!-- Font Awesome: async load -->
+  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/components.css?v=28">
+  <link rel="stylesheet" href="css/home.css?v=28">
+  <!-- Font Awesome async -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 </head>
@@ -99,8 +113,35 @@
   <!-- Main content landmark -->
   <main id="main-content" role="main">
 
-  <!-- Hero Slider (slides injected by home.js) -->
-  <section class="hero" id="hero-slider" aria-label="Hero Banner"></section>
+  <!-- Hero Slider: Slide 0 pre-rendered for instant LCP. JS appends slides 1-8. -->
+  <section class="hero" id="hero-slider" aria-label="Hero Banner">
+    <div class="hero-slide active" id="slide-0">
+      <img src="images/hero_slide_1.webp"
+           alt="Sri Manikanta Pooja Stores - Premium Pooja Samagri"
+           fetchpriority="high"
+           loading="eager"
+           width="1920" height="800"
+           decoding="async">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="container">
+          <div class="hero-text">
+            <div class="hero-tag">ॐ Welcome to Sri Manikanta Pooja Stores</div>
+            <h1 class="hero-title">Your Sacred <span class="highlight">Pooja Samagri</span><br>All in One Place</h1>
+            <p class="hero-desc">Premium quality agarbatti, camphor, kumkum, haldi, diyas and all pooja essentials for every Hindu ritual and festival.</p>
+            <div class="hero-actions">
+              <a href="shop.html" class="btn btn-primary">Shop Now</a>
+              <a href="shop.html" class="btn btn-white">View Categories</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">500+</div>
+        <div class="hero-badge-label">Products</div>
+      </div>
+    </div>
+  </section>
   <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Slide navigation"></div>
   <div class="hero-arrows">
     <button class="hero-arrow" id="hero-prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
