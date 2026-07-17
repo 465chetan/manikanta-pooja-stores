@@ -65,7 +65,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=optional" rel="stylesheet"></noscript>
   <!-- Hero LCP image preload - CRITICAL -->
   <link rel="preload" as="image" href="images/hero_slide_1.webp" fetchpriority="high" type="image/webp">
-  <!-- Minimal critical CSS (no opacity:0, no layout-breaking rules) -->
+  <!-- Minimal critical CSS — matches home.css exactly so hero looks correct before JS loads -->
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{font-size:16px}
@@ -73,25 +73,26 @@
     img{max-width:100%;height:auto;display:block}
     a{text-decoration:none;color:inherit}
     ul,ol{list-style:none}
-    /* Hero: visible immediately before JS runs */
-    .hero{position:relative;width:100%;background:#7B1A1A;overflow:hidden}
-    #slide-0{display:block}
-    #slide-0 img{width:100%;height:100svh;min-height:500px;object-fit:cover;display:block}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(91,15,15,.75) 0%,rgba(0,0,0,.3) 100%)}
-    .hero-content{position:absolute;inset:0;display:flex;align-items:center}
+    /* Hero — EXACT same values as home.css */
+    .hero{position:relative;height:55vh;min-height:380px;max-height:480px;overflow:hidden;margin-top:calc(70px + 30px);background:#7B1A1A}
+    .hero-slide{position:absolute;inset:0;opacity:0;pointer-events:none;visibility:hidden;z-index:0;transition:opacity 0.9s ease,visibility 0.9s ease}
+    .hero-slide.active{opacity:1;pointer-events:all;visibility:visible;z-index:1}
+    .hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(75,10,10,.82) 0%,rgba(75,10,10,.50) 35%,rgba(20,5,5,.18) 65%,transparent 100%)}
+    .hero-content{position:absolute;inset:0;display:flex;align-items:center;z-index:2}
     .container{width:100%;max-width:1220px;margin:0 auto;padding:0 20px}
-    .hero-text{max-width:650px}
-    .hero-tag{color:#C9A84C;font-size:.85rem;font-weight:600;margin-bottom:12px}
-    .hero-title{font-size:clamp(1.8rem,5vw,3.2rem);color:#fff;font-weight:700;line-height:1.2;margin-bottom:16px}
+    .hero-text{max-width:580px}
+    .hero-tag{color:#C9A84C;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+    .hero-title{font-size:clamp(1.6rem,4vw,2.8rem);color:#fff;font-weight:700;line-height:1.2;margin-bottom:14px}
     .highlight{color:#C9A84C}
-    .hero-desc{color:rgba(255,255,255,.88);font-size:clamp(.95rem,2vw,1.1rem);margin-bottom:28px;line-height:1.7}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:50px;font-weight:600;font-size:.95rem;border:none;cursor:pointer;text-decoration:none;transition:all .28s ease}
+    .hero-desc{color:rgba(255,255,255,.85);font-size:clamp(.88rem,1.8vw,1rem);margin-bottom:22px;line-height:1.65}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:50px;font-weight:600;font-size:.9rem;border:none;cursor:pointer;text-decoration:none;transition:all .28s ease}
     .btn-primary{background:linear-gradient(135deg,#C9A84C,#e8c96a);color:#5C0F0F}
-    .btn-white{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.5);backdrop-filter:blur(10px)}
-    .hero-badge{position:absolute;bottom:32px;right:32px;background:rgba(255,255,255,.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:16px 20px;text-align:center;color:#fff}
-    .hero-badge-num{font-size:1.6rem;font-weight:700;color:#C9A84C;line-height:1}
-    .hero-badge-label{font-size:.72rem;opacity:.8;margin-top:2px}
+    .btn-white{background:rgba(255,255,255,.12);color:#fff;border:2px solid rgba(255,255,255,.45);backdrop-filter:blur(10px)}
+    .hero-badge{position:absolute;bottom:20px;right:24px;background:rgba(255,255,255,.1);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px 16px;text-align:center;color:#fff;z-index:2}
+    .hero-badge-num{font-size:1.4rem;font-weight:700;color:#C9A84C;line-height:1}
+    .hero-badge-label{font-size:.68rem;opacity:.8;margin-top:2px}
     .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top .2s}
     .skip-to-content:focus{top:0}
   </style>
