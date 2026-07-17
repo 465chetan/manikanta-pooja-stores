@@ -11,24 +11,16 @@ try:
     ftp.login(user, password)
     ftp.cwd("public_html")
 
-    # Upload index.html
-    with open("index.html", "rb") as f:
-        ftp.storbinary("STOR index.html", f)
-        print("Uploaded index.html")
+    # Upload product.html
+    with open("product.html", "rb") as f:
+        ftp.storbinary("STOR product.html", f)
+        print("Uploaded product.html")
 
-    # Upload css/style.css
-    ftp.cwd("css")
-    with open("css/style.css", "rb") as f:
-        ftp.storbinary("STOR style.css", f)
-        print("Uploaded css/style.css")
-    ftp.cwd("..")
-
-    # Upload js/home.js, main.js, products.js
+    # Upload js/cart.js
     ftp.cwd("js")
-    for jsfile in ["home.js", "main.js", "products.js"]:
-        with open(f"js/{jsfile}", "rb") as f:
-            ftp.storbinary(f"STOR {jsfile}", f)
-            print(f"Uploaded js/{jsfile}")
+    with open("js/cart.js", "rb") as f:
+        ftp.storbinary("STOR cart.js", f)
+        print("Uploaded js/cart.js")
 
     ftp.quit()
     print("All done!")

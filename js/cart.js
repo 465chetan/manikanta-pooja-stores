@@ -433,7 +433,7 @@ function renderCartItem(item) {
     <div class="cart-item-price">${formatPrice(item.price)}</div>
     <div>
       <div class="qty-control">
-        <button class="qty-btn" onclick="updateItemQty('${item.key}', -1)">−</button>
+        <button class="qty-btn" onclick="updateItemQty('${item.key}', -1)">-</button>
         <input type="number" class="qty-input" value="${item.qty}" min="1" onchange="updateItemQtyInput('${item.key}', this.value)">
         <button class="qty-btn" onclick="updateItemQty('${item.key}', 1)">+</button>
       </div>
