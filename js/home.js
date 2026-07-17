@@ -187,8 +187,6 @@ function initHeroSlider() {
 
 
 
-
-
   const dotsContainer = document.getElementById('hero-dots');
   if (dotsContainer) {
     dotsContainer.innerHTML = HERO_SLIDES.map((_, i) =>

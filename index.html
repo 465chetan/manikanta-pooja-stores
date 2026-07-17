@@ -60,27 +60,32 @@
   <!-- Font preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Google Fonts: display=optional (zero layout shift, non-blocking) -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=optional" rel="stylesheet"></noscript>
-  <!-- Hero LCP image preload - CRITICAL -->
+  <!-- Google Fonts: NON-BLOCKING async load -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet"></noscript>
+  <!-- Hero image preload (LCP) -->
   <link rel="preload" as="image" href="images/hero_slide_1.webp" fetchpriority="high" type="image/webp">
-  <!-- Minimal critical CSS — matches home.css exactly so hero looks correct before JS loads -->
+  <!-- Inline critical CSS: renders above-the-fold instantly -->
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{font-size:16px}
-    body{font-family:'Poppins',system-ui,-apple-system,sans-serif;background:#FDF6EC;color:#2D2D2D;line-height:1.6;overflow-x:hidden}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:'Poppins',system-ui,sans-serif;background:#FDF6EC;color:#2D2D2D;line-height:1.6;overflow-x:hidden}
     img{max-width:100%;height:auto;display:block}
     a{text-decoration:none;color:inherit}
-    ul,ol{list-style:none}
-    .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top .2s}
+    .hero{position:relative;width:100%;min-height:100vh;overflow:hidden;background:#7B1A1A}
+    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease}
+    .hero-slide.active{opacity:1;position:relative}
+    .hero-slide img{width:100%;height:100vh;object-fit:cover}
+    .ticker-bar{background:#5C0F0F;color:#FFD700;padding:8px 0;overflow:hidden;font-size:13px;font-weight:500}
+    nav{background:#7B1A1A;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
+    .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top 0.2s}
     .skip-to-content:focus{top:0}
   </style>
   <!-- Core CSS -->
-  <link rel="stylesheet" href="css/style.css?v=28">
-  <link rel="stylesheet" href="css/components.css?v=28">
-  <link rel="stylesheet" href="css/home.css?v=28">
-  <!-- Font Awesome async -->
+  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/components.css?v=27">
+  <link rel="stylesheet" href="css/home.css?v=27">
+  <!-- Font Awesome: async load -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 </head>
@@ -94,7 +99,7 @@
   <!-- Main content landmark -->
   <main id="main-content" role="main">
 
-  <!-- Hero Slider: injected by home.js for exact correct display -->
+  <!-- Hero Slider (slides injected by home.js) -->
   <section class="hero" id="hero-slider" aria-label="Hero Banner"></section>
   <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Slide navigation"></div>
   <div class="hero-arrows">
