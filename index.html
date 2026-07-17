@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -272,9 +272,10 @@
   <!-- Floating Actions -->
   <div id="floating-actions"></div>
 
-  <!-- Scripts: products.js NOT loaded on homepage (only needed on shop page) -->
-  <script src="js/main.js?v=27" defer></script>
-  <script src="js/home.js?v=27" defer></script>
+  <!-- Scripts: products.js loaded first so CATEGORIES, FESTIVALS, PRODUCTS data is available -->
+  <script src="js/products.js?v=34" defer></script>
+  <script src="js/main.js?v=34" defer></script>
+  <script src="js/home.js?v=34" defer></script>
 </body>
 </html>
 
