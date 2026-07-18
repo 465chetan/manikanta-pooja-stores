@@ -501,8 +501,8 @@ h5, h6          { font-family: var(--font-body); font-weight: 600; }
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  margin-top: auto;
 }
+
 .card-add-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(255,119,34,0.4);
@@ -512,6 +512,12 @@ h5, h6          { font-family: var(--font-body); font-weight: 600; }
 }
 
 /* ── Variant / Size Picker on Card ────────────────────────────── */
+.card-bottom-wrap {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .card-size-picker {
   display: flex;
   flex-wrap: wrap;

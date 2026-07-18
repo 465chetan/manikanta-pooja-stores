@@ -636,15 +636,17 @@ function renderProductCard(p) {
         <span class="stars">${renderStars(p.rating)}</span>
         <span class="rating-count">(${p.reviews})</span>
       </div>
-      ${sizePicker}
-      <div class="card-price">
-        <span class="price-current">${formatPrice(displayPrice)}</span>
-        <span class="price-original">${formatPrice(displayOriginal)}</span>
-        <span class="price-discount">${discount}% off</span>
+      <div class="card-bottom-wrap">
+        ${sizePicker}
+        <div class="card-price">
+          <span class="price-current">${formatPrice(displayPrice)}</span>
+          <span class="price-original">${formatPrice(displayOriginal)}</span>
+          <span class="price-discount">${discount}% off</span>
+        </div>
+        <button class="card-add-btn" onclick="event.stopPropagation();addToCartFromCard(${p.id}, this)">
+          <i class="fas fa-shopping-bag"></i> Add to Cart
+        </button>
       </div>
-      <button class="card-add-btn" onclick="event.stopPropagation();addToCartFromCard(${p.id}, this)">
-        <i class="fas fa-shopping-bag"></i> Add to Cart
-      </button>
     </div>
   </div>`;
 }
