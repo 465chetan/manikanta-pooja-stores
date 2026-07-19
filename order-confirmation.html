@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -117,10 +117,10 @@
 <!-- Header -->
 <div class="top-bar">
   <a href="index.html" class="logo">
-    <div class="logo-icon">ðŸ•‰ï¸</div>
+    <div class="logo-icon">🕉️</div>
     <div class="logo-text">
       <h1>Sri Manikanta Pooja Stores</h1>
-      <p>Premium Pooja Samagri â€¢ Dilsukhnagar, Hyderabad</p>
+      <p>Premium Pooja Samagri • Dilsukhnagar, Hyderabad</p>
     </div>
   </a>
   <a href="dashboard/orders.html" style="color:rgba(255,255,255,.7);text-decoration:none;font-size:.8rem"><i class="fas fa-shopping-bag"></i> My Orders</a>
@@ -140,9 +140,9 @@
   <div class="upi-notice" id="upi-notice" style="display:none">
     <h4><i class="fas fa-clock"></i> UPI Payment Under Verification</h4>
     <p>
-      We have received your payment screenshot. Our team will verify your payment within <strong>15â€“30 minutes</strong>.<br>
+      We have received your payment screenshot. Our team will verify your payment within <strong>15–30 minutes</strong>.<br>
       Once verified, your order will be confirmed and you'll receive a WhatsApp update.<br>
-      <strong>UTR/Reference:</strong> <span id="utr-display">â€”</span>
+      <strong>UTR/Reference:</strong> <span id="utr-display">—</span>
     </p>
   </div>
 
@@ -159,10 +159,10 @@
   <div class="card">
     <div class="card-header"><i class="fas fa-receipt"></i><h3>Order Summary</h3></div>
     <div class="card-body">
-      <div class="info-row"><span class="lbl">Order ID</span><span class="val" id="s-order-id">â€”</span></div>
-      <div class="info-row"><span class="lbl">Order Date</span><span class="val" id="s-date">â€”</span></div>
-      <div class="info-row"><span class="lbl">Payment Method</span><span class="val" id="s-payment">â€”</span></div>
-      <div class="info-row"><span class="lbl">Payment Status</span><span class="val" id="s-pay-status">â€”</span></div>
+      <div class="info-row"><span class="lbl">Order ID</span><span class="val" id="s-order-id">—</span></div>
+      <div class="info-row"><span class="lbl">Order Date</span><span class="val" id="s-date">—</span></div>
+      <div class="info-row"><span class="lbl">Payment Method</span><span class="val" id="s-payment">—</span></div>
+      <div class="info-row"><span class="lbl">Payment Status</span><span class="val" id="s-pay-status">—</span></div>
       <div class="info-row"><span class="lbl">Order Status</span><span class="val"><span class="pay-badge cod">â³ Pending Confirmation</span></span></div>
     </div>
   </div>
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update displays
   document.getElementById('order-id-display').textContent  = order_number || 'SMPS-XXXX';
-  document.getElementById('s-order-id').textContent         = order_number || 'â€”';
+  document.getElementById('s-order-id').textContent         = order_number || '—';
   document.getElementById('s-payment').textContent          = payment_method === 'upi' ? 'ðŸ“± UPI Payment' : 'ðŸ’µ Cash on Delivery';
   document.getElementById('placed-time').textContent        = new Date().toLocaleString('en-IN');
   document.getElementById('s-date').textContent             = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
@@ -267,19 +267,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('items-list').innerHTML = itemsHTML + `
     <div class="total-section">
       <div class="total-row"><span>Subtotal</span><span>â‚¹${subtotal.toLocaleString('en-IN')}</span></div>
-      <div class="total-row"><span>Delivery</span><span>${delivery===0?'ðŸŽ‰ FREE':'â‚¹'+delivery.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span>Delivery</span><span>${delivery===0?'🎉 FREE':'â‚¹'+delivery.toLocaleString('en-IN')}</span></div>
       <div class="total-row grand"><span>Grand Total</span><span>â‚¹${Number(total).toLocaleString('en-IN')}</span></div>
     </div>`;
 
   // Address
   const addr = address || {};
   document.getElementById('address-display').innerHTML = `
-    <strong>${addr.full_name || 'â€”'}</strong> Â· ${addr.mobile || 'â€”'}<br>
-    ${addr.address_line || 'â€”'}${addr.landmark ? ', ' + addr.landmark : ''}<br>
-    ${addr.city || ''}, ${addr.state || 'Telangana'} â€” ${addr.pincode || ''}`;
+    <strong>${addr.full_name || '—'}</strong> Â· ${addr.mobile || '—'}<br>
+    ${addr.address_line || '—'}${addr.landmark ? ', ' + addr.landmark : ''}<br>
+    ${addr.city || ''}, ${addr.state || 'Telangana'} — ${addr.pincode || ''}`;
 
   // WhatsApp button
-  const waMsg = `ðŸ™ *Sri Manikanta Pooja Stores*\n\nDear Customer,\n\nThank you for placing your order with us!\n\n*Order ID:* ${order_number}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n*Payment:* ${payment_method === 'upi' ? 'UPI Payment (Under Verification)' : 'Cash on Delivery'}\n\nOur team has received your order and will contact you within *1 hour* regarding delivery.\n\nFor any queries:\nðŸ“ž +91 9110582086\n\nThank you! ðŸ›’`;
+  const waMsg = `ðŸ™ *Sri Manikanta Pooja Stores*\n\nDear Customer,\n\nThank you for placing your order with us!\n\n*Order ID:* ${order_number}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n*Payment:* ${payment_method === 'upi' ? 'UPI Payment (Under Verification)' : 'Cash on Delivery'}\n\nOur team has received your order and will contact you within *1 hour* regarding delivery.\n\nFor any queries:\nðŸ“ž +91 9110582086\n\nThank you! 🛒`;
   const mobile = data.customer_mobile ? '91' + data.customer_mobile.replace(/\D/g,'').replace(/^91/,'') : STORE_PHONE;
   document.getElementById('wa-btn').href = `https://wa.me/${mobile}?text=${encodeURIComponent(waMsg)}`;
 

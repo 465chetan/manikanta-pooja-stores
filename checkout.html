@@ -792,13 +792,13 @@
     totalAmount    = subtotal + deliveryCharge;
 
     document.getElementById('s-sub').textContent   = 'â‚¹' + subtotal.toLocaleString('en-IN');
-    document.getElementById('s-del').textContent   = deliveryCharge === 0 ? 'ðŸŽ‰ FREE' : 'â‚¹' + deliveryCharge;
+    document.getElementById('s-del').textContent   = deliveryCharge === 0 ? '🎉 FREE' : 'â‚¹' + deliveryCharge;
     document.getElementById('s-total').textContent = 'â‚¹' + totalAmount.toLocaleString('en-IN');
     document.getElementById('totals-section').style.display = 'block';
 
     const ft = document.getElementById('free-tag');
     if (deliveryCharge === 0) {
-      ft.innerHTML = 'ðŸŽ‰ You get <strong>FREE Delivery!</strong>';
+      ft.innerHTML = '🎉 You get <strong>FREE Delivery!</strong>';
       ft.style.display = 'block';
     } else {
       ft.innerHTML = `Add â‚¹${(FREE_ABOVE - subtotal).toLocaleString('en-IN')} more for <strong>FREE Delivery</strong>`;
@@ -820,7 +820,7 @@
         document.getElementById('cust-name').value    = def.full_name || document.getElementById('cust-name').value;
         document.getElementById('cust-phone').value   = def.mobile    || document.getElementById('cust-phone').value;
         document.getElementById('cust-address').value =
-          `${def.address_line}${def.landmark ? ', ' + def.landmark : ''}, ${def.city}, ${def.state} â€“ ${def.pincode}`;
+          `${def.address_line}${def.landmark ? ', ' + def.landmark : ''}, ${def.city}, ${def.state} – ${def.pincode}`;
       }
       window._allAddresses = addrs;
       document.getElementById('addr-container').innerHTML = addrs.map(a => `
@@ -828,7 +828,7 @@
           <input type="radio" name="addr" ${a.id === def.id ? 'checked' : ''}>
           <span class="addr-lbl">${a.label || 'Home'}${a.is_default ? ' â­' : ''}</span>
           <div class="addr-name">${a.full_name} <span style="font-weight:400;font-size:.75rem;color:#9ca3af">${a.mobile}</span></div>
-          <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} â€“ ${a.pincode}</div>
+          <div class="addr-text">${a.address_line}${a.landmark ? ', ' + a.landmark : ''}<br>${a.city}, ${a.state} – ${a.pincode}</div>
         </div>`).join('') +
         `<div class="add-addr" onclick="window.location.href='dashboard/addresses.html?back=checkout'">
           <i class="fas fa-plus-circle"></i> Add a new delivery address
@@ -844,7 +844,7 @@
       document.getElementById('cust-name').value    = addr.full_name;
       document.getElementById('cust-phone').value   = addr.mobile;
       document.getElementById('cust-address').value =
-        `${addr.address_line}${addr.landmark ? ', ' + addr.landmark : ''}, ${addr.city}, ${addr.state} â€“ ${addr.pincode}`;
+        `${addr.address_line}${addr.landmark ? ', ' + addr.landmark : ''}, ${addr.city}, ${addr.state} – ${addr.pincode}`;
     }
   }
 
@@ -876,7 +876,7 @@
   function copyUPIId() {
     navigator.clipboard?.writeText(STORE_UPI_ID).then(() => {
       const el = document.getElementById('upi-id-txt');
-      el.innerHTML = '<span>âœ… Copied!</span>';
+      el.innerHTML = '<span>✅ Copied!</span>';
       setTimeout(() => el.innerHTML = `<span>${STORE_UPI_ID}</span><i class="far fa-copy" style="font-size: .9rem;"></i>`, 2000);
     });
   }
@@ -895,7 +895,7 @@
       preview.src   = e.target.result;
       preview.style.display = 'block';
       area.classList.add('has-file');
-      label.innerHTML = `<strong>âœ… Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
+      label.innerHTML = `<strong>✅ Screenshot selected</strong><br><span style="color:#16a34a;font-size:.75rem">${file.name}</span>`;
       icon.className = 'fas fa-check-circle';
       icon.style.color = '#16a34a';
     };
@@ -918,7 +918,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        status.textContent = 'âœ… Screenshot uploaded!';
+        status.textContent = '✅ Screenshot uploaded!';
         status.style.color = '#16a34a';
         return data.path;
       } else {
