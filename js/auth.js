@@ -39,6 +39,7 @@ const AuthManager = {
   async _request(endpoint, method = 'GET', body = null) {
     const opts = {
       method,
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
         ...(this.getToken() ? { 'Authorization': `Bearer ${this.getToken()}` } : {}),
@@ -46,7 +47,8 @@ const AuthManager = {
     };
     if (body) opts.body = JSON.stringify(body);
     try {
-      const res  = await fetch(`${API_BASE}/${endpoint}`, opts);
+      const sep = endpoint.includes('?') ? '&' : '?';
+      const res  = await fetch(`${API_BASE}/${endpoint}${sep}_t=${Date.now()}`, opts);
       const data = await res.json();
       return { ...data, httpStatus: res.status };
     } catch (err) {
@@ -176,10 +178,11 @@ const AdminAPI = {
   },
 
   async _req(endpoint, method = 'GET', body = null) {
-    const opts = { method, headers: this._headers() };
+    const opts = { method, cache: 'no-store', headers: this._headers() };
     if (body) opts.body = JSON.stringify(body);
     try {
-      const res  = await fetch(`${API_BASE}/${endpoint}`, opts);
+      const sep = endpoint.includes('?') ? '&' : '?';
+      const res  = await fetch(`${API_BASE}/${endpoint}${sep}_t=${Date.now()}`, opts);
       const data = await res.json();
       if (res.status === 401) { this.logout(); return data; }
       return data;
