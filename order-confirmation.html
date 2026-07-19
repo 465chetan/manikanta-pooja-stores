@@ -131,7 +131,7 @@
   <!-- Success Banner -->
   <div class="success-banner">
     <div class="checkmark"><i class="fas fa-check"></i></div>
-    <h1>Order Placed Successfully! ðŸ™</h1>
+    <h1>Order Placed Successfully! 🙏</h1>
     <p>Thank you for shopping with Sri Manikanta Pooja Stores</p>
     <div class="order-id-badge" id="order-id-display">Loading...</div>
   </div>
@@ -163,7 +163,7 @@
       <div class="info-row"><span class="lbl">Order Date</span><span class="val" id="s-date">—</span></div>
       <div class="info-row"><span class="lbl">Payment Method</span><span class="val" id="s-payment">—</span></div>
       <div class="info-row"><span class="lbl">Payment Status</span><span class="val" id="s-pay-status">—</span></div>
-      <div class="info-row"><span class="lbl">Order Status</span><span class="val"><span class="pay-badge cod">â³ Pending Confirmation</span></span></div>
+      <div class="info-row"><span class="lbl">Order Status</span><span class="val"><span class="pay-badge cod">⏳ Pending Confirmation</span></span></div>
     </div>
   </div>
 
@@ -234,20 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update displays
   document.getElementById('order-id-display').textContent  = order_number || 'SMPS-XXXX';
   document.getElementById('s-order-id').textContent         = order_number || '—';
-  document.getElementById('s-payment').textContent          = payment_method === 'upi' ? 'ðŸ“± UPI Payment' : 'ðŸ’µ Cash on Delivery';
+  document.getElementById('s-payment').textContent          = payment_method === 'upi' ? '📱 UPI Payment' : '💵 Cash on Delivery';
   document.getElementById('placed-time').textContent        = new Date().toLocaleString('en-IN');
   document.getElementById('s-date').textContent             = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
 
   // Payment status badge
   const payStatusEl = document.getElementById('s-pay-status');
   if (payment_method === 'upi') {
-    payStatusEl.innerHTML = '<span class="pay-badge upi-pending">ðŸ” Under Verification</span>';
+    payStatusEl.innerHTML = '<span class="pay-badge upi-pending">🔍 Under Verification</span>';
     document.getElementById('upi-notice').style.display = 'block';
     if (utr_number) document.getElementById('utr-display').textContent = utr_number;
     // Adjust timeline step 2
     document.getElementById('step-verify-title').textContent = 'UPI Payment Verification';
   } else {
-    payStatusEl.innerHTML = '<span class="pay-badge cod">ðŸ’µ Pay on Delivery</span>';
+    payStatusEl.innerHTML = '<span class="pay-badge cod">💵 Pay on Delivery</span>';
     document.getElementById('step-verify-title').textContent = 'Order Confirmation';
     document.getElementById('step-verify-dot').innerHTML = '<i class="fas fa-check"></i>';
   }
@@ -258,28 +258,28 @@ document.addEventListener('DOMContentLoaded', () => {
       <img class="item-img" src="${item.image || 'images/1000090824.jpg'}" onerror="this.src='images/1000090824.jpg'" alt="${item.name}">
       <div class="item-info">
         <div class="n">${item.name}</div>
-        <div class="s">Qty: ${item.qty}${item.variant ? ' Â· ' + item.variant : ''}</div>
+        <div class="s">Qty: ${item.qty}${item.variant ? ' · ' + item.variant : ''}</div>
       </div>
-      <div class="item-price">â‚¹${(Number(item.price) * item.qty).toLocaleString('en-IN')}</div>
+      <div class="item-price">₹${(Number(item.price) * item.qty).toLocaleString('en-IN')}</div>
     </div>`).join('');
   const subtotal = (items||[]).reduce((s,i)=>s+(Number(i.price)*i.qty),0);
   const delivery = Number(total) - subtotal;
   document.getElementById('items-list').innerHTML = itemsHTML + `
     <div class="total-section">
-      <div class="total-row"><span>Subtotal</span><span>â‚¹${subtotal.toLocaleString('en-IN')}</span></div>
-      <div class="total-row"><span>Delivery</span><span>${delivery===0?'🎉 FREE':'â‚¹'+delivery.toLocaleString('en-IN')}</span></div>
-      <div class="total-row grand"><span>Grand Total</span><span>â‚¹${Number(total).toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span>Subtotal</span><span>₹${subtotal.toLocaleString('en-IN')}</span></div>
+      <div class="total-row"><span>Delivery</span><span>${delivery===0?'🎉 FREE':'₹'+delivery.toLocaleString('en-IN')}</span></div>
+      <div class="total-row grand"><span>Grand Total</span><span>₹${Number(total).toLocaleString('en-IN')}</span></div>
     </div>`;
 
   // Address
   const addr = address || {};
   document.getElementById('address-display').innerHTML = `
-    <strong>${addr.full_name || '—'}</strong> Â· ${addr.mobile || '—'}<br>
+    <strong>${addr.full_name || '—'}</strong> · ${addr.mobile || '—'}<br>
     ${addr.address_line || '—'}${addr.landmark ? ', ' + addr.landmark : ''}<br>
     ${addr.city || ''}, ${addr.state || 'Telangana'} — ${addr.pincode || ''}`;
 
   // WhatsApp button
-  const waMsg = `ðŸ™ *Sri Manikanta Pooja Stores*\n\nDear Customer,\n\nThank you for placing your order with us!\n\n*Order ID:* ${order_number}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n*Payment:* ${payment_method === 'upi' ? 'UPI Payment (Under Verification)' : 'Cash on Delivery'}\n\nOur team has received your order and will contact you within *1 hour* regarding delivery.\n\nFor any queries:\nðŸ“ž +91 9110582086\n\nThank you! 🛒`;
+  const waMsg = `🙏 *Sri Manikanta Pooja Stores*\n\nDear Customer,\n\nThank you for placing your order with us!\n\n*Order ID:* ${order_number}\n*Date:* ${new Date().toLocaleDateString('en-IN')}\n*Payment:* ${payment_method === 'upi' ? 'UPI Payment (Under Verification)' : 'Cash on Delivery'}\n\nOur team has received your order and will contact you within *1 hour* regarding delivery.\n\nFor any queries:\n📞 +91 9110582086\n\nThank you! 🛒`;
   const mobile = data.customer_mobile ? '91' + data.customer_mobile.replace(/\D/g,'').replace(/^91/,'') : STORE_PHONE;
   document.getElementById('wa-btn').href = `https://wa.me/${mobile}?text=${encodeURIComponent(waMsg)}`;
 

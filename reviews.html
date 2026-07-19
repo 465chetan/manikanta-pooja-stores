@@ -630,9 +630,9 @@
       } catch (e) {
         clearTimeout(timer);
         if (e.name === 'AbortError') {
-          showError('â±ï¸ Server took too long. Your review may still have been saved — please refresh the page to check.');
+          showError('⏱️ Server took too long. Your review may still have been saved — please refresh the page to check.');
         } else {
-          showError('âš ï¸ Network error. Please check your connection and try again.');
+          showError('⚠️ Network error. Please check your connection and try again.');
         }
       }
 
@@ -646,7 +646,7 @@
       el.style.display = 'block';
     }
 
-    // â”€â”€ Google Popup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Google Popup ────────────────────────────────────────────
     function closeGooglePopup() {
       document.getElementById('google-popup').classList.remove('open');
       document.body.style.overflow = '';
@@ -655,7 +655,7 @@
       if (e.target === this) closeGooglePopup();
     });
 
-    // â”€â”€ Load Reviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Load Reviews ────────────────────────────────────────────
     async function loadReviews() {
       try {
         const res = await fetch(API_URL);
