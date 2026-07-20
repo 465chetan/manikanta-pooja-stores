@@ -375,7 +375,7 @@ body {
   /* Product card */
   .product-card { border-radius: 10px !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; height: 100% !important; }
   .card-img-wrap { width: 100% !important; aspect-ratio: 1/1 !important; }
-  .card-img-wrap img { width: 100% !important; height: 100% !important; object-fit: contain !important; padding: 4px !important; }
+  .card-img-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; padding: 0 !important; }
   .card-body { padding: 8px !important; }
   .card-title {
     font-size: 11px !important;
