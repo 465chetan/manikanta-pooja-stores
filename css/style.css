@@ -370,6 +370,7 @@ h5, h6          { font-family: var(--font-body); font-weight: 600; }
 .product-card .card-img-wrap {
   position: relative;
   overflow: hidden;
+  width: 100%;
   aspect-ratio: 1/1;
   background: #ffffff;
   display: flex;
