@@ -130,8 +130,8 @@
       transition: color 0.15s, transform 0.15s;
       background: none; border: none; padding: 0; line-height: 1;
     }
-    .star-rating-input .star-btn:hover,
-    .star-rating-input .star-btn.active { color: #FFD700; transform: scale(1.25); }
+    .star-rating-input .star-btn:hover { color: #FFD700; transform: scale(1.25); }
+    .star-rating-input .star-btn.active { color: #FFD700; }
     .star-label-text { font-size: 15px; color: var(--text-muted); margin-left: 8px; transition: color 0.2s; }
 
     /* — Input Fields — */
@@ -551,7 +551,12 @@
 
     function highlightStars(val) {
       starBtns.forEach(b => {
-        b.classList.toggle('active', parseInt(b.dataset.val) <= val);
+        const starVal = parseInt(b.getAttribute('data-val'));
+        if (starVal <= val) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
       });
       starLabel.textContent = val > 0 ? starLabels[val] : 'Click a star to rate';
       starLabel.style.color = val > 0 ? '#D4A017' : '';
