@@ -18,6 +18,20 @@ if (typeof PRODUCTS !== 'undefined') {
   });
 }
 
+// Optimize Category images
+if (typeof CATEGORIES !== 'undefined') {
+  CATEGORIES.forEach(c => {
+    if (c.img) c.img = c.img.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+  });
+}
+
+// Optimize Festival images
+if (typeof FESTIVALS !== 'undefined') {
+  FESTIVALS.forEach(f => {
+    if (f.image) f.image = f.image.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+  });
+}
+
 const STORE = {
   name:      'Sri Manikanta Pooja Stores',
   phone1:    '+919110582086',
