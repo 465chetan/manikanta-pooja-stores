@@ -539,7 +539,9 @@
   <script src="js/main.js?v=35" defer></script>
   <script>
     // — Init ——————————————————————————————————————————————————————
-    initSite('reviews.html');
+    document.addEventListener('DOMContentLoaded', () => {
+      initSite('reviews.html');
+    });
 
     const API_URL = 'api/reviews/index.php';
     let selectedRating = 0;
