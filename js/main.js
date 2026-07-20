@@ -3,6 +3,21 @@
 // Global: Header, Footer, Cart, Floating Buttons, Utilities
 // ============================================================
 
+// Optimize all product image paths to use WebP for faster loading
+if (typeof PRODUCTS !== 'undefined') {
+  PRODUCTS.forEach(p => {
+    if (p.image) p.image = p.image.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    if (p.images) {
+      p.images = p.images.map(img => img.replace(/\.(jpg|jpeg|png)$/i, '.webp'));
+    }
+    if (p.sizes) {
+      p.sizes.forEach(s => {
+        if (s.image) s.image = s.image.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+      });
+    }
+  });
+}
+
 const STORE = {
   name:      'Sri Manikanta Pooja Stores',
   phone1:    '+919110582086',
@@ -613,7 +628,7 @@ function renderProductCard(p) {
   return `
   <div class="product-card reveal" data-selected-variant="0" onclick="location.href='product.html?id=${p.id}'">
     <div class="card-img-wrap">
-      <img src="${p.image}" alt="${p.name}" loading="lazy" width="400" height="400" decoding="async"
+      <img src="${(p.image || '').replace(/\\.(jpg|jpeg|png)$/i, '.webp')}" alt="${p.name}" loading="lazy" width="400" height="400" decoding="async"
            onerror="this.src='https://picsum.photos/seed/${p.id}99/400/400'">
       <div class="card-badges">
         ${p.badge === 'sale'    ? `<span class="badge badge-sale">-${discount}%</span>` : ''}
