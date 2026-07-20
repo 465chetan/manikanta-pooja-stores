@@ -9,7 +9,7 @@
   min-height: 380px;
   max-height: 480px;
   overflow: hidden;
-  margin-top: calc(var(--header-h) + 30px); /* ticker height */
+  margin-top: var(--header-h);
 }
 .hero-slide {
   position: absolute;

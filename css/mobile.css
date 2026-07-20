@@ -124,7 +124,7 @@ body {
   #header-profile-dropdown .dropdown-menu {
     z-index: 99999 !important;
     position: fixed !important;
-    top: calc(var(--header-h) + 26px) !important;
+    top: var(--header-h) !important;
     right: 8px !important;
     left: auto !important;
     transform: none !important;
@@ -229,7 +229,7 @@ body {
     height: 55vw !important;
     min-height: 250px !important;
     max-height: 360px !important;
-    margin-top: calc(var(--header-h) + 26px) !important;
+    margin-top: var(--header-h) !important;
     overflow: hidden !important;
   }
 
@@ -317,7 +317,7 @@ body {
 @media (max-width: 768px) {
   .page-banner {
     padding: 18px 12px 14px !important;
-    margin-top: calc(var(--header-h) + 26px) !important;
+    margin-top: var(--header-h) !important;
     width: 100% !important;
   }
   .page-banner h1  { font-size: 1.3rem !important; margin-bottom: 4px !important; }
@@ -707,7 +707,7 @@ body {
 @media (max-width: 768px) {
   .auth-page {
     min-height: 100vh !important;
-    padding: calc(var(--header-h) + 30px) 12px 40px !important;
+    padding: var(--header-h) 12px 40px !important;
   }
   .auth-card {
     padding: 24px 16px !important;
