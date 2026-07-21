@@ -137,9 +137,19 @@ function initHeroSlider() {
   const hero = document.getElementById('hero-slider');
   if (!hero) return;
 
-  hero.innerHTML = HERO_SLIDES.map((s, i) => `
+  const existingSlide0 = document.getElementById('slide-0');
+  let newHtml = '';
+  
+  HERO_SLIDES.forEach((s, i) => {
+    // Skip injecting slide-0 if it's already pre-rendered in HTML
+    if (i === 0 && existingSlide0) return;
+    
+    newHtml += `
     <div class="hero-slide${i === 0 ? ' active' : ''}" id="slide-${i}">
-      <img src="${s.image}" alt="${s.tag}" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'auto'}" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
+      <picture>
+        <source media="(max-width: 768px)" srcset="${s.image.replace('.webp', '_mobile.webp')}">
+        <img src="${s.image}" alt="${s.tag}" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'auto'}" width="1920" height="800" decoding="async" onerror="this.style.display='none'">
+      </picture>
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="container">
@@ -159,7 +169,16 @@ function initHeroSlider() {
         <div class="hero-badge-label">${s.badge.label}</div>
       </div>
     </div>
-  `).join('');
+  `;
+  });
+
+  if (newHtml) {
+    if (existingSlide0) {
+        hero.insertAdjacentHTML('beforeend', newHtml);
+    } else {
+        hero.innerHTML = newHtml;
+    }
+  }
 
   hero.insertAdjacentHTML('beforeend', `<div class="hero-progress-bar" id="hero-progress"></div>`);
 

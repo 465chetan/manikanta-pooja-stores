@@ -63,8 +63,9 @@
   <!-- Google Fonts: NON-BLOCKING async load -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet"></noscript>
-  <!-- Hero image preload (LCP) -->
-  <link rel="preload" as="image" href="images/hero_slide_1.webp" fetchpriority="high" type="image/webp">
+  <!-- Hero image preload (LCP) - Responsive -->
+  <link rel="preload" as="image" href="images/hero_slide_1_mobile.webp" media="(max-width: 768px)" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" href="images/hero_slide_1.webp" media="(min-width: 769px)" fetchpriority="high" type="image/webp">
   <!-- Inline critical CSS: renders above-the-fold instantly -->
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -80,6 +81,8 @@
     nav{background:#7B1A1A;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
     .skip-to-content{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:#7B1A1A;color:#fff;padding:12px 24px;border-radius:0 0 8px 8px;font-weight:600;z-index:99999;transition:top 0.2s}
     .skip-to-content:focus{top:0}
+    #site-header{min-height:117px}
+    @media(max-width:991px){#site-header{min-height:64px}}
   </style>
   <!-- Core CSS -->
   <link rel="stylesheet" href="css/style.css?v=35">
@@ -102,7 +105,10 @@
   <!-- Hero Slider (slides injected by home.js) -->
   <section class="hero" id="hero-slider" aria-label="Hero Banner">
     <div class="hero-slide active" id="slide-0">
-      <img src="images/hero_slide_1.webp" alt="ॐ Welcome to Sri Manikanta Pooja Stores" loading="eager" fetchpriority="high" width="1920" height="800" decoding="async">
+      <picture>
+        <source media="(max-width: 768px)" srcset="images/hero_slide_1_mobile.webp">
+        <img src="images/hero_slide_1.webp" alt="ॐ Welcome to Sri Manikanta Pooja Stores" loading="eager" fetchpriority="high" width="1920" height="800" decoding="async">
+      </picture>
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="container">
